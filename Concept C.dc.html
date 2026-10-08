@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  [data-name="Viewport 1280×832"]::-webkit-scrollbar { display: none; }
+  body { margin: 0; background: #141414; -webkit-font-smoothing: antialiased; font-family: Figtree, sans-serif; }
+  button, input, textarea, select { font-family: inherit; }
+  a { color: #291647; text-underline-offset: 6px; }
+  a:hover { color: #5C358E; }
+  input::placeholder { color: #5C358E; opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+<script src="motif-sprite.js"></script>
+</helmet>
+<nav data-name="Concept switcher" aria-label="Switch concept" style="position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10000; display:flex; gap:4px; padding:4px; border-radius:8px; background:rgba(20,20,20,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.3)"><a href="Concepts%20Overview.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Intro</a><a href="Concept%20A.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Concept A</a><a href="Concept%20B.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Concept B</a><span style="height:32px; padding:0 18px; border-radius:5px; background:#C68EFD; color:#291647; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px">Concept C</span></nav>
+
+
+<div data-name="Stage" style="position:fixed; inset:0; background:#141414; display:flex; align-items:center; justify-content:center; overflow:hidden; padding-top:56px; box-sizing:border-box">
+<div data-name="Device" style="border-radius:15px; isolation:isolate; position:relative; width:1280px; height:832px; flex-shrink:0; overflow:hidden; background:#FFFFFF; box-shadow:0 30px 80px rgba(0,0,0,0.5); transform-origin:center center; scale:{{ scale }}">
+<div data-name="Viewport 1280×832" ref="{{ frameRef }}" style="border-radius:15px; position:relative; width:1280px; height:832px; overflow-x:hidden; overflow-y:auto; scrollbar-width:none">
+<div style="font-family:Figtree,sans-serif; background:#FFFFFF; color:#291647">
+
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <clipPath id="a-hero" clipPathUnits="objectBoundingBox"><path d="M0 0 H1 V1 Q0.5 0.88 0 1 Z"></path></clipPath>
+    <clipPath id="a-panel" clipPathUnits="objectBoundingBox"><path d="M0 0 H0.58 C0.84 0 1 0.2 1 0.5 V1 H0 Z"></path></clipPath>
+    <clipPath id="a-curve" clipPathUnits="objectBoundingBox"><path d="M0.44 0 C0.56 0.33 0.56 0.67 0.44 1 L1 1 L1 0 Z"></path></clipPath>
+    <clipPath id="a-arch" clipPathUnits="objectBoundingBox"><path d="M0 0.14 C0.28 0.02 0.72 0.02 1 0.14 L1 1 L0 1 Z"></path></clipPath>
+    <clipPath id="a-band" clipPathUnits="objectBoundingBox"><path d="M0 0.08 C0.3 0 0.7 0 1 0.08 L1 0.92 C0.7 1 0.3 1 0 0.92 Z"></path></clipPath>
+  </defs></svg>
+
+  <section data-screen-label="Hero" style="position:relative; overflow:hidden; height:577px; background:#291647">
+    <div style="position:absolute; left:0; right:0; top:0; height:577px; overflow:hidden">
+      <div data-anim="hero-img" style="position:absolute; inset:0; background:url(assets/hero.jpg) center top / cover no-repeat; transform:scale(1.06); transition:transform 1.8s cubic-bezier(.22,1,.36,1); overflow:hidden"><video ref="{{ heroVideoRef }}" src="assets/hero-film.mp4" poster="assets/hero.jpg" autoplay="" muted="" loop="" playsinline="" preload="auto" aria-hidden="true" tabindex="-1" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; display:block; pointer-events:none"></video></div>
+    </div>
+    <button data-name="Hero pause" data-reveal="1" aria-label="{{ pauseLabel }}" onClick="{{ toggleHeroVideo }}" style="position:absolute; z-index:3; left:20px; top:464px; width:36px; height:36px; border:0; padding:0; background:#FFFFFF; box-shadow:0 10px 30px rgba(20,10,40,0.18); color:#291647; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" style-hover="background:#C68EFD">
+      <sc-if value="{{ heroPlaying }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 12 14" width="9" height="11" style="display:block"><path d="M0 0H4V14H0Z M8 0H12V14H8Z" fill="#291647"></path></svg></sc-if>
+      <sc-if value="{{ heroPaused }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 12 14" width="9" height="11" style="display:block"><path d="M1 0L12 7L1 14Z" fill="#291647"></path></svg></sc-if>
+    </button>
+    <nav data-name="Nav bar" style="position:absolute; z-index:20; left:20px; right:20px; top:20px; height:75px; background:#291647; display:flex; align-items:stretch; justify-content:space-between; padding-left:15px">
+      <img src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:block">
+      <div style="display:flex; align-items:center; gap:30px">
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Study</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Life at Winchester</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Open days</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Research</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">News and events</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">About us</a>
+      </div>
+      <button style="width:179px; border:0; padding:0 20px; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#DBBAFF; color:#291647">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button>
+    </nav>
+    <div data-name="Hero promos" style="position:absolute; z-index:3; right:20px; top:240px; width:360px; display:flex; flex-direction:column; gap:10px">
+        <a href="#" data-reveal="1" style="position:relative; display:flex; align-items:center; gap:20px; padding:10px; background:#FFFFFF; color:#291647; text-decoration:none; transition:background-color .2s ease" style-hover="background:#C68EFD">
+          <span style="position:relative; flex:none; width:60px; height:60px; overflow:hidden; background:url(assets/hero.jpg) center 30% / cover no-repeat; display:flex; align-items:center; justify-content:center"><span style="width:24px; height:24px; background:#291647; display:flex; align-items:center; justify-content:center"><svg viewBox="0 0 10 12" width="8" height="10" style="display:block"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span></span>
+          <span style="flex:1 1 auto; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:5px; text-align:left">
+            <span style="font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647">Film</span>
+            <span style="font-size:18px; font-weight:600; line-height:1.25; color:#291647">Why study at Winchester</span>
+          </span>
+        </a>
+        <a href="#" data-reveal="1" style="position:relative; display:flex; align-items:center; gap:20px; padding:10px; background:#FFFFFF; color:#291647; text-decoration:none; transition:background-color .2s ease" style-hover="background:#C68EFD">
+          <span style="position:relative; flex:none; width:60px; height:60px; overflow:hidden; background:url(assets/fig/teaching.jpg) 62% 20% / cover no-repeat; display:flex; align-items:center; justify-content:center"></span>
+          <span style="flex:1 1 auto; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:5px; text-align:left">
+            <span style="font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647">Teacher training</span>
+            <span style="font-size:18px; font-weight:600; line-height:1.25; color:#291647">Train to teach</span>
+          </span>
+        </a>
+        <a href="#" data-reveal="1" style="position:relative; display:flex; align-items:center; gap:20px; padding:10px; background:#FFFFFF; color:#291647; text-decoration:none; transition:background-color .2s ease" style-hover="background:#C68EFD">
+          <span style="position:relative; flex:none; width:60px; height:60px; overflow:hidden; background:url(assets/fig/264755df75fdb788.png) center / cover no-repeat; display:flex; align-items:center; justify-content:center"></span>
+          <span style="flex:1 1 auto; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:5px; text-align:left">
+            <span style="font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647">Open day: Saturday 10 October</span>
+            <span style="font-size:18px; font-weight:600; line-height:1.25; color:#291647">Come and see us</span>
+          </span>
+        </a>
+      </div>
+  </section>
+
+  <section data-screen-label="Intro" style="position:relative; background:#291647">
+    <svg data-name="Intro curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:36px; display:block; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#291647"></path></svg>
+    <div style="position:relative; padding:60px 40px 160px 40px; display:flex; flex-direction:column; align-items:center">
+      <div style="width:100%; max-width:1200px; display:flex; justify-content:space-between; align-items:flex-end; gap:60px">
+        <h1 data-reveal="1" style="margin:0; max-width:640px; text-align:left; font-family:Figtree, sans-serif; font-weight:300; font-size:64px; line-height:1.2; letter-spacing:-.02em; color:#FFFFFF">The best version of you isn’t found, <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; letter-spacing:0; color:#FFFFFF">it’s made.</em></h1>
+        <div style="max-width:380px; padding-bottom:12px; display:flex; flex-direction:column; align-items:flex-start; gap:30px; text-align:left">
+        <p data-reveal="1" style="margin:0; font-size:20px; line-height:1.6; color:#DBBAFF">Join one of the Top 10 universities in the UK for graduate success and go further than you planned.</p>
+      </div>
+      </div>
+      <div data-name="CTA pair" style="position:relative; width:100%; max-width:1200px; margin:80px auto 0 auto; padding:0; background:transparent; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:0; border-top:2px solid rgba(198,142,253,0.6)">
+        <div data-reveal="1" style="display:flex; flex-direction:column; gap:30px; align-items:center; text-align:center; padding:60px 40px 0 40px; height:100%; box-sizing:border-box">
+          <h2 style="margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.01em;  font-size:46px; line-height:1.2; color:#FFFFFF"><em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; letter-spacing:0">Search</em> for a course</h2>
+          <p style="margin:0 0 auto 0; max-width:40ch; font-size:18px; line-height:1.6; color:#DBBAFF">Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p>
+          <button style="display:inline-flex; align-items:center; gap:10px; height:60px; padding:0 20px; border:0; background:#C68EFD; color:#291647; font-family:Figtree,sans-serif; font-size:16px; font-weight:500; white-space:nowrap; cursor:pointer; transition:background-color .2s ease, color .2s ease" style-hover="background:#DBBAFF; color:#291647">What do you want to study?</button>
+        </div>
+        <div data-reveal="1" style="display:flex; flex-direction:column; gap:30px; align-items:center; text-align:center; padding:60px 40px 0 40px; height:100%; box-sizing:border-box; position:relative">
+          <span aria-hidden="true" style="position:absolute; left:0; top:70px; bottom:0; width:2px; background:rgba(198,142,253,0.6)"></span>
+          <h2 style="margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.01em;  font-size:46px; line-height:1.2; color:#FFFFFF">Study <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; letter-spacing:0">Builder</em></h2>
+          <p style="margin:0 0 auto 0; max-width:40ch; font-size:18px; line-height:1.6; color:#DBBAFF">Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p>
+          <button style="display:inline-flex; align-items:center; gap:10px; height:60px; padding:0 20px; border:0; background:#C68EFD; color:#291647; font-family:Figtree,sans-serif; font-size:16px; font-weight:500; white-space:nowrap; cursor:pointer; transition:background-color .2s ease, color .2s ease" style-hover="background:#DBBAFF; color:#291647">Tell us about yourself</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section data-screen-label="Made here" style="position:relative; background:#FFFFFF; padding:100px 0 136px">
+    <svg data-name="Stories curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:36px; display:block; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#FFFFFF"></path></svg>
+    <div style="max-width:1200px; margin:0 auto; padding:0 40px 60px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap">
+      <h2 data-reveal="1" style="max-width:400px; margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.02em; font-size:56px; line-height:1; color:#291647">Where stories are <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400">made</em></h2>
+      <a href="#" style="margin-bottom:14px; font-size:16px; font-weight:600; color:#291647; text-decoration:underline; text-decoration-color:#C68EFD; text-decoration-thickness:2px">All stories</a>
+    </div>
+    <div style="max-width:1280px; margin:0 auto">
+      <div ref="{{ trackRef }}" onScroll="{{ onTrackScroll }}" style="display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-left:40px; padding:0 40px 10px; scrollbar-width:none">
+        <sc-for list="{{ stories }}" as="s" hint-placeholder-count="3">
+          <a href="#" data-story="1" onClick="{{ s.open }}" onMouseEnter="{{ s.enter }}" onMouseLeave="{{ s.leave }}" onFocus="{{ s.enter }}" onBlur="{{ s.leave }}" style="flex:0 0 calc((100% - 40px) / 3); min-width:260px; scroll-snap-align:start; display:flex; flex-direction:column; align-items:flex-start; gap:20px; padding-bottom:30px; border-bottom:2px solid #C68EFD; text-align:left; text-decoration:none; color:#291647">
+            <span style="position:relative; display:block; align-self:stretch; aspect-ratio:4 / 3; overflow:hidden; background:#F5F5F5"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ s.img }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span><span data-name="Name tab" style="position:absolute; left:50%; top:0; z-index:1; transform:translateX(-50%); width:136px; height:68px; box-sizing:border-box; padding-top:19px; border-radius:0 0 68px 68px; background:#C68EFD; display:flex; justify-content:center; align-items:flex-start; font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; font-size:17px; line-height:1; color:#291647; white-space:nowrap; pointer-events:none">{{ s.first }}</span></span>
+            <span data-teaser-heading="1" style="padding:0 20px 0 0; font-family:Figtree, sans-serif; font-weight:400; letter-spacing:-.01em; font-size:29px; line-height:1.25; text-wrap:balance">{{ s.quote }}</span>
+            <span style="margin-top:-5px; font-size:16px; font-weight:400; line-height:1.5; color:#5C358E">{{ s.role }}</span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="margin:20px 40px 0; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:20px">
+        <span></span>
+        <div role="tablist" aria-label="Carousel position" style="display:flex; align-items:center; gap:10px">
+          <sc-for list="{{ storyPips }}" as="p" hint-placeholder-count="6">
+            <button aria-label="{{ p.label }}" onClick="{{ p.go }}" style="width:10px; height:10px; padding:0; border:0; border-radius:50%; background:{{ p.bg }}; cursor:pointer; transition:background-color .3s ease"></button>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:10px; justify-self:end">
+        <button aria-label="Previous stories" onClick="{{ prevStory }}" style="width:44px; height:44px; border-radius:0; border:0; background:#C68EFD; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" data-dark-hover="1">
+          <span style="width:14px; height:14px; display:block; transform:rotate(180deg); background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span>
+        </button>
+        <button aria-label="Next stories" onClick="{{ nextStory }}" style="width:44px; height:44px; border-radius:0; border:0; background:#C68EFD; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" data-dark-hover="1">
+          <span style="width:14px; height:14px; display:block; background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span>
+        </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section data-screen-label="Reasons intro" style="position:relative; background:#291647; padding:100px 40px 60px">
+    <svg data-name="Reasons curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:36px; display:block; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#291647"></path></svg>
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:30px">
+      <h2 data-reveal="1" style="max-width:640px; margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.02em; font-size:56px; line-height:1; color:#FFFFFF">3 reasons to study with <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400">Winchester</em></h2>
+      <p data-reveal="1" style="max-width:640px; margin:0; font-size:20px; font-weight:400; line-height:1.5; color:#FFFFFF; text-wrap:pretty">Small classes, a city with layers and a degree built around what comes next. Here’s what makes studying at Winchester different.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Three reasons" style="background:#291647; padding:0 40px 136px">
+    <div style="max-width:1200px; margin:0 auto">
+      <sc-for list="{{ reasons }}" as="r" hint-placeholder-count="3">
+        <div data-reveal="1" style="display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); column-gap:20px; align-items:stretch; padding:30px 0; color:#FFFFFF">
+          <span style="grid-column:1 / span 4; display:block; aspect-ratio:4 / 3; overflow:hidden; background:#F5F5F5"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ r.img }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span></span>
+          <span style="grid-column:6 / span 7; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); column-gap:20px; align-items:start; align-content:start; padding-bottom:30px; border-bottom:2px solid #C68EFD">
+          <span style="grid-column:1 / span 1; font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; font-size:38px; line-height:1.1; color:#C68EFD">{{ r.num }}</span>
+          <span style="grid-column:2 / span 6; display:flex; flex-direction:column; gap:15px; align-items:flex-start">
+            <span data-teaser-heading="1" style="font-family:Figtree, sans-serif; font-weight:400; letter-spacing:-.01em; font-size:34px; line-height:1.15; text-wrap:balance">{{ r.pre }}<em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; letter-spacing:0">{{ r.em }}</em>{{ r.post }}</span>
+            <span style="font-size:16px; line-height:1.6; color:#DBBAFF; text-wrap:pretty">{{ r.body }}</span>
+            <a href="#" style-hover="background-color:#DBBAFF" style="margin-top:10px; display:inline-flex; align-items:center; gap:10px; height:50px; padding:0 20px; box-sizing:border-box; border-radius:0; background:#C68EFD; color:#291647; font-size:16px; font-weight:500; text-decoration:none; transition:background-color .2s ease, color .2s ease">Discover more<span style="width:14px; height:14px; display:block; background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span></a>
+          </span>
+          </span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Student life" style="position:relative; background:#FFFFFF; padding:100px 40px 136px">
+    <svg data-name="Life curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:36px; display:block; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#FFFFFF"></path></svg>
+    <div style="max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:60px">
+      <div style="display:flex; flex-direction:column; gap:30px">
+        <h2 data-reveal="1" style="max-width:640px; margin:0 0 0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.02em; font-size:56px; line-height:1; color:#291647">Life at <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400">Winchester</em></h2>
+        <p data-reveal="1" style="max-width:640px; margin:0; font-size:20px; font-weight:400; line-height:1.5; color:#291647; text-wrap:pretty">A small, walkable city with a campus you can cross in fifteen minutes – and plenty of support to help you settle in and find your people.</p>
+      </div>
+      <div data-name="Life carousel" style="overflow:hidden">
+        <div style="display:flex; gap:20px; transform:translateX({{ lifeX }}); transition:transform .7s cubic-bezier(.65,0,.35,1)">
+          <sc-for list="{{ lifeCards }}" as="c" hint-placeholder-count="4">
+            <a href="#" style="flex:0 0 calc((100% - 40px) / 3); display:flex; flex-direction:column; gap:20px; padding-bottom:30px; border-bottom:2px solid #C68EFD; text-decoration:none; color:#291647">
+              <span style="display:block; aspect-ratio:4 / 3; overflow:hidden; background:#5C358E"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ c.img }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span></span>
+              <span data-teaser-heading="1" style="font-family:Figtree, sans-serif; font-weight:400; letter-spacing:-.01em; font-size:29px; line-height:1.25; text-wrap:balance">{{ c.title }}</span>
+              <span style="font-size:16px; line-height:1.6; color:#5C358E; text-wrap:pretty">{{ c.copy }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+      <div style="margin-top:-40px; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:20px">
+        <span></span>
+        <div role="tablist" aria-label="Carousel position" style="display:flex; align-items:center; gap:10px">
+          <sc-for list="{{ lifePips }}" as="p" hint-placeholder-count="2">
+            <button aria-label="{{ p.label }}" onClick="{{ p.go }}" style="width:10px; height:10px; padding:0; border:0; border-radius:50%; background:{{ p.bg }}; cursor:pointer; transition:background-color .3s ease"></button>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:10px; justify-self:end">
+          <button aria-label="Previous" onClick="{{ lifePrev }}" style="width:44px; height:44px; border:0; border-radius:0; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" style-hover="background-color:#DBBAFF"><span aria-hidden="true" style="width:14px; height:14px; display:block; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transform:rotate(180deg)"></span></button>
+          <button aria-label="Next" onClick="{{ lifeNext }}" style="width:44px; height:44px; border:0; border-radius:0; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" style-hover="background-color:#DBBAFF"><span aria-hidden="true" style="width:14px; height:14px; display:block; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="News" style="position:relative; background:#F5F5F5; padding:100px 40px 136px">
+    <svg data-name="News curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:37px; display:block; z-index:2; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#F5F5F5"></path></svg>
+    <div style="max-width:1200px; margin:0 auto">
+      <div data-reveal="1" style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap; padding-bottom:60px">
+        <div style="display:flex; flex-direction:column; gap:30px; max-width:580px">
+          <h2 style="max-width:400px; margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.02em; font-size:56px; line-height:1; color:#291647">The latest from <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400">Winchester</em></h2>
+          <p style="margin:0; font-size:20px; font-weight:400; line-height:1.5; color:#291647; text-wrap:pretty">Awards, research and moments from across our community – what’s been happening at Winchester.</p>
+        </div>
+        <a href="#" data-component="Button" style="display:flex; align-items:center; gap:10px; height:60px; padding:0 20px; box-sizing:border-box; border-radius:0; background:#C68EFD; color:#291647; font-size:16px; font-weight:500; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:#DBBAFF">See all news <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; display:block" /></a>
+      </div>
+      <div style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; align-items:start">
+        <a href="#" data-reveal="1" style="display:flex; flex-direction:column; gap:20px; text-decoration:none; color:#291647">
+          <span style="display:block; aspect-ratio:4 / 3; overflow:hidden; background:#FFFFFF"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ feature.img }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span></span>
+          <span style="display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647"><img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; display:block; flex-shrink:0" />{{ feature.date }}</span>
+          <span data-teaser-heading="1" style="font-family:Figtree, sans-serif; font-weight:500; font-size:29px; line-height:1.2; letter-spacing:-.01em; text-wrap:pretty">{{ feature.title }}</span>
+        </a>
+        <div style="display:flex; flex-direction:column">
+          <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
+            <a href="#" data-reveal="1" style="display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); column-gap:20px; align-items:start; padding:{{ n.pad }}; border-top:{{ n.bt }}; text-decoration:none; color:#291647">
+              <span style="grid-column:1 / span 2; display:block; aspect-ratio:4 / 3; overflow:hidden; background:#FFFFFF"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ n.img }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span></span>
+              <span style="grid-column:3 / span 4; display:flex; flex-direction:column; gap:15px">
+              <span style="display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647"><img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; display:block; flex-shrink:0" />{{ n.date }}</span>
+              <span data-teaser-heading="1" style="font-family:Figtree, sans-serif; font-weight:500; font-size:24px; line-height:1.2; text-wrap:pretty">{{ n.title }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Open days" style="position:relative; overflow:visible; background:#291647; padding:100px 40px">
+    <svg data-name="Open days curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:37px; display:block; z-index:2; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#291647"></path></svg>
+    <div data-name="Open days image" data-reveal="1" style="position:absolute; z-index:3; top:-36px; right:0; bottom:0; width:50%; background:url(assets/fig/careers-hub.jpg) center / cover no-repeat; -webkit-mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 36' preserveAspectRatio='none'%3E%3Cpath d='M0 0 Q320 0 640 36 L0 36 Z' fill='%23000'/%3E%3C/svg%3E&quot;) 0 0 / 100% 36px no-repeat, linear-gradient(#000, #000) 0 36px / 100% calc(100% - 36px) no-repeat; mask:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 36' preserveAspectRatio='none'%3E%3Cpath d='M0 0 Q320 0 640 36 L0 36 Z' fill='%23000'/%3E%3C/svg%3E&quot;) 0 0 / 100% 36px no-repeat, linear-gradient(#000, #000) 0 36px / 100% calc(100% - 36px) no-repeat"></div>
+    <div style="position:relative; max-width:1200px; min-height:420px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; align-items:center">
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:30px; padding-right:40px">
+        <p data-reveal="1" style="margin:0; font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Visit us</p>
+        <h2 data-reveal="1" style="max-width:400px; margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.02em; font-size:56px; line-height:1; color:#FFFFFF">Open <em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400">days</em></h2>
+        <p data-reveal="1" style="margin:0; max-width:40ch; font-size:18px; line-height:1.6; color:#DBBAFF">Come and see Winchester for yourself. Meet our students and lecturers, tour the campus and get a feel for the city. Our next Open Day is Saturday 10 October.</p>
+        <a href="#" data-reveal="1" style="display:inline-flex; align-items:center; gap:20px; height:60px; padding:0 20px; background:#C68EFD; color:#291647; font-size:16px; font-weight:600; text-decoration:none; transition:background-color .2s ease" style-hover="background:#DBBAFF; color:#291647">Book your place<span style="width:16px; height:16px; display:block; background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span></a>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+</div>
+  <div data-name="Wipe layer" ref="{{ wipeRef }}" aria-hidden="true" style="position:absolute; inset:0; z-index:99; background-color:#C68EFD; visibility:hidden; pointer-events:none"></div>
+  <div data-name="Story page" ref="{{ layerRef }}" role="dialog" aria-modal="true" aria-label="Student story" style="position:absolute; inset:0; z-index:100; overflow-y:auto; overflow-x:hidden; background:#FFFFFF; visibility:hidden; clip-path:inset(100% 0 0 0); font-family:Figtree,sans-serif; color:#291647">
+    <nav data-name="Story nav bar" style="position:relative; margin:0; border-bottom:2px solid rgba(198,142,253,0.4); padding:20px 20px 20px 35px; box-sizing:content-box; height:75px; background:#291647; display:flex; align-items:stretch; justify-content:space-between; ">
+      <a href="#" onClick="{{ closeStory }}" aria-label="University of Winchester home" style="align-self:center; display:block"><img src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="width:196px; height:auto; display:block"></a>
+      <div style="display:flex; align-items:center; gap:30px">
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Study</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Life at Winchester</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Open days</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">Research</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">News and events</a>
+        <a href="#" style="font-size:16px; font-weight:500; color:#FFFFFF; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#C68EFD">About us</a>
+      </div>
+      <button style="width:179px; border:0; padding:0 20px; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#DBBAFF; color:#291647">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button>
+    </nav>
+    <div data-name="Story top" style="position:relative; background:#291647; color:#FFFFFF">
+    <div style="max-width:1200px; margin:0 auto; padding:0 40px">
+      
+      <div data-story-in="1" style="padding:80px 0 60px; display:grid; grid-template-columns:minmax(0,7fr) minmax(0,4fr); gap:80px; align-items:end">
+        <div style="display:flex; flex-direction:column; gap:30px">
+          <p style="margin:0; display:flex; align-items:center; gap:10px; font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Student stories</p>
+          <h1 style="margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.01em;  font-size:64px; line-height:1.1; letter-spacing:-.01em; color:#FFFFFF; text-wrap:balance">{{ story.hPre }}<em style="font-family:'IvyPresto Display', serif; font-style:italic; font-weight:400; letter-spacing:0">{{ story.hEm }}</em>{{ story.hPost }}</h1>
+        </div>
+        <dl style="margin:0; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 0; border-top:2px solid rgba(198,142,253,0.4)"><dt style="font-size:14px; font-weight:600; color:#DBBAFF">Student</dt><dd style="margin:0; font-size:16px; font-weight:600; text-align:right">{{ story.first }}</dd></div>
+          <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 0; border-top:2px solid rgba(198,142,253,0.4)"><dt style="font-size:14px; font-weight:600; color:#DBBAFF">Course</dt><dd style="margin:0; font-size:16px; font-weight:600; text-align:right">{{ story.course }}</dd></div>
+          <div style="display:flex; justify-content:space-between; gap:20px; padding:15px 0; border-top:2px solid rgba(198,142,253,0.4); border-bottom:2px solid rgba(198,142,253,0.4)"><dt style="font-size:14px; font-weight:600; color:#DBBAFF">Status</dt><dd style="margin:0; font-size:16px; font-weight:600; text-align:right">{{ story.status }}</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div data-name="Story hero" style="max-width:1280px; margin:0 auto; position:relative; will-change:translate">
+      <div style="aspect-ratio:16 / 8.5; background:#F5F5F5 url({{ story.img }}) {{ story.imgPos }} / cover no-repeat"></div>
+      <svg data-name="Stripes motif" data-stripes="1" viewBox="0 0 218 218" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:0; height:100%; width:33.333%; display:block; pointer-events:none; z-index:1"><path d="M8.54297 139.646H15.5986V217.58H7.05566V139.647H0V0H8.54297V139.646Z" fill="#C68EFD"></path><path d="M41.5947 139.647H33.0518V0H41.5947V139.647Z" fill="#C68EFD"></path><path d="M66.1592 217.58H41.5947V139.646H66.1592V217.58Z" fill="#C68EFD"></path><path d="M74.7119 139.647H66.1689V0H74.7119V139.647Z" fill="#C68EFD"></path><path d="M92.0244 217.58H83.4814V139.646H92.0244V217.58Z" fill="#C68EFD"></path><path d="M116.467 139.647H92.165V0H116.467V139.647Z" fill="#C68EFD"></path><path d="M125.01 217.58H116.467V139.646H125.01V217.58Z" fill="#C68EFD"></path><path d="M138.14 139.647H129.597V0H138.14V139.647Z" fill="#C68EFD"></path><path d="M146.683 217.58H138.14V139.646H146.683V217.58Z" fill="#C68EFD"></path><path d="M159.812 139.647H151.27V0H159.812V139.647Z" fill="#C68EFD"></path><path d="M192.93 139.647H184.388V217.58H159.822V139.646H184.387V0H192.93V139.647Z" fill="#C68EFD"></path><path d="M209.027 217.58H200.484V139.646H209.027V217.58Z" fill="#C68EFD"></path><path d="M217.58 139.647H209.037V0H217.58V139.647Z" fill="#C68EFD"></path></svg>
+      </div>
+    </div>
+    <div data-name="Story body" style="position:relative; z-index:1; background:#FFFFFF; max-width:1200px; margin:0 auto; padding:100px 40px 120px; display:flex; flex-direction:column; gap:100px">
+      <svg data-name="Story curve" viewBox="0 0 1280 36" preserveAspectRatio="none" aria-hidden="true" style="position:absolute; left:0; top:-35px; width:100%; height:36px; display:block; pointer-events:none"><path d="M0 36 Q640 -36 1280 36 Z" fill="#FFFFFF"></path></svg>
+      <div data-name="Story body" style="width:100%; display:flex; flex-direction:column; gap:40px">
+        <div style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:80px"><div></div><p style="margin:0; font-size:24px; font-weight:600; line-height:1.4; color:#291647; text-wrap:pretty">{{ story.standfirst }}</p></div>
+        <sc-for list="{{ story.body1 }}" as="sec" hint-placeholder-count="1">
+            <div data-name="Story section" style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:80px; padding-top:40px; border-top:2px solid rgba(198,142,253,0.4); align-items:start">
+              <div><sc-if value="{{ sec.hasQ }}" hint-placeholder-val="{{ true }}"><h3 style="margin:0; font-family:Figtree, sans-serif; font-weight:400; letter-spacing:-.01em;  font-size:29px; line-height:1.2; color:#291647; text-wrap:balance">{{ sec.q }}</h3></sc-if></div>
+              <div style="display:flex; flex-direction:column; gap:20px"><sc-for list="{{ sec.paras }}" as="p" hint-placeholder-count="2"><p style="margin:0; font-size:18px; line-height:1.7; color:#291647; text-wrap:pretty">{{ p }}</p></sc-for></div>
+            </div>
+          </sc-for>
+      </div>
+      <figure style="margin:0; background:#F5F5F5; display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); align-items:stretch">
+        <div style="min-height:420px; background:url({{ story.img2 }}) center / cover no-repeat"></div>
+        <div style="padding:60px; display:flex; flex-direction:column; justify-content:center; gap:30px">
+          <blockquote style="margin:0; font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.01em; font-size:38px; line-height:1.25; color:#291647; text-wrap:pretty">“{{ story.pull }}”</blockquote>
+          <figcaption style="font-size:16px; font-weight:600; color:#5C358E">{{ story.name }}</figcaption>
+        </div>
+      </figure>
+      <div data-name="Story body" style="width:100%; display:flex; flex-direction:column; gap:40px">
+        <sc-for list="{{ story.body2 }}" as="sec" hint-placeholder-count="1">
+            <div data-name="Story section" style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:80px; padding-top:40px; border-top:2px solid rgba(198,142,253,0.4); align-items:start">
+              <div><sc-if value="{{ sec.hasQ }}" hint-placeholder-val="{{ true }}"><h3 style="margin:0; font-family:Figtree, sans-serif; font-weight:400; letter-spacing:-.01em;  font-size:29px; line-height:1.2; color:#291647; text-wrap:balance">{{ sec.q }}</h3></sc-if></div>
+              <div style="display:flex; flex-direction:column; gap:20px"><sc-for list="{{ sec.paras }}" as="p" hint-placeholder-count="2"><p style="margin:0; font-size:18px; line-height:1.7; color:#291647; text-wrap:pretty">{{ p }}</p></sc-for></div>
+            </div>
+          </sc-for>
+      </div>
+      <a href="#" onClick="{{ nextStoryPage }}" data-next-story="1" style="display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr) auto; gap:40px; align-items:center; padding:40px 0; border-top:2px solid #C68EFD; border-bottom:2px solid #C68EFD; text-decoration:none; color:#291647">
+        <span style="display:block; aspect-ratio:4 / 3; overflow:hidden; background:#F5F5F5"><span data-zoom="1" style="display:block; width:100%; height:100%; background:url({{ story.nextImg }}) center / cover no-repeat; transition:transform .8s cubic-bezier(.22,1,.36,1)"></span></span>
+        <span style="display:flex; flex-direction:column; gap:20px">
+          <span style="display:flex; align-items:center; gap:10px; font-size:11px; font-weight:600; line-height:1.3; letter-spacing:.15em; text-transform:uppercase; color:#291647">Next story</span>
+          <span data-teaser-heading="1" style="font-family:Figtree, sans-serif; font-weight:300; letter-spacing:-.01em; font-size:38px; line-height:1.25; text-wrap:pretty">{{ story.nextQuote }}</span>
+        </span>
+        <span data-name="Next arrow" data-dark-hover="1" style="transition:background-color .2s ease; width:50px; height:50px; background:#C68EFD; display:flex; align-items:center; justify-content:center"><span style="width:16px; height:16px; display:block; background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat"></span></span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280},&quot;promoCount&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:1,&quot;max&quot;:4,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Promo block&quot;}}">
+const REASONS = [
+  { eyebrow: 'Your future', pre: '95% ', em: 'in work', post: ' within months', body: 'Employability runs through every course from the start, so you leave with experience behind you as well as a degree.', img: 'assets/fig/455f6db08277613a.png' },
+  { eyebrow: 'Small classes', pre: 'Small classes, ', em: 'big thinking', post: '', body: 'Seminars small enough that your tutors know your name, and where being wrong out loud is part of how you learn.', img: 'assets/fig/79da595167491963.png' },
+  { eyebrow: 'The place', pre: 'The UK’s ', em: 'safest', post: ' university city', body: 'A small, walkable city with a campus you can cross in fifteen minutes. Somewhere you can settle in quickly and feel at home.', img: 'assets/fig/61f81e899722bfd3.png' }
+];
+const NEWS = [
+  { date: '20 Sep 2026', title: 'University of Winchester’s Teacher Training rated among the best in the country by Ofsted', img: 'assets/fig/6c403a8fc3746f43.png' },
+  { date: '20 Sep 2026', title: 'Children of armed forces families have extra educational challenges – especially those with Send', img: 'assets/fig/6a758431f2aea9a3.png' },
+  { date: '19 Sep 2026', title: 'New nurses wear their Winchester badges with pride', img: 'assets/fig/ba079fbcf2387c43.png' },
+  { date: '17 Sep 2026', title: 'Annabelle’s project to combat plastic pollution in Africa up for top environmental award', img: 'assets/fig/e91e55e8c8ddd1c3.png' }
+];
+const STORIES = [
+  { img: 'assets/fig/gabrielle-eeg-2.png', quote: '"The staff got to know me as an individual, and I began to feel at home"', name: 'Gabrielle, BSc Sport and Exercise Psychology, now associate lecturer' },
+  {"img":"assets/fig/macy-nursing.jpg","quote":"\"Coming on campus for my interview was the reason I chose Winchester\"","name":"Macy, BSc Nursing (Child), final year"},
+  {"img":"assets/fig/barrister-moot.jpg","quote":"\"Their openness and sincerity was so reassuring\"","name":"Trinity-Jade, LLB Law, second year"},
+  {"img":"assets/fig/evie-social.jpg","quote":"\"Thanks to Winchester, the only way is up\"","name":"Evie, MA Creative and Critical Writing, postgraduate"},
+  {"img":"https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Thomas-and-international-students.jpg","quote":"\"I am an international student, but I feel a sense of belonging\"","name":"Thomas, BSc Computer Science with Foundation Year, student"},
+  { img: 'assets/fig/ellie-studio.jpg', quote: '"My first film was rough. My third one got me a placement"', name: 'Ellie, BA Film Production, final year' }
+];
+const STORY_DETAIL = [
+  {"headline":"Changing university: how Gabrielle found her place at Winchester","img2":"https://www.winchester.ac.uk/media/Gabrielle-Thomas-SEP-header.jpg","standfirst":"Gabrielle studied A-levels in Biology, Psychology and PE and always enjoyed participating in sport. As soon as she realised she could do sport psychology as a career, she knew this was something she wanted to pursue. She went on to study BSc (Hons) Sport and Exercise Psychology at Winchester as a commuting student, before progressing on to MSc Applied Sport Psychology.","body1":[{"q":"Why did you choose to study at Winchester?","paras":["I was originally at another university; however, it wasn’t long before I realised I wanted to be closer to home. After only looking at the website, I decided Winchester would be the best fit, and it was the best decision for me."]},{"q":"Did you have any concerns about studying your degree?","paras":["The main concern I had was starting late due to joining the University later than everyone else. I was extremely nervous when I attended my first lecture; however, someone on the course reached out to me, took me under her wing, showed me where to go, and sat next to me in class. The staff were accommodating, got to know me as an individual, and from that point onwards, I began to feel at home in the environment I was in."]},{"q":"What was the best thing about your course lecturers?","paras":["I think the best thing about the course lecturers was the welcoming family environment and the guidance, advice and support they gave me through some of the most challenging periods of my life. In addition, the lecturers had a wealth of experience and knowledge within sport and exercise psychology. Their applied examples gave substance to what they taught and made the knowledge and theory come to life and easier to understand.","They also knew when I needed to be challenged and pushed further, alongside easing off when they knew I had a lot to balance, which had a huge impact on my experience as a student."]}],"pull":"The small, family environment that the course and staff have created has shaped me into the person I am today.","body2":[{"q":"What personal or professional skills did you gain during the course?","paras":["There were numerous skills I developed while I was studying the course; however, the two standout skills would be interpersonal and presentation skills. My interpersonal skills were developed through modules like developing effective relationships, where I learned how to interact, communicate and build relationships with people I haven’t met before. I also learned how to display empathy and active listening, both being vital interpersonal skills needed as a sport psychologist.","The course was designed in a way that allowed my confidence to grow when presenting. During my first year, we had a group presentation and an individual presentation with no audience, for which we were allowed cue cards. By the final year, we were presenting for 20 minutes with no cue cards and in front of an audience. This progression helped to build my confidence over the years, to the point where presenting in front of an audience no longer feels daunting."]},{"q":"Did you do any work experience as part of your course?","paras":["I had two placement opportunities, which were part of the course. The first was during a volunteering module where I was a tutor for an organisation called Action Tutoring. This opportunity boosted my employability by developing my interpersonal skills and learning how to work with those who were significantly younger than me.","The second placement I did in my final year was during the professional development module, where I was supervised in co-delivering psychoeducation workshops to talented athletes in a local sixth form. This was by far the most valuable opportunity I could have had as a student, as it taught me how to prepare and deliver workshops, how to communicate effectively with others and how to handle constructive criticism."]},{"q":"How did studying at Winchester help you to prepare for the world of work?","paras":["I continued to study at Winchester, doing a postgraduate degree in applied sport psychology. By getting involved at the University through being a course champion at open days, engaging in placement opportunities and developing my presentation and interpersonal skills, this led to my lecturer contacting me and suggesting that I applied for an associate lecturing position at the University. Without developing these skills throughout my degrees, I don’t think I would be in the position I am now or have the confidence in myself to teach in sport and exercise psychology."]},{"q":"What advice would you give someone considering studying this subject?","paras":["My advice would be to take any opportunity that is given to you and use your lecturers as much as possible for advice and guidance. Start the course with an open mind, be engaged and interact within the sessions as much as possible. Be prepared to be challenged and to be pushed out of your comfort zone, but know that it will lead to personal growth and development over the course of three years, and you will be a better version of yourself by the end of the course."]}]},
+  {"arch":true,"imgPos":"center 56%","headline":"Macy’s route into nursing","img2":"assets/fig/455f6db08277613a.png","standfirst":"Macy volunteered with St John Ambulance from the age of 11, studied Psychology, Medical Science and Health and Social Care at A level, and chose children’s nursing at Winchester. She now features on the cover of our undergraduate prospectus.","body1":[{"q":"What was your journey into higher education?","paras":["I have always had an interest in healthcare. I volunteered with St John Ambulance from the ages of 11 to 18 where I learnt basic life support and communication skills. I wasn’t sure whether I wanted to study Paramedic Science or Nursing. I weighed up the pros and cons and I decided I wanted to go with children’s Nursing.","I applied during Covid and I was offered an in-person interview for Winchester. Coming on campus for my interview was definitely the reason I chose Winchester, as I was meeting like-minded people and other applicants on the day. When I joined in September, there were familiar faces that I’d already met."]},{"q":"Do you have a highlight so far of your time at Winchester?","paras":["My highlight would be a clinical skills session in first year where we had to act as a nurse in an emergency situation. One of our lecturers pretended to be in a real-life scenario in anaphylaxis. From my previous experience with St John’s I was able to realise what was going on, search for an EpiPen and give a fake administration of it. I basically took charge of the whole scenario.","That way of learning is really what puts you in the position to be a better nurse because you need to think on your feet."]}],"pull":"I really woke up feeling excited to go in, building a rapport with families and learning as I went.","body2":[{"q":"Did you have a favourite placement?","paras":["My most recent placement was paediatric cardiology at Southampton General Hospital. That was amazing, the team was so supportive. I was given a lot of responsibility which really helped develop my leadership and management skills, and I was able to help teach the first years who were also on placement.","My neonatal placement at the hospital in Winchester was also amazing. I have been offered a graduate job in neonatal care at a hospital in Oxford. I think I was the first person in my cohort to be offered a job, near the beginning of my third year."]},{"q":"What advice would you give someone considering studying Nursing?","paras":["Try and get a job as a Healthcare Assistant, or work in and around a hospital or within healthcare, because coming in without any hospital experience can be quite scary on your first placement. Get that experience where you can, even if it is voluntary, as it’s so beneficial in the long term."]}]},
+  {"imgPos":"center 45%","imgPos":"center 20%","headline":"Trinity-Jade finds out what it’s like to become a barrister","img2":"https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Blog-Image-Archive/Inner-Temple-dinner-article.jpg","standfirst":"Trinity-Jade, a second-year LLB (Hons) Law student, tells us about her visit to The Honourable Society of the Inner Temple to find out what life is really like at the Bar.","body1":[{"q":"","paras":["Last night I had the incredible opportunity to attend ‘Dinner to the Universities’ held at The Honourable Society of the Inner Temple. This evening gave me the chance to network, meet and speak to a number of barristers and judges, who gave up their evenings to put on an event for students to have dinner and discuss what life is really like at the Bar.","It started with a panel discussion led by Heidi Stonecliffe KC, Sushil Kumar and Benjamin Gray, all of whom were so open about how the path to the Bar will not be linear, and shared the stories behind who they are, what they do and how they got to where they are. It was very refreshing and motivating to listen to."]}],"pull":"The path to the Bar will not be linear, and that was the most reassuring thing I heard all night.","body2":[{"q":"","paras":["I also had the pleasure of talking to Nancy Kelehar, Elizabeth Garcia and Dermot Keating KC throughout the evening. Each of them was so helpful and lovely to talk to, and their hard work and dedication is inspiring. The company, the atmosphere and the food made it an evening to remember.","I left feeling incredibly fortunate and grateful to receive first-hand advice from professionals. Their openness and sincerity was so reassuring, and I feel very lucky to have had this experience. Thank you to everyone involved, to Dr Emma Nottingham and to the University of Winchester for the chance to attend."]}]},
+  {"imgPos":"center 22%","headline":"Postgraduate life: my experience","img2":"https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Evie-grad.jpg","standfirst":"Evie studied BA (Hons) English Literature and Creative Writing at Winchester, graduated in 2016 with a 2:1, and decided she hadn’t had enough of the lectures and surroundings, so she stayed on for the MA in Creative and Critical Writing.","body1":[{"q":"Why come back for a Masters?","paras":["Throughout the application process I was encouraged and reassured by the tutors who had supported me during my undergraduate degree. These were the lecturers who offered up their free time to help me, who always made an effort to remember my name, and who stopped me around campus to see how I was doing, particularly when we were knee-deep in research for our dissertations.","Other factors were the great location of the campus, the incredible cathedral graduation, and the life-long friends I made during my previous three years of study."]},{"q":"Life beyond the course","paras":["One of the highlights that kept me coming back was the wide variety of societies Winchester has on offer, over one hundred of them. From performing arts or rugby to the pudding society, there’s something for everyone."]}],"pull":"I managed to get a first in my dissertation, something I never imagined achieving before I began.","body2":[{"q":"From undergraduate to postgraduate","paras":["Joining the Creative and Critical Writing Masters has only furthered my sense of self-belief, and we have all been encouraged to start submitting our work to journals and magazines. This professional development has been the biggest change from undergraduate study and, at first, felt like an impossible jump.","With the help of lecturers, all of whom are published authors or well-respected poets, that impossibility is slowly becoming a reality. I have already had a piece published in a small collection of personal memoirs, and I’m considering continuing on to a PhD."]}]},
+  {"imgPos":"center 35%","headline":"Uganda to Winchester: Thomas’s story","img2":"https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/mum.jpg","standfirst":"Thomas came to England in 2022 to volunteer with a charity in Southampton. A visit to Winchester changed his plans. He now studies Computer Science with Foundation Year, supported by a scholarship from Winchester Rotary and the University.","body1":[{"q":"My journey to Winchester","paras":["At the end of my time in the UK, I had the opportunity to visit the University of Winchester. I spoke to the programme leader of Computer Science who gave me valuable insights into studying here, and I explored the West Downs Centre and library. I couldn’t think of a better place.","I made my UCAS application which was successful, and I am delighted to be part of the student community today."]},{"q":"Confident and capable","paras":["I have grown in confidence through class assignments and positions of responsibility. I was elected Student Academic Representative for my class, collecting students’ feedback and presenting it to the Associate Dean. I now have a paid position as a student Digital Ambassador, recording videos to guide prospective students."]}],"pull":"I am an international student, but I feel a sense of belonging.","body2":[{"q":"My city highlights","paras":["Winchester stands as a captivating blend of history, culture and natural beauty. One of my main highlights is the Cathedral, with its stunning stained glass windows. I have done two guided tours and each time I learned something new. What I love most is that the city is hospitable and diverse."]},{"q":"My future","paras":["My aim is to create cost-efficient and sustainable software to address some of the problems affecting my community and the planet. I also want to share my knowledge and skills with less privileged children back home in Uganda when I graduate, and support them to explore their full potential."]},{"q":"My advice for international students","paras":["Even the greatest journeys often begin with the smallest steps. The distance might seem intimidating, but think of it as a stepping stone on your path to self-discovery. I was anxious before coming to university, but those anxieties quickly faded as I found a diverse and welcoming community at Winchester."]}]},
+  { img2: 'assets/fig/b53d7af99a16da9c.png', standfirst: 'Ellie’s first film was eight minutes long, badly lit and, in her words, rough.', p1: 'Film Production at Winchester works in small crews with real kit from the first term, which means your mistakes are made early, on camera, with people who will help you fix them.', p2: 'Her second film was better. Her third was shown at a student festival, where a producer asked who had shot it.', pull: 'You only get to good by making a lot of rough first.', p3: 'That conversation became a placement on a regional drama, working as a camera trainee across a six-week shoot.', p4: 'She is back for her final year with a showreel, a network and a much bigger crew.' }
+];
+const QUOTES = STORIES.slice(0, 3).map((s, i) => ({ img: s.img, text: s.quote.replace(/^"|"$/g, '').replace(/^/, '“').replace(/$/, '”'), name: s.name, first: s.name.split(',')[0].trim(), i }));
+const pad = (n) => (n < 10 ? '0' : '') + n;
+
+class Component extends DCLogic {
+  state = { q: 0, story: 0 };
+  trackRef = React.createRef();
+  layerRef = React.createRef();
+  wipeRef = React.createRef();
+  _wipeClip(mode, t) {
+    const W = 1280, H = 832, h = 110, y0 = H - (H + h) * t, pts = [];
+    for (let i = 0; i <= 32; i++) { const u = (2 * i) / 32 - 1; pts.push([(W * i) / 32, y0 + h * u * u]); }
+    const all = mode === 'in' ? pts.concat([[W, H + h + 20], [0, H + h + 20]]) : [[0, -20], [W, -20]].concat(pts.reverse());
+    return 'polygon(' + all.map((p) => p[0].toFixed(1) + 'px ' + p[1].toFixed(1) + 'px').join(', ') + ')';
+  }
+  _curve(el, mode, delay, done) {
+    const dur = 800, ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    el.style.clipPath = this._wipeClip(mode, 0);
+    const t0 = performance.now() + delay;
+    const step = (now) => {
+      const p = Math.max(0, Math.min(1, (now - t0) / dur));
+      el.style.clipPath = this._wipeClip(mode, ease(p));
+      if (p < 1) this._raf.push(requestAnimationFrame(step)); else if (done) done();
+    };
+    this._raf.push(requestAnimationFrame(step));
+  }
+  _wipe(mode, done) {
+    const L = this.layerRef.current, WL = this.wipeRef.current;
+    if (!L || !WL) return;
+    (this._raf || []).forEach(cancelAnimationFrame); this._raf = [];
+    const reset = () => { WL.style.visibility = 'hidden'; WL.style.clipPath = 'none'; };
+    if (this._reduced) {
+      L.style.clipPath = 'none'; reset();
+      L.style.visibility = mode === 'in' ? 'visible' : 'hidden';
+      if (done) done();
+      return;
+    }
+    if (mode === 'in') {
+      L.style.transition = 'none'; WL.style.transition = 'none';
+      L.style.clipPath = this._wipeClip('in', 0);
+      L.style.visibility = 'visible';
+      WL.style.visibility = 'visible';
+      this._curve(WL, 'in', 0);
+      this._curve(L, 'in', 200, () => { L.style.clipPath = 'none'; reset(); if (done) done(); });
+    } else {
+      L.style.transition = 'none';
+      WL.style.clipPath = 'none'; WL.style.visibility = 'visible';
+      this._curve(L, 'out', 0, () => { L.style.visibility = 'hidden'; });
+      this._curve(WL, 'out', 200, () => { L.style.clipPath = 'none'; reset(); if (done) done(); });
+    }
+  }
+  _fadeContent() {
+    const L = this.layerRef.current;
+    const c = L && L.querySelector('[data-story-in]');
+    if (!c || this._reduced) return;
+    c.style.transition = 'none'; c.style.opacity = '0'; c.style.transform = 'translateY(20px)';
+    void c.offsetWidth;
+    c.style.transition = 'opacity .7s ease .35s, transform .9s cubic-bezier(.22,1,.36,1) .35s';
+    c.style.opacity = '1'; c.style.transform = 'none';
+  }
+  _animateStripes(svg, delay, dur) {
+    if (!svg) return;
+    const rects = Array.from(svg.querySelectorAll('rect, path'));
+    rects.forEach((rc) => { rc.style.transform = 'none'; rc.style.transition = 'none'; rc.style.opacity = '0'; });
+    if (this._reduced) { rects.forEach((rc) => { rc.style.opacity = '1'; }); return; }
+    void svg.getBoundingClientRect();
+    rects.forEach((rc, k) => {
+      rc.style.transition = 'opacity ' + (dur || 0.9) + 's ease ' + (delay + k * 0.07).toFixed(2) + 's';
+      requestAnimationFrame(() => requestAnimationFrame(() => { rc.style.opacity = '1'; }));
+    });
+  }
+  _openStory(i) {
+    this.setState({ storyI: i }, () => {
+      const L = this.layerRef.current;
+      if (L) this._animateStripes(L.querySelector('[data-name="Stripes motif"]'), 0.9);
+      if (L) L.scrollTop = 0;
+      
+      this._open = true;
+      this._wipe('in');
+      clearTimeout(this._ft); this._ft = setTimeout(() => this._fadeContent(), this._reduced ? 0 : 700);
+      L && L.focus && L.focus();
+    });
+  }
+  _closeStory() {
+    if (!this._open) return;
+    this._open = false;
+    this._wipe('out');
+  }
+  _nextStory() {
+    const n = ((this.state.storyI || 0) + 1) % STORIES.length;
+    this._wipe('out', () => this._openStory(n));
+  }
+
+  renderVals() {
+    const { q, story } = this.state;
+    const allPromos = [
+      { title: 'Train to teach', sub: 'Explore primary and secondary routes', img: 'assets/fig/teaching.jpg', pos: '62% 30%', href: '#' },
+      { title: 'Next Open Day', sub: 'Saturday 10 October', img: 'assets/fig/b57b220c9bb1269a.png', pos: 'center', href: '#' },
+      { title: 'Clearing 2026', sub: 'Places available on selected courses', img: 'assets/fig/455f6db08277613a.png', pos: 'center', href: '#' },
+      { title: 'Order a prospectus', sub: 'Get the 2027 guide delivered or download it', img: 'assets/fig/ba1cd1b5e881be38.png', pos: 'center', href: '#' }
+    ];
+    const promoCount = Math.max(1, Math.min(4, Number(this.props.promoCount ?? 2)));
+    const LIFE = [["Student life at Winchester","Student life","A small, friendly city with a campus you can cross in fifteen minutes, and over a hundred societies to find your people.","assets/life-cafe.jpg"],["Campus tours","Campus tours","Walk the King Alfred and West Downs campuses with a current student and see where you’d live, learn and make things.","assets/life-stone-wall.jpg"],["Get to know your student union","Students’ Union","Run by students, for students: clubs, events, advice and a say in how the University works.","assets/life-outdoor.jpg"],["Careers support for life","Careers","Placements, mentoring and one-to-one guidance from your first term, and support that carries on after you graduate.","assets/fig/ba1cd1b5e881be38.png"],["Open days","Open days","Meet our tutors and students, tour the campus and find out what studying at Winchester is really like.","assets/life-open-day.jpg"]];
+    const life = this.state.life ?? 0;
+    const lifeMax = Math.max(0, LIFE.length - 3), ls = Math.min(this.state.lifeSlide ?? 0, lifeMax);
+    const goLife = (n) => this.setState({ lifeSlide: Math.max(0, Math.min(lifeMax, n)) });
+    const lifeCards = LIFE.map((it) => ({ title: it[0], label: it[1], copy: it[2], img: it[3] }));
+    const lifeX = 'calc(' + (-ls) + ' * ((100% - 40px) / 3 + 20px))';
+    const lifePips = Array.from({ length: lifeMax + 1 }, (_, i) => ({ label: 'Go to slide ' + (i + 1), go: () => goLife(i), w: i === ls ? '44px' : '6px', bg: i === ls ? '#291647' : '#C68EFD' }));
+    const lifePrev = () => goLife(ls - 1), lifeNext = () => goLife(ls >= lifeMax ? 0 : ls + 1);
+    const lifeItems = LIFE.map((it, i) => ({
+      title: it[0], num: '(0' + (i + 1) + ')',
+      color: i === life ? '#FFFFFF' : 'rgba(198,142,253,0.45)',
+      numColor: i === life ? '#C68EFD' : 'rgba(198,142,253,0.45)',
+      arrowOpacity: i === life && this.state.lifeHover ? 1 : 0,
+      arrowShift: i === life && this.state.lifeHover ? '0px' : '-12px',
+      onEnter: () => { if (this.state.life !== i || !this.state.lifeHover) this.setState({ life: i, lifeHover: true }); },
+      onLeave: () => this.setState({ lifeHover: false }),
+    }));
+    const lifePanels = LIFE.map((it, i) => ({
+      label: it[1], copy: it[2], img: it[3],
+      opacity: i === life ? 1 : 0,
+      shift: i === life ? '0px' : '12px',
+    }));
+    return {
+      scale: this.state.scale ?? 1, frameRef: this.frameRef,
+      lifeItems, lifePanels, lifeCards, lifeX, lifePips, lifePrev, lifeNext,
+      heroVideoRef: this.heroVideoRef || (this.heroVideoRef = React.createRef()),
+      heroPlaying: !this.state.heroPaused, heroPaused: !!this.state.heroPaused,
+      pauseLabel: this.state.heroPaused ? 'Play background video' : 'Pause background video',
+      toggleHeroVideo: () => {
+        const v = this.heroVideoRef && this.heroVideoRef.current;
+        const paused = !this.state.heroPaused;
+        if (v) { if (paused) v.pause(); else v.play().catch(() => {}); }
+        this.setState({ heroPaused: paused });
+      },
+      promos: allPromos.slice(0, promoCount),
+      quotes: QUOTES.map((x, i) => ({ ...x, dir: i % 2 ? 'row-reverse' : 'row', read: (e) => { e.preventDefault(); this._openStory(x.i); } })),
+      quoteCount: pad(q + 1) + ' / ' + pad(QUOTES.length),
+      prevQuote: () => this.setState({ q: (q + QUOTES.length - 1) % QUOTES.length }),
+      nextQuote: () => this.setState({ q: (q + 1) % QUOTES.length }),
+      layerRef: this.layerRef,
+      wipeRef: this.wipeRef,
+      closeStory: (e) => { if (e) e.preventDefault(); this._closeStory(); },
+      nextStoryPage: (e) => { e.preventDefault(); this._nextStory(); },
+      story: (() => {
+        const i = this.state.storyI || 0, s = STORIES[i], nx = STORIES[(i + 1) % STORIES.length], d = STORY_DETAIL[i] || {};
+        const parts = s.name.split(',').map((x) => x.trim());
+        const sec = (arr) => arr.map((x) => ({ q: x.q || '', hasQ: !!x.q, paras: (x.paras || []).filter(Boolean) }));
+        const hl = d.headline || s.quote, fn = parts[0], hi = hl.indexOf(fn);
+        return { ...s, ...d, imgPos: d.imgPos || 'center 30%', img2: d.img2 || s.img, hPre: hi > -1 ? hl.slice(0, hi) : hl, hEm: hi > -1 ? fn : '', hPost: hi > -1 ? hl.slice(hi + fn.length) : '', body1: sec(d.body1 || [{ paras: [d.p1, d.p2] }]), body2: sec(d.body2 || [{ paras: [d.p3, d.p4] }]), first: parts[0], course: parts[1] || '', status: parts.slice(2).join(', '), nextImg: nx.img, nextQuote: nx.quote };
+      })(),
+      reasons: REASONS.map((r, i) => ({ ...r, num: pad(i + 1) })),
+      feature: NEWS[0],
+      newsAll: NEWS.slice(0, 3).map((n, i) => ({ ...n, sum: [
+        'Ofsted has rated our initial teacher training among the best in the country, recognising the quality of our primary and secondary routes.',
+        'New research from our education team looks at the extra challenges facing children from armed forces families, and what schools can do.',
+        'This year’s newly qualified nurses received their Winchester badges at a ceremony marking the end of their training.',
+        'A final-year student’s project tackling plastic pollution in Africa has been shortlisted for a national environmental award.'
+      ][i] || '' })),
+      news: NEWS.slice(1, 5).map((n, i) => ({ ...n, pad: i === 0 ? '0 0 30px' : '30px 0', bt: i === 0 ? '0' : '2px solid #C68EFD', eyebrow: ['Research / 4 min read', 'Nursing / 2 min read', 'Student news / 3 min read', 'Campus / 2 min read'][i], tag: ['Education', 'Health', 'Sustainability', 'Community'][i] })),
+      stories: STORIES.map((s, i) => {
+        const parts = s.name.split(',').map((x) => x.trim());
+        const on = this.state.storyHover === i;
+        return { ...s, first: parts[0], role: parts.slice(1).join(', '), qOpacity: on ? 1 : 0, qShift: on ? '0px' : '14px', qDelay: on ? '.28s' : '0s', panelShift: on ? '0%' : '101%',
+          enter: () => this.setState({ storyHover: i }), leave: () => { if (this.state.storyHover === i) this.setState({ storyHover: null }); },
+          open: (e) => { e.preventDefault(); this._openStory(i); } };
+      }),
+      storyCount: pad(story + 1) + ' / ' + pad(STORIES.length),
+      storyPips: STORIES.map((_, i) => ({ label: 'Go to story ' + (i + 1), go: () => this._scrollStory(i - story), w: i === story ? '44px' : '6px', bg: i === story ? '#291647' : '#C68EFD' })),
+      trackRef: this.trackRef,
+      onTrackScroll: () => this._onTrack(),
+      prevStory: () => this._scrollStory(-1),
+      nextStory: () => this._scrollStory(1)
+    };
+  }
+
+  frameRef = React.createRef();
+  componentDidMount() {
+    this._fit = () => this.setState({ scale: Math.max(0.2, Math.min(1, (window.innerWidth - 32) / 1280, (window.innerHeight - 88) / 832)) });
+    this._fit();
+    window.addEventListener('resize', this._fit);
+    this._reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hero = document.querySelector('[data-anim="hero-img"]');
+    const film = hero && hero.querySelector('video');
+    if (film) {
+      film.muted = true; film.defaultMuted = true; film.volume = 0; film.loop = true; film.controls = false;
+      if (this._reduced) film.pause(); else { const p = film.play(); if (p && p.catch) p.catch(() => {}); }
+      const frame = this.frameRef.current;
+      if (frame && !this._scrollPauseDone) {
+        this._scrollPauseDone = true;
+        let t = 0;
+        frame.addEventListener('scroll', () => {
+          if (this.state.heroPaused || this._reduced) return;
+          if (!film.paused) film.pause();
+          clearTimeout(t);
+          t = setTimeout(() => {
+            if (!this.state.heroPaused && frame.scrollTop < 10) { const p = film.play(); if (p && p.catch) p.catch(() => {}); }
+          }, 250);
+        }, { passive: true });
+      }
+    }
+    this._heroIntro(hero);
+    this._setupReveal();
+    this._setupZoom();
+    this._setupFloat(); this._setupBandParallax();
+    this._setupStackParallax();
+    this._setupStoryOverlap();
+    this._onKey = (e) => { if (e.key === 'Escape') this._closeStory(); };
+    window.addEventListener('keydown', this._onKey);
+  }
+
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    clearTimeout(this._safety);
+    if (this.frameRef.current) this.frameRef.current.removeEventListener('scroll', this._onFloat);
+    if (this.frameRef.current && this._onStack) this.frameRef.current.removeEventListener('scroll', this._onStack);
+    window.removeEventListener('resize', this._fit);
+    clearTimeout(this._wt);
+    window.removeEventListener('keydown', this._onKey);
+    document.body.style.overflow = '';
+  }
+
+  _heroIntro(hero) {
+    const sec = hero && hero.closest('section');
+    if (!sec) return;
+    const h1 = sec.querySelector('h1') || (sec.nextElementSibling && sec.nextElementSibling.querySelector('h1'));
+    const nav = sec.querySelector('[data-name="Nav bar"]');
+    const rest = Array.from(sec.querySelectorAll('[data-reveal]')).filter((n) => n !== h1);
+    [h1].concat(rest).forEach((n) => n && n.removeAttribute('data-reveal'));
+    if (this._reduced) { hero.style.transform = 'none'; return; }
+    { const hs = sec.querySelector('[data-name="Hero stripes"]'); if (hs) hs.querySelectorAll('path, rect').forEach((p) => { p.style.transition = 'none'; p.style.opacity = '0'; }); }
+    const ease = 'cubic-bezier(.76,0,.24,1)', out = 'cubic-bezier(.22,1,.36,1)';
+    const words = [];
+    const split = (node) => {
+      Array.from(node.childNodes).forEach((c) => {
+        if (c.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(w)); return; }
+            const m = document.createElement('span');
+            m.style.cssText = 'display:inline-block; overflow:hidden; vertical-align:top; padding:0 .06em .12em; margin:0 -.06em -.12em';
+            const i = document.createElement('span');
+            i.style.cssText = 'display:inline-block; transform:translateY(110%)';
+            i.textContent = w; m.appendChild(i); frag.appendChild(m); words.push(i);
+          });
+          node.replaceChild(frag, c);
+        } else if (c.nodeType === 1) split(c);
+      });
+    };
+    if (h1 && !h1.dataset.split) { h1.dataset.split = '1'; split(h1); }
+    const wrap = hero.parentElement;
+    wrap.style.transformOrigin = 'top center';
+    wrap.style.webkitMaskImage = wrap.style.maskImage = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0H100V100Q50 72 0 100Z' fill='%23000'/%3E%3C/svg%3E")`;
+    wrap.style.webkitMaskRepeat = wrap.style.maskRepeat = 'no-repeat';
+    wrap.style.webkitMaskSize = wrap.style.maskSize = '100% 760px';
+    wrap.style.webkitMaskPosition = wrap.style.maskPosition = '0 -780px';
+    hero.style.transition = 'none';
+    hero.style.transform = 'scale(1.18) translateY(-6%)';
+    if (nav) { nav.style.opacity = '0'; nav.style.transform = 'translateY(-20px)'; }
+    rest.forEach((n) => { n.style.opacity = '0'; n.style.transform = 'translateY(20px)'; });
+    void wrap.offsetWidth;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      wrap.style.transition = '-webkit-mask-position 1.4s ' + ease + ', mask-position 1.4s ' + ease;
+      wrap.style.webkitMaskPosition = wrap.style.maskPosition = '0 0';
+      hero.style.transition = 'transform 2s ' + out;
+      hero.style.transform = 'scale(1) translateY(0)';
+      if (nav) { nav.style.transition = 'opacity .3s ease .9s, transform .8s ' + out + ' .9s'; nav.style.opacity = '1'; nav.style.transform = 'none'; }
+      const start = 900, stagger = 70;
+      words.forEach((w, i) => { w.style.transition = 'transform 1s ' + out + ' ' + (start + i * stagger) + 'ms'; w.style.transform = 'translateY(0)'; });
+      const after = start + words.length * stagger + 150;
+      rest.forEach((n, i) => { n.style.transition = 'opacity .8s ease ' + (after + i * 120) + 'ms, transform .8s ' + out + ' ' + (after + i * 120) + 'ms'; n.style.opacity = '1'; n.style.transform = 'none'; });
+      this._animateStripes(sec.querySelector('[data-name="Hero stripes"]'), after / 1000, 0.6);
+    }));
+  }
+
+  _setupReveal() {
+    const nodes = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (this._reduced || !('IntersectionObserver' in window)) return;
+    const frame = this.frameRef.current;
+    const fTop = frame ? frame.getBoundingClientRect().top : 0;
+    const vh = 832;
+    nodes.forEach((n) => {
+      if (n.getBoundingClientRect().top - fTop < vh) return;
+      n.style.opacity = '0';
+      n.style.transform = 'translateY(20px)';
+      n.style.transition = 'opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1)';
+    });
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'none';
+        this._io.unobserve(e.target);
+      });
+    }, { root: frame || null, rootMargin: '0px 0px -10% 0px' });
+    nodes.forEach((n) => this._io.observe(n));
+    this._safety = setTimeout(() => nodes.forEach((n) => { if (n.style.opacity === '0' && n.getBoundingClientRect().top - (frame ? frame.getBoundingClientRect().top : 0) < vh) { n.style.opacity = '1'; n.style.transform = 'none'; } }), 2500);
+  }
+
+  _setupFloat() {
+    if (this._reduced) return;
+    const host = document.querySelector('[data-float-host]');
+    if (!host) return;
+    const tiles = Array.from(host.querySelectorAll('[data-float]'));
+    const sc = document.scrollingElement || document.documentElement;
+    const tick = () => {
+      const fr = this.frameRef.current, ft = fr ? fr.getBoundingClientRect().top : 0;
+      const r = host.getBoundingClientRect(), vh = 832;
+      const p = (r.top - ft + r.height / 2 - vh / 2) / vh;
+      tiles.forEach((t) => { t.style.transform = 'translate(-50%,' + (p * 160 * parseFloat(t.dataset.float)).toFixed(1) + 'px)'; });
+      this._raf = null;
+    };
+    this._onFloat = () => { if (!this._raf) this._raf = requestAnimationFrame(tick); };
+    if (this.frameRef.current) this.frameRef.current.addEventListener('scroll', this._onFloat, { passive: true });
+    tick();
+    this._setupStackParallax();
+    this._setupBandParallax();
+    this._setupStoryOverlap();
+  }
+  _setupStoryOverlap() {
+    const layer = this.layerRef.current;
+    if (!layer || this._storyOverlapDone) return;
+    this._storyOverlapDone = true;
+    const top = layer.querySelector('[data-name="Story top"]');
+    const hero = layer.querySelector('[data-name="Story hero"]');
+    const body = layer.querySelector('[data-name="Story body"]');
+    if (!top || !body) return;
+    if (hero) { hero.style.position = 'relative'; hero.style.top = ''; hero.style.translate = '0px'; }
+    body.style.translate = '0px';
+    body.style.marginBottom = '0px';
+    if (this._reduced) return;
+    const place = () => {
+      const vh = layer.clientHeight || 832;
+      top.style.position = 'sticky';
+      top.style.top = Math.min(0, vh - top.offsetHeight) + 'px';
+    };
+    place();
+    if (window.ResizeObserver) new ResizeObserver(place).observe(top);
+  }
+
+
+
+
+  _setupBandParallax() {
+    const frame = this.frameRef.current;
+    if (!frame || this._reduced || this._bandDone) return;
+    const hero = frame.querySelector('[data-screen-label="Hero"]');
+    if (!hero) return;
+    const secs = Array.from(hero.parentElement.children).filter((n) => n.tagName === 'SECTION');
+    if (secs.length < 2) return;
+    this._bandDone = true;
+    secs.forEach((n, i) => {
+      if (getComputedStyle(n).position === 'static') n.style.position = 'relative';
+      n.style.zIndex = String(i + 1);
+      const bg = getComputedStyle(n).backgroundColor;
+      if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') n.style.backgroundColor = '#FFFFFF';
+    });
+    const groups = [];
+    secs.forEach((n) => {
+      const bg = getComputedStyle(n).backgroundColor;
+      const last = groups[groups.length - 1];
+      if (last && last.bg === bg && last[0] !== hero) last.push(n); else { const g = [n]; g.bg = bg; groups.push(g); }
+    });
+    for (let p = hero.parentElement; p && p !== frame; p = p.parentElement) {
+      const o = getComputedStyle(p).overflow;
+      if (/hidden|auto|scroll/.test(o)) p.style.overflow = 'clip';
+    }
+    const KEEP = ['Intro', 'Student life', 'Open days'];
+    const pins = groups.slice(0, -1).filter((g, gi) => KEEP.includes(groups[gi + 1][0].dataset.screenLabel)).map((g) => g[g.length - 1]);
+    secs.forEach((n) => { if (!pins.includes(n) && n.style.position === 'sticky') { n.style.position = 'relative'; n.style.top = ''; } });
+    const place = () => {
+      pins.forEach((n) => {
+        n.style.position = 'sticky';
+        n.style.top = Math.min(0, 832 - n.offsetHeight) + 'px';
+      });
+    };
+    place();
+    this._onBandResize = place;
+    window.addEventListener('resize', place);
+    if (window.ResizeObserver) { this._bandRO = new ResizeObserver(place); pins.forEach((n) => this._bandRO.observe(n)); }
+    frame.addEventListener('scroll', place, { passive: true });
+    [300, 1200, 3000].forEach((t) => setTimeout(place, t));
+  }
+  _setupStackParallax() {
+    const frame = this.frameRef.current;
+    if (!frame || this._reduced || this._stackDone) return;
+    const hero = frame.querySelector('[data-screen-label="Hero"]');
+    const search = frame.querySelector('[data-screen-label="Course search"]');
+    if (!hero || !search) return;
+    this._stackDone = true;
+    const film = hero.firstElementChild;
+    const heading = hero.lastElementChild;
+    const rest = [];
+    for (let n = search.nextElementSibling; n; n = n.nextElementSibling) rest.push(n);
+    const wrap = search.parentElement;
+    search.style.zIndex = '2';
+    rest.forEach((n) => { if (getComputedStyle(n).position === 'static') n.style.position = 'relative'; n.style.zIndex = '1'; });
+    const RANGE = 832, UP_SEARCH = 0.12, UP_REST = 0.18;
+    wrap.style.marginBottom = -Math.round(RANGE * UP_REST) + 'px';
+    const apply = () => {
+      this._stackRaf = 0;
+      const s = frame.scrollTop, m = Math.min(s, RANGE);
+      if (film) film.style.translate = '0 ' + (Math.min(s, 1200) * 0.3).toFixed(1) + 'px';
+      if (heading) heading.style.translate = '0 ' + (Math.min(s, 1200) * 0.15).toFixed(1) + 'px';
+      search.style.translate = '0 ' + (-m * UP_SEARCH).toFixed(1) + 'px';
+      const r = '0 ' + (-m * UP_REST).toFixed(1) + 'px';
+      rest.forEach((n) => { n.style.translate = r; });
+    };
+    this._onStack = () => { if (!this._stackRaf) this._stackRaf = requestAnimationFrame(apply); };
+    frame.addEventListener('scroll', this._onStack, { passive: true });
+    apply();
+  }
+
+  _setupZoom() {
+    if (!this._ulBound) {
+      this._ulBound = true;
+      const heading = (a) => a.querySelector('[data-teaser-heading]');
+      const set = (e, on) => {
+        const a = e.target.closest && e.target.closest('a');
+        if (!a || (e.relatedTarget && a.contains(e.relatedTarget))) return;
+        const h = heading(a);
+        if (!h) return;
+        let ar = h.querySelector('[data-hover-arrow]');
+        if (!ar) {
+          ar = document.createElement('span');
+          ar.setAttribute('data-hover-arrow', '1');
+          ar.setAttribute('aria-hidden', 'true');
+          ar.style.cssText = 'display:inline-block; width:0.62em; height:0.62em; margin-left:0.3em; vertical-align:0.02em; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; opacity:0; transform:translateX(-10px); transition:opacity .3s ease, transform .35s cubic-bezier(.22,1,.36,1)';
+          h.appendChild(ar);
+        }
+        ar.style.opacity = on ? '1' : '0';
+        ar.style.transform = on ? 'translateX(0)' : 'translateX(-10px)';
+      };
+      const dark = (e, on) => {
+        const host = e.target.closest && e.target.closest('a, button');
+        if (!host || (e.relatedTarget && host.contains(e.relatedTarget))) return;
+        const els = host.matches('[data-dark-hover]') ? [host] : Array.from(host.querySelectorAll('[data-dark-hover]'));
+        els.forEach((el) => {
+          el.style.backgroundColor = on ? '#DBBAFF' : '#C68EFD';
+          el.style.color = '#291647';
+          el.querySelectorAll('span').forEach((s) => { if (s.style.webkitMaskImage || s.style.maskImage) s.style.backgroundColor = '#291647'; });
+        });
+      };
+      document.addEventListener('mouseover', (e) => dark(e, true));
+      document.addEventListener('mouseout', (e) => dark(e, false));
+      document.addEventListener('mouseover', (e) => set(e, true));
+      document.addEventListener('mouseout', (e) => set(e, false));
+    }
+    if (this._reduced) return;
+    document.querySelectorAll('[data-zoom]').forEach((img) => {
+      const host = img.closest('a, article');
+      if (!host) return;
+      host.addEventListener('mouseenter', () => { img.style.transform = 'scale(1.04)'; });
+      host.addEventListener('mouseleave', () => { img.style.transform = 'scale(1)'; });
+    });
+  }
+
+  _storyWidth() {
+    const t = this.trackRef.current;
+    const c = t && t.querySelector('[data-story]');
+    return c ? c.getBoundingClientRect().width + 20 : 400;
+  }
+
+  _onTrack() {
+    const t = this.trackRef.current;
+    if (!t) return;
+    const i = Math.min(STORIES.length - 1, Math.max(0, Math.round(t.scrollLeft / this._storyWidth())));
+    if (i !== this.state.story) this.setState({ story: i });
+  }
+
+  _scrollStory(dir) {
+    const t = this.trackRef.current;
+    if (!t) return;
+    const next = Math.min(STORIES.length - 1, Math.max(0, this.state.story + dir));
+    t.scrollTo({ left: next * this._storyWidth(), behavior: this._reduced ? 'auto' : 'smooth' });
+  }
+}
+
+</script>
+</body>
+</html>
