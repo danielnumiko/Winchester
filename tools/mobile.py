@@ -176,7 +176,7 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 #reasons .strip .tile { width:44px; height:44px; background:var(--lime); display:flex; }
 #reasons .strip .tile i { width:100%; height:100%; background:var(--dp); }
 #reasons .texts { position:relative; flex:1; }
-#reasons .rt { position:absolute; inset:0; padding:20px 24px 32px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; color:#FFFFFF; opacity:0; visibility:hidden; transform:translateY(20px); transition:opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1), visibility 0s linear .6s; }
+#reasons .rt { position:absolute; inset:0; padding:16px 24px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:16px; color:#FFFFFF; opacity:0; visibility:hidden; transform:translateY(20px); transition:opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1), visibility 0s linear .6s; }
 #reasons .rt.on { opacity:1; visibility:visible; transform:none; transition:opacity .6s ease .15s, transform .7s cubic-bezier(.22,1,.36,1) .15s, visibility 0s; }
 #reasons .rt .eyebrow span { color:#FFFFFF; }
 #reasons .rt h3 { margin:0; font-size:38px; line-height:1.15; }
@@ -191,6 +191,12 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .ncard .t { font-weight:600; font-size:20px; line-height:1.25; }
 .ncard .d { font-weight:500; font-size:14px; color:var(--mp); }
 .stack { display:flex; flex-direction:column; gap:12px; }
+.ncard.lead .img { height:240px; }
+.ncard.lead .t { font-size:24px; }
+.ncard.small { flex-direction:row; align-items:stretch; }
+.ncard.small .img { flex:0 0 132px; height:auto; min-height:148px; }
+.ncard.small .tx { padding:16px; justify-content:space-between; }
+.ncard.small .t { font-size:17px; }
 
 /* Events */
 #events { padding:16px 0 64px; }
@@ -365,7 +371,7 @@ def page(v, switcher):
     rimgs = "".join(f'<div style="background-image:url({img})"></div>' for img, *_ in REASONS)
     rtexts = "".join(f'<div class="rt">{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>' for _, k, h, p in REASONS)
     tiles = "".join(f'<span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat; mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat"></i></span>' for t in TILES * 3)
-    news = "".join(f'<a href="#" class="ncard"><span class="img" style="background-image:url({img})"></span><span class="tx"><span class="t">{t}</span><span class="d">{d}</span></span></a>' for img, t, d in NEWS)
+    news = "".join(f'<a href="#" class="ncard {"lead" if i == 0 else "small"}"><span class="img" style="background-image:url({img})"></span><span class="tx"><span class="t">{t}</span><span class="d">{d}</span></span></a>' for i, (img, t, d) in enumerate(NEWS))
     events = "".join(f'<a href="#" class="ev"><span class="date"><b>{d}</b><small>{m}</small></span><span><span class="k">{k}</span><span class="t">{t}</span></span><span class="m">{w}<br>{loc}</span></a>' for d, m, k, t, w, loc in EVENTS)
     cols = "".join(f'<div class="col"><h4>{h}</h4>' + "".join(f'<a href="#">{l}</a>' for l in ls) + '</div>' for h, ls in FOOT)
     legal = "".join(f'<a href="#">{l}</a>' for l in LEGAL)
