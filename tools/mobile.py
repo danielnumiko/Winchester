@@ -208,7 +208,8 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 
 /* Events */
 #events { padding:16px 0 64px; }
-#events .head { padding:0 16px 28px; display:flex; flex-direction:column; gap:16px; }
+#events .head { padding:0 16px 28px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+#events .head > div { margin-top:4px; }
 #events .eyebrow span { color:var(--dp); }
 #events h2 em { color:var(--mp); }
 .ev { width:260px; border-radius:15px; background:var(--grey); padding:24px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; color:var(--dp); transition:background-color .25s ease; }
@@ -520,10 +521,9 @@ def page(v, switcher):
   <section id="news" data-screen-label="News"><h2 class="sec serif">The latest from Winchester</h2><div class="stack">{news}</div><div>{btn("All news")}</div></section>
 
   <section id="events" data-screen-label="Events">
-    <div class="head">{eyebrow("What’s on")}<h2 class="sec serif">Open days and <em>events</em></h2></div>
+    <div class="head">{eyebrow("What’s on")}<h2 class="sec serif">Open days and <em>events</em></h2><div>{btn("All events")}</div></div>
     <div class="car">{events}</div>
     <div class="car-ctrl"><span class="count">01 / 0{len(EVENTS)}</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
-    <div class="after">{btn("All events")}</div>
   </section>
 
   <section id="intl" class="on-lp" data-screen-label="International">

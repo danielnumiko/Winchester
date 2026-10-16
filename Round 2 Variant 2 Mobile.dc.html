@@ -152,7 +152,8 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 
 /* Events */
 #events { padding:16px 0 64px; }
-#events .head { padding:0 16px 28px; display:flex; flex-direction:column; gap:16px; }
+#events .head { padding:0 16px 28px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+#events .head > div { margin-top:4px; }
 #events .eyebrow span { color:var(--dp); }
 #events h2 em { color:var(--mp); }
 .ev { width:260px; border-radius:15px; background:var(--grey); padding:24px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; color:var(--dp); transition:background-color .25s ease; }
@@ -263,10 +264,9 @@ footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
   <section id="news" data-screen-label="News"><h2 class="sec serif">The latest from Winchester</h2><div class="stack"><a href="#" class="ncard lead"><span class="img" style="background-image:url(assets/fig/6c403a8fc3746f43.png)"></span><span class="tx"><span class="t">University of Winchester’s Teacher Training rated among the best in the country by Ofsted</span><span class="d">20 Sep 2026</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/ba079fbcf2387c43.png)"></span><span class="tx"><span class="t">New nurses wear their Winchester badges with pride</span><span class="d">19 Sep 2026</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/e91e55e8c8ddd1c3.png)"></span><span class="tx"><span class="t">Annabelle’s project to combat plastic pollution in Africa up for top environmental award</span><span class="d">17 Sep 2026</span></span></a></div><div><a href="#" class="btn"><span>All news</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></section>
 
   <section id="events" data-screen-label="Events">
-    <div class="head"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>What’s on</span></div><h2 class="sec serif">Open days and <em>events</em></h2></div>
+    <div class="head"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>What’s on</span></div><h2 class="sec serif">Open days and <em>events</em></h2><div><a href="#" class="btn"><span>All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></div>
     <div class="car"><a href="#" class="ev"><span class="date"><b>10</b><small>Oct</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a><a href="#" class="ev"><span class="date"><b>4</b><small>Nov</small></span><span><span class="k">Open evening</span><span class="t">Postgraduate open evening</span></span><span class="m">Wednesday, 5pm to 7pm<br>Online</span></a><a href="#" class="ev"><span class="date"><b>12</b><small>Nov</small></span><span><span class="k">Public lecture</span><span class="t">Making history: the story of Winchester</span></span><span class="m">Thursday, 6.30pm<br>West Downs Centre</span></a><a href="#" class="ev"><span class="date"><b>21</b><small>Nov</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a></div>
     <div class="car-ctrl"><span class="count">01 / 04</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
-    <div class="after"><a href="#" class="btn"><span>All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
   </section>
 
   <section id="intl" class="on-lp" data-screen-label="International">
