@@ -18,6 +18,42 @@
   [data-name="Viewport 1280×832"]::-webkit-scrollbar { display: none; }
   a { color: #FFFFFF; text-decoration: none; }
   a:hover { color: #C68EFD; }
+
+  /* Round 1 feedback: nav spacing (2) */
+  [data-nav] { padding-left:30px !important; height:80px !important; }
+  [data-nav] [data-logo] { width:200px !important; }
+  [data-nav] [data-nav-full], [data-nav] [data-nav-short] { gap:28px !important; }
+  /* Option: purple nav (3) */
+  html[data-o-navcolor="purple"] [data-nav] { background:#291647 !important; }
+  html[data-o-navcolor="purple"] [data-nav] [data-nav-full] a, html[data-o-navcolor="purple"] [data-nav] [data-nav-short] a { color:#FFFFFF !important; }
+  html[data-o-navcolor="purple"] [data-nav] [data-nav-full] a:hover, html[data-o-navcolor="purple"] [data-nav] [data-nav-short] a:hover { color:#C68EFD !important; }
+  html[data-o-navcolor="purple"] [data-nav] [data-logo="dark"] { display:none !important; }
+  html[data-o-navcolor="purple"] [data-nav] [data-logo="light"] { display:block !important; }
+  /* Option: nav meets the top of the screen (4) */
+  html[data-o-navpos="top"] [data-name="Nav bar"] { top:0 !important; height:90px !important; padding-top:10px !important; border-radius:0 0 5px 5px !important; }
+  html[data-o-navpos="top"] [data-name="Story nav bar"] { margin-top:0 !important; height:90px !important; padding-top:10px !important; border-radius:0 0 5px 5px !important; }
+  /* Option: 4 items plus Menu (14) */
+  html[data-o-navitems="menu"] [data-nav-full] { display:none !important; }
+  html[data-o-navitems="menu"] [data-nav-short] { display:flex !important; }
+  html[data-o-navitems="menu"] [data-nav-menu] { display:flex !important; }
+  /* Option: broadcast message (7) */
+  html[data-o-broadcast="on"] [data-broadcast] { display:flex !important; }
+  html[data-o-broadcast="on"] [data-name="Nav bar"] { top:64px !important; }
+  html[data-o-broadcast="on"][data-o-navpos="top"] [data-name="Nav bar"] { top:44px !important; }
+  /* Option: hero icon (5) */
+  html[data-o-icon="star"] [data-name="Hero star"] { -webkit-mask-image:url(motifs/m-star.svg) !important; mask-image:url(motifs/m-star.svg) !important; }
+  html[data-o-icon="flower"] [data-name="Hero star"] { -webkit-mask-image:url(motifs/m-flower.svg) !important; mask-image:url(motifs/m-flower.svg) !important; }
+  html[data-o-icon="chapel"] [data-name="Hero star"] { -webkit-mask-image:url(motifs/m-chapel.svg) !important; mask-image:url(motifs/m-chapel.svg) !important; }
+  html[data-o-icon="none"] [data-name="Hero star"] { display:none !important; }
+  /* Option: embedded search (6, 18) */
+  html[data-o-search="on"] [data-hero-search] { display:flex !important; }
+  [data-hero-search] input::placeholder { color:#5C358E; opacity:1; }
+  [data-hero-search] input:focus { outline:none; }
+  [data-hero-search] [data-search-field]:focus-within { box-shadow:0 0 0 3px #D4EF70; }
+  /* Option: lead story position (10) */
+  html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(1) { grid-column:2; grid-row:1 / span 2; }
+  html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(2) { grid-column:1; grid-row:1; }
+  html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(3) { grid-column:1; grid-row:2; }
 </style>
 </helmet>
 <nav data-name="Concept switcher" aria-label="Switch concept" style="position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10000; display:flex; gap:4px; padding:4px; border-radius:8px; background:rgba(20,20,20,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.3)"><a href="Concepts%20Overview.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Intro</a><a href="Concept%20A.dc.html" aria-current="page" style="height:32px; padding:0 18px; border-radius:5px; background:#C68EFD; color:#291647; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; cursor:pointer">Concept A</a><a href="Concept%20B.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Concept B</a><a href="Concept%20C.dc.html" style="height:32px; padding:0 18px; border-radius:5px; color:#FFFFFF; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(255,255,255,0.12)">Concept C</a></nav>
@@ -43,6 +79,10 @@
 <div data-name="Concept A" style="position:relative; width:1280px; overflow:clip; background-color:var(--bg, #291647); display:flex; flex-direction:column; align-items:flex-start">
 
   <section data-screen-label="Hero" style="position:relative; overflow:hidden; background:#291647; --fg:#FFFFFF; --body:#DBBAFF; --logo-white:block; --logo-black:none; height:832px; display:flex; flex-direction:column; gap:120px; padding:40px 40px 120px 40px; align-items:center; box-sizing:border-box; flex-shrink:0; align-self:stretch">
+    <div data-broadcast="1" role="region" aria-label="Announcement" style="display:none; position:absolute; z-index:25; left:0; right:0; top:0; height:44px; background:#D4EF70; color:#291647; align-items:center; justify-content:center; gap:16px; font-family:Figtree, sans-serif; font-size:15px; font-weight:500">
+      <span><strong style="font-weight:700">Open Day: Saturday 10 October.</strong> Meet our students and lecturers, and see the campus for yourself.</span>
+      <a href="#" style="color:#291647; font-weight:700; text-decoration:underline; text-underline-offset:3px">Book your place</a>
+    </div>
     <div style="position:absolute; left:0; top:0; width:1280px; height:832px; display:none">
       <div data-name="Archway" style="position:absolute; left:-11px; top:208px; width:208px; height:229px">
         <div style="position:absolute; inset:0; background:url(assets/fig/61f81e899722bfd3.png) center / cover no-repeat, url(assets/fig/79da595167491963.png) center / cover no-repeat; -webkit-mask:url(motifs/fig-archway-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-archway-mask.svg) 0 0 / 100% 100% no-repeat"></div>
@@ -63,9 +103,9 @@
       <div style="position:absolute; inset:0; background:rgba(41,22,71,0.3)"></div>
     </div>
 
-    <nav data-name="Nav bar" style="border-radius:5px; overflow:hidden; font-family:Figtree, sans-serif; position:absolute; z-index:20; left:20px; right:20px; top:20px; height:75px; background:#FFFFFF; display:flex; align-items:stretch; justify-content:space-between; padding-left:15px">
-      <img src="assets/fig/logo-fig-black.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:block">
-      <div style="display:flex; align-items:center; gap:30px">
+    <nav data-name="Nav bar" data-nav="1" style="border-radius:5px; overflow:hidden; font-family:Figtree, sans-serif; position:absolute; z-index:20; left:20px; right:20px; top:20px; height:75px; background:#FFFFFF; display:flex; align-items:stretch; justify-content:space-between; padding-left:15px">
+      <img data-logo="dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:block"><img data-logo="light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:none">
+      <div data-nav-full="1" style="display:flex; align-items:center; gap:30px">
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Study</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Life at Winchester</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Open days</a>
@@ -73,7 +113,13 @@
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">News and events</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">About us</a>
       </div>
-      <button style="width:179px; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#291647">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button>
+      <div data-nav-short="1" style="display:none; align-items:center; gap:30px">
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Study</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Life at Winchester</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Open days</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Clearing</a>
+      </div>
+      <span style="display:flex"><button data-nav-menu="1" aria-label="Menu" style="display:none; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#D4EF70; color:#291647; align-items:center; justify-content:center; gap:8px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#C68EFD">Menu<img src="motifs/fig-icon-menu.svg" alt="" style="width:18px; height:18px; flex-shrink:0; display:block"></button><button data-nav-ask="1" style="width:179px; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#D4EF70; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#C68EFD">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button></span>
     </nav>
     <div data-name="Hero promos" style="font-family:Figtree, sans-serif; position:absolute; z-index:3; left:50%; bottom:80px; transform:translateX(-50%); width:960px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px">
         <a href="#" onClick="{{ openFilmLink }}" data-reveal="1" style="position:relative; display:flex; align-items:center; gap:20px; padding:10px; border-radius:10px; overflow:hidden; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); color:#FFFFFF; text-decoration:none; transition:background-color .2s ease" style-hover="background:rgba(198,142,253,0.85)">
@@ -103,6 +149,18 @@
       <div style="position:relative; display:flex; flex-direction:column; gap:20px; align-items:center; flex-shrink:0; align-self:stretch">
         <span data-name="Hero star" aria-hidden="true" style="display:block; width:48px; height:48px; flex-shrink:0; margin-bottom:-8px; background:#C68EFD; -webkit-mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat"></span>
         <h1 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:88px; text-align:center; line-height:1.05; text-shadow:0 2px 24px rgba(20,10,40,0.28); letter-spacing:-.01em; text-wrap:balance; color:var(--fg, #FFFFFF)">The best version of you isn’t found, <em style="font-style:italic">it’s made.</em></h1>
+      </div>
+      <div data-hero-search="1" style="display:none; flex-direction:column; align-items:center; gap:16px; width:1000px">
+        <div data-search-field="1" role="search" style="width:720px; height:72px; border-radius:5px; background:#FFFFFF; display:flex; align-items:center; gap:20px; padding:6px 6px 6px 24px; box-sizing:border-box">
+          <input type="search" aria-label="Ask us anything about studying here" placeholder="Ask us anything about studying here" style="flex:1 1 auto; min-width:0; border:0; background:transparent; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; color:#291647" />
+          <button aria-label="Search" style="width:60px; height:60px; flex-shrink:0; border:0; border-radius:5px; background:#D4EF70; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" style-hover="background-color:#C68EFD"><img src="motifs/fig-icon-search.svg" alt="" style="width:18px; height:18px; display:block" /></button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:center">
+          <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#FFFFFF; margin-right:4px">Try asking</span>
+          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">Which nursing courses include placements?</a>
+          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">What’s it like to live in Winchester?</a>
+          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">Can I study part-time?</a>
+        </div>
       </div>
     </div>
   
@@ -158,16 +216,17 @@
   </section>
 
   <section data-screen-label="Stats" style="position:relative; overflow:hidden; min-height:620px; background:#C68EFD; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
+    <div data-name="Life curved frame" aria-hidden="true" style="position:absolute; right:0; top:-7px; width:720px; height:634px; overflow:hidden; -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat">
     <sc-for list="{{ lifePanels }}" as="p" hint-placeholder-count="1">
-      <span aria-hidden="true" data-life-bg="1" style="position:absolute; left:380px; right:0; top:-90px; bottom:-90px; display:block; background:url({{ p.img }}) center / cover no-repeat; opacity:{{ p.opacity }}; transition:opacity .6s ease; will-change:transform"></span>
+      <span aria-hidden="true" data-life-bg="1" style="position:absolute; left:0; right:0; top:-90px; bottom:-90px; display:block; background:url({{ p.img }}) center / cover no-repeat; opacity:{{ p.opacity }}; transition:opacity .6s ease; will-change:transform"></span>
     </sc-for>
-    <svg data-name="Life curved frame" aria-hidden="true" viewBox="0 0 1280 620" preserveAspectRatio="none" style="position:absolute; z-index:1; inset:0; width:100%; height:100%; display:block; pointer-events:none"><path d="M0 0 H512 C 532 90 540 204 528 294 C 512 416 460 522 392 620 H0 Z" fill="#C68EFD"></path><path d="M517 620 C 640 542 760 514 872 514 C 1000 514 1118 535 1207 563 L 1207 620 Z" fill="#C68EFD"></path></svg>
+    </div>
     <div data-name="Stats panel" style="position:relative; z-index:2; width:420px; border-radius:0; background:transparent; padding:50px; box-sizing:border-box; display:flex; flex-direction:column; gap:20px">
       <div style="display:flex; gap:5px; align-items:center"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#291647">Life at Winchester</span></div>
       <div style="display:flex; flex-direction:column">
         <sc-for list="{{ lifeItems }}" as="it" hint-placeholder-count="4">
           <a href="#" onMouseEnter="{{ it.onEnter }}" onFocus="{{ it.onEnter }}" onMouseLeave="{{ it.onLeave }}" onBlur="{{ it.onLeave }}" style="display:flex; align-items:center; gap:12px; padding:20px 0; border-bottom:{{ it.bb }}; text-decoration:none; color:{{ it.color }}; transition:color .3s ease">
-            <span style="font-family:Figtree, sans-serif; font-weight:500; font-size:24px; line-height:1.25">{{ it.title }}</span>
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:24px; line-height:1.25">{{ it.title }}</span>
             <span aria-hidden="true" style="margin-left:auto; flex:none; width:18px; height:18px; display:block; background:#291647; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; opacity:{{ it.arrowOpacity }}; translate:{{ it.arrowShift }} 0; transition:opacity .3s ease, translate .3s ease"></span>
           </a>
         </sc-for>
@@ -279,7 +338,51 @@
     </div>
   </section>
 
-  <section data-screen-label="Open days" style="position:relative; overflow:hidden; min-height:620px; background:#C68EFD; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
+  <section data-screen-label="Events" style="position:relative; background:#291647; display:flex; flex-direction:column; gap:60px; padding:100px 40px; box-sizing:border-box; flex-shrink:0; align-self:stretch">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:40px">
+      <div style="display:flex; flex-direction:column; gap:20px">
+        <div style="display:flex; gap:5px; align-items:center"><img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; display:block" /><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; color:#FFFFFF">What’s on</span></div>
+        <h2 style="margin:0; font-family:'IvyPresto Display', serif; font-weight:400; font-size:60px; line-height:1.2; color:#FFFFFF">Open days and <em style="font-style:italic; color:#C68EFD">events</em></h2>
+      </div>
+      <a href="#" style="height:60px; border-radius:5px; background-color:#D4EF70; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#C68EFD"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
+    </div>
+    <div data-name="Events grid" style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:20px">
+        <a href="#" style="display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:30px; border-radius:15px; background-color:#3D2566; text-decoration:none; transition:background-color .25s ease" style-hover="background-color:#5C358E">
+          <span style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; border-radius:5px; background:#D4EF70; color:#291647"><span style="font-family:'IvyPresto Display', serif; font-size:38px; line-height:1">10</span><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:4px">Oct</span></span>
+          <span style="display:flex; flex-direction:column; gap:10px">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Open day</span>
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#FFFFFF">Undergraduate Open Day</span>
+          </span>
+          <span style="margin-top:auto; display:flex; flex-direction:column; gap:4px; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#DBBAFF"><span>Saturday, 9.30am to 3pm</span><span>King Alfred Campus</span></span>
+        </a>
+        <a href="#" style="display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:30px; border-radius:15px; background-color:#3D2566; text-decoration:none; transition:background-color .25s ease" style-hover="background-color:#5C358E">
+          <span style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; border-radius:5px; background:#D4EF70; color:#291647"><span style="font-family:'IvyPresto Display', serif; font-size:38px; line-height:1">4</span><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:4px">Nov</span></span>
+          <span style="display:flex; flex-direction:column; gap:10px">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Open evening</span>
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#FFFFFF">Postgraduate open evening</span>
+          </span>
+          <span style="margin-top:auto; display:flex; flex-direction:column; gap:4px; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#DBBAFF"><span>Wednesday, 5pm to 7pm</span><span>Online</span></span>
+        </a>
+        <a href="#" style="display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:30px; border-radius:15px; background-color:#3D2566; text-decoration:none; transition:background-color .25s ease" style-hover="background-color:#5C358E">
+          <span style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; border-radius:5px; background:#D4EF70; color:#291647"><span style="font-family:'IvyPresto Display', serif; font-size:38px; line-height:1">12</span><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:4px">Nov</span></span>
+          <span style="display:flex; flex-direction:column; gap:10px">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Public lecture</span>
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#FFFFFF">Making history: the story of Winchester</span>
+          </span>
+          <span style="margin-top:auto; display:flex; flex-direction:column; gap:4px; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#DBBAFF"><span>Thursday, 6.30pm</span><span>West Downs Centre</span></span>
+        </a>
+        <a href="#" style="display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:30px; border-radius:15px; background-color:#3D2566; text-decoration:none; transition:background-color .25s ease" style-hover="background-color:#5C358E">
+          <span style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; border-radius:5px; background:#D4EF70; color:#291647"><span style="font-family:'IvyPresto Display', serif; font-size:38px; line-height:1">21</span><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:4px">Nov</span></span>
+          <span style="display:flex; flex-direction:column; gap:10px">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD">Open day</span>
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:22px; line-height:1.25; color:#FFFFFF">Undergraduate Open Day</span>
+          </span>
+          <span style="margin-top:auto; display:flex; flex-direction:column; gap:4px; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#DBBAFF"><span>Saturday, 9.30am to 3pm</span><span>King Alfred Campus</span></span>
+        </a>
+    </div>
+  </section>
+
+  <section data-screen-label="Open days" style="position:relative; overflow:hidden; min-height:620px; background:#D4EF70; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
     <div data-name="Open days curved frame" aria-hidden="true" style="position:absolute; right:0; top:-7px; width:720px; height:634px; -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat"><span style="position:absolute; inset:0; display:block; background:url(assets/fig/careers-hub.jpg) center / cover no-repeat"></span></div>
     <div style="position:relative; z-index:2; width:420px; display:flex; flex-direction:column; gap:20px; align-items:flex-start">
       <div data-component="Frame 166" style="position:relative; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0; align-self:stretch">
@@ -293,6 +396,24 @@
       </a>
     </div>
   </section>
+
+  <footer data-screen-label="Footer" style="position:relative; background:#291647; display:flex; flex-direction:column; gap:60px; padding:80px 40px 40px; box-sizing:border-box; flex-shrink:0; align-self:stretch">
+    <div style="display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3, minmax(0,1fr)); gap:40px">
+      <div style="display:flex; flex-direction:column; gap:24px; align-items:flex-start">
+        <img src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="width:200px; height:auto; display:block" />
+        <p style="margin:0; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.5; color:#DBBAFF">University of Winchester<br />Sparkford Road, Winchester<br />Hampshire SO22 4NR</p>
+        <a href="#" style="height:60px; border-radius:5px; background-color:#D4EF70; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#C68EFD"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">Contact us</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD; margin-bottom:6px">Study</span><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Undergraduate</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Postgraduate</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">International</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Clearing</a></div>
+      <div style="display:flex; flex-direction:column; gap:14px"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD; margin-bottom:6px">Visit</span><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Open days</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Campus tours</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Find us</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Accommodation</a></div>
+      <div style="display:flex; flex-direction:column; gap:14px"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD; margin-bottom:6px">About</span><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">About us</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">News and events</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Research</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Jobs</a></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:20px; padding-top:30px; border-top:1px solid #5C358E">
+      <span style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF">© University of Winchester 2026</span>
+      <div style="display:flex; gap:24px"><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">Privacy</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">Cookies</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">Accessibility</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">Modern slavery statement</a></div>
+      <div style="display:flex; gap:24px"><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">Instagram</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">TikTok</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">LinkedIn</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#DBBAFF; text-decoration:none; transition:color .2s ease" style-hover="color:#FFFFFF">YouTube</a></div>
+    </div>
+  </footer>
 
 
   <section data-screen-label="Quote" style="display:none; position:relative; height:635px; display:none; flex-direction:column; padding:100px 0; align-items:flex-start; box-sizing:border-box; flex-shrink:0; align-self:stretch">
@@ -398,9 +519,9 @@
   </div>
   <div data-story-scroll="1" onScroll="{{ onStoryScroll }}" style="position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none">
     <div data-name="Story header" style="position:relative; height:{{ story.headerH }}; box-sizing:border-box; padding:0; display:flex; flex-direction:column; justify-content:space-between">
-      <nav data-name="Story nav bar" style="border-radius:5px; overflow:hidden; font-family:Figtree, sans-serif; position:relative; margin:20px 20px 0; height:75px; background:#FFFFFF; display:flex; align-items:stretch; justify-content:space-between; padding-left:15px">
-      <a href="#" aria-label="University of Winchester home" onClick="{{ closeStory }}" style="align-self:center; display:block"><img src="assets/fig/logo-fig-black.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:block"></a>
-      <div style="display:flex; align-items:center; gap:30px">
+      <nav data-name="Story nav bar" data-nav="1" style="border-radius:5px; overflow:hidden; font-family:Figtree, sans-serif; position:relative; margin:20px 20px 0; height:75px; background:#FFFFFF; display:flex; align-items:stretch; justify-content:space-between; padding-left:15px">
+      <a href="#" aria-label="University of Winchester home" onClick="{{ closeStory }}" style="align-self:center; display:block"><img data-logo="dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:block"><img data-logo="light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="align-self:center; width:196px; height:auto; display:none"></a>
+      <div data-nav-full="1" style="display:flex; align-items:center; gap:30px">
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Study</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Life at Winchester</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Open days</a>
@@ -408,7 +529,13 @@
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">News and events</a>
         <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">About us</a>
       </div>
-      <button style="width:179px; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#C68EFD; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#291647">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button>
+      <div data-nav-short="1" style="display:none; align-items:center; gap:30px">
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Study</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Life at Winchester</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Open days</a>
+        <a href="#" style="font-family:Figtree, sans-serif; font-size:16px; font-weight:500; color:#291647; text-decoration:none; white-space:nowrap; transition:color .2s ease" style-hover="color:#5C358E">Clearing</a>
+      </div>
+      <span style="display:flex"><button data-nav-menu="1" aria-label="Menu" style="display:none; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#D4EF70; color:#291647; align-items:center; justify-content:center; gap:8px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#C68EFD">Menu<img src="motifs/fig-icon-menu.svg" alt="" style="width:18px; height:18px; flex-shrink:0; display:block"></button><button data-nav-ask="1" style="width:179px; border:0; border-radius:5px; margin:10px 10px 10px 0; padding:0 20px; background:#D4EF70; color:#291647; display:flex; align-items:center; justify-content:center; gap:5px; font-family:Figtree,sans-serif; font-weight:500; font-size:16px; white-space:nowrap; cursor:pointer; transition:background-color .2s ease" style-hover="background:#C68EFD">Ask us anything<img src="motifs/fig-icon-search.svg" alt="" style="width:20px; height:20px; flex-shrink:0; display:block"></button></span>
     </nav>
       
     </div>
@@ -1323,6 +1450,86 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function () {
+  var KEY = 'wnc-cA-options';
+  var OPTS = [
+    ['navcolor', 'Nav colour', [['white', 'White'], ['purple', 'Purple']]],
+    ['navpos', 'Nav position', [['inset', 'Inset'], ['top', 'Top edge']]],
+    ['navitems', 'Nav items', [['full', 'All six'], ['menu', 'Four + Menu']]],
+    ['broadcast', 'Broadcast message', [['off', 'Off'], ['on', 'On']]],
+    ['icon', 'Hero icon', [['archway', 'Archway'], ['star', 'Star'], ['flower', 'Flower'], ['chapel', 'Chapel'], ['none', 'None']]],
+    ['search', 'Ask us anything', [['off', 'Nav button'], ['on', 'In the hero']]],
+    ['lead', 'Lead news story', [['left', 'Left'], ['right', 'Right']]]
+  ];
+  var st = {};
+  try { st = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { st = {}; }
+  function apply() {
+    OPTS.forEach(function (o) { document.documentElement.setAttribute('data-o-' + o[0], st[o[0]] || o[2][0][0]); });
+    document.querySelectorAll('[data-opt-btn]').forEach(function (b) {
+      var on = (st[b.getAttribute('data-opt-key')] || b.getAttribute('data-opt-def')) === b.getAttribute('data-opt-btn');
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.style.background = on ? '#C68EFD' : 'transparent';
+      b.style.color = on ? '#291647' : '#FFFFFF';
+    });
+  }
+  apply();
+  function build() {
+    var F = 'font-family:Figtree, sans-serif;';
+    var wrap = document.createElement('div');
+    wrap.setAttribute('data-name', 'Feedback options');
+    wrap.style.cssText = 'position:fixed; right:12px; bottom:12px; z-index:10001; display:flex; flex-direction:column; align-items:flex-end; gap:8px; ' + F;
+    var panel = document.createElement('div');
+    panel.id = 'wnc-options-panel';
+    panel.hidden = true;
+    panel.style.cssText = 'width:300px; padding:16px; border-radius:8px; background:rgba(20,20,20,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.35); color:#FFFFFF; display:none; flex-direction:column; gap:14px';
+    var h = document.createElement('div');
+    h.style.cssText = 'display:flex; justify-content:space-between; align-items:baseline';
+    h.innerHTML = '<span style="font-weight:600; font-size:14px">Round 1 options</span>';
+    var reset = document.createElement('button');
+    reset.textContent = 'Reset';
+    reset.style.cssText = F + 'border:0; background:none; color:#C68EFD; font-size:13px; font-weight:600; cursor:pointer; padding:0';
+    reset.onclick = function () { st = {}; try { localStorage.removeItem(KEY); } catch (e) {} apply(); };
+    h.appendChild(reset);
+    panel.appendChild(h);
+    OPTS.forEach(function (o) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex; flex-direction:column; gap:6px';
+      var lab = document.createElement('span');
+      lab.textContent = o[1];
+      lab.style.cssText = 'font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#DBBAFF';
+      row.appendChild(lab);
+      var seg = document.createElement('div');
+      seg.setAttribute('role', 'group');
+      seg.setAttribute('aria-label', o[1]);
+      seg.style.cssText = 'display:flex; flex-wrap:wrap; gap:4px';
+      o[2].forEach(function (v) {
+        var b = document.createElement('button');
+        b.textContent = v[1];
+        b.setAttribute('data-opt-btn', v[0]);
+        b.setAttribute('data-opt-key', o[0]);
+        b.setAttribute('data-opt-def', o[2][0][0]);
+        b.style.cssText = F + 'height:28px; padding:0 10px; border:1px solid #5C358E; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer';
+        b.onclick = function () { st[o[0]] = v[0]; try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} apply(); };
+        seg.appendChild(b);
+      });
+      row.appendChild(seg);
+      panel.appendChild(row);
+    });
+    var toggle = document.createElement('button');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'wnc-options-panel');
+    toggle.innerHTML = '<span style="width:8px; height:8px; border-radius:50%; background:#D4EF70; display:block"></span>Options';
+    toggle.style.cssText = F + 'height:40px; padding:0 16px; border:0; border-radius:8px; background:rgba(20,20,20,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.3); color:#FFFFFF; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer';
+    toggle.onclick = function () { panel.hidden = !panel.hidden; panel.style.display = panel.hidden ? 'none' : 'flex'; toggle.setAttribute('aria-expanded', panel.hidden ? 'false' : 'true'); };
+    wrap.appendChild(panel);
+    wrap.appendChild(toggle);
+    document.body.appendChild(wrap);
+    apply();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
 </script>
 </body>
 </html>
