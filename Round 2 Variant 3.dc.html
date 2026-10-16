@@ -1353,7 +1353,13 @@ class Component extends DCLogic {
     const strip = sec.querySelector('[data-name="Motif strip"]');
     const words = texts.map((t) => this._split(t.querySelector('h3')));
     const rest = texts.map((t) => [...t.firstElementChild.children].filter((c) => c.tagName !== 'H3'));
-    gsap.set(imgs.slice(1), { clipPath: 'circle(0% at 50% 50%)' });
+    const STAR = "M 611.077 301.577 C 498.575 301.577 317.423 120.465 317.423 7.923 C 317.423 3.526 313.857 0 309.5 0 C 305.143 0 301.577 3.565 301.577 7.923 C 301.577 120.425 120.465 301.577 7.923 301.577 C 3.565 301.577 0 305.143 0 309.5 C 0 313.857 3.565 317.423 7.923 317.423 C 120.425 317.423 301.577 498.535 301.577 611.077 C 301.577 615.474 305.143 619 309.5 619 C 313.857 619 317.423 615.435 317.423 611.077 C 317.423 498.575 498.535 317.423 611.077 317.423 C 615.435 317.423 619 313.857 619 309.5 C 619 305.143 615.435 301.577 611.077 301.577 Z";
+    const starAt = (el, size) => {
+      const w = el.offsetWidth, h = el.offsetHeight, k = Math.max(size, 0.01) / 619, ox = w / 2 - 309.5 * k, oy = h / 2 - 309.5 * k;
+      let n = 0;
+      return 'path("' + STAR.replace(/-?\d*\.?\d+/g, (v) => (n++ % 2 === 0 ? ox + parseFloat(v) * k : oy + parseFloat(v) * k).toFixed(2)) + '")';
+    };
+    imgs.slice(1).forEach((el) => { el.style.clipPath = starAt(el, 0); });
     gsap.set(texts.slice(1), { autoAlpha: 0 });
     let active = 0;
     const show = (i) => {
@@ -1373,7 +1379,8 @@ class Component extends DCLogic {
     tl.to(strip, { y: -(strip.scrollHeight - 832), ease: 'none', duration: 3 }, 0);
     [1, 2].forEach((i) => {
       const at = i - 0.35;
-      tl.to(imgs[i], { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.inOut', duration: 0.7 }, at)
+      const o = { t: 0 }, el = imgs[i];
+      tl.to(o, { t: 1, ease: 'power2.inOut', duration: 0.7, onUpdate: () => { el.style.clipPath = o.t >= 0.999 ? 'none' : starAt(el, o.t * Math.hypot(el.offsetWidth, el.offsetHeight) * 2.2); } }, at)
         .fromTo(imgs[i - 1], { scale: 1 }, { scale: 1.08, ease: 'power2.inOut', duration: 0.7 }, at)
         .fromTo(imgs[i], { scale: 1.12 }, { scale: 1, ease: 'power2.out', duration: 0.9 }, at);
     });
