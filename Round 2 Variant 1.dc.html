@@ -50,9 +50,10 @@
   [data-hero-search] input::placeholder { color:#5C358E; opacity:1; }
   [data-hero-search] input:focus { outline:none; }
   [data-hero-search] [data-search-field]:focus-within { box-shadow:0 0 0 3px #D4EF70; }
-  /* Option: light purple header CTA with lime rollover */
-  html[data-o-cta="purple"] [data-nav-ask] { background:#C68EFD !important; }
-  html[data-o-cta="purple"] [data-nav-ask]:hover { background:#D4EF70 !important; }
+  /* Option: light purple header CTA, dark purple on hover like the other buttons */
+  html[data-o-cta="purple"] [data-nav-ask] { background:#C68EFD !important; transition:background-color .2s ease, color .2s ease !important; }
+  html[data-o-cta="purple"] [data-nav-ask]:hover { background:#291647 !important; color:#FFFFFF !important; }
+  html[data-o-cta="purple"] [data-nav-ask]:hover img { filter:brightness(0) invert(1); }
   /* Option: lead story position (10) */
   html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(1) { grid-column:2; grid-row:1 / span 2; }
   html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(2) { grid-column:1; grid-row:1; }
