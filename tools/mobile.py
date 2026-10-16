@@ -85,7 +85,7 @@ section, footer { position:relative; }
 /* Hero */
 #hero { height:844px; overflow:hidden; background:var(--dp); color:#FFFFFF; }
 #film { position:absolute; inset:0; }
-#film video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+#film video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; transform:scale(1.16); transform-origin:50% 38%; }
 #film::after { content:""; position:absolute; inset:0; background:rgba(41,22,71,.35); }
 .broadcast { display:none; position:absolute; z-index:25; left:0; right:0; top:0; height:56px; padding:0 48px 0 16px; background:var(--lime); color:var(--dp); align-items:center; font-size:13px; font-weight:500; line-height:1.35; }
 html[data-m-broadcast="on"] .broadcast { display:flex; }
@@ -111,9 +111,9 @@ html[data-m-navfull="on"] .mnav { left:0; right:0; top:var(--bc); height:68px; b
 .hero-copy .arch { width:40px; height:40px; background:var(--lp); -webkit-mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; }
 .hero-copy h1 { margin:0; font-size:46px; line-height:1.05; letter-spacing:-.01em; text-shadow:0 2px 24px rgba(20,10,40,.28); text-wrap:balance; }
 .promos { position:absolute; z-index:3; left:0; right:0; bottom:28px; }
-.promo-track { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:0 16px; gap:32px; scroll-padding:0 16px; }
+.promo-track { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:0 36px; gap:10px; }
 .promo-track::-webkit-scrollbar { display:none; }
-.promo { flex:0 0 100%; scroll-snap-align:start; display:flex; align-items:center; gap:16px; padding:10px; border-radius:10px; background:rgba(255,255,255,.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); color:#FFFFFF; }
+.promo { flex:0 0 318px; scroll-snap-align:center; display:flex; align-items:center; gap:16px; padding:10px; border-radius:10px; background:rgba(255,255,255,.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); color:#FFFFFF; }
 .promo .thumb { flex:none; width:60px; height:60px; border-radius:5px; background-size:cover; display:flex; align-items:center; justify-content:center; }
 .promo .play { width:24px; height:24px; background:var(--dp); display:flex; align-items:center; justify-content:center; }
 .promo .k { display:block; font-size:11px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:5px; }
@@ -153,8 +153,8 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 
 /* Life banner */
 #life { background:var(--lp); color:var(--dp); padding-bottom:40px; }
-#life .photo { position:relative; height:300px; background:url(assets/life-cafe.jpg) center / cover no-repeat; }
-#life .photo svg { position:absolute; left:0; right:0; bottom:-1px; width:100%; height:80px; display:block; }
+#life .photo { position:relative; height:320px; background:url(assets/life-cafe.jpg) center / cover no-repeat; }
+#life .photo svg { position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; display:block; }
 #life .body { padding:8px 24px 0; }
 #life .eyebrow span { color:var(--dp); }
 #life ul { list-style:none; margin:16px 0 0; padding:0; }
@@ -209,7 +209,10 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 
 /* International banner */
 #intl { background:var(--lp); color:var(--dp); padding-bottom:48px; }
-#intl .photo { width:390px; height:344px; -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; margin-left:auto; }
+/* The curved frame keeps its proportions (834:735) and is turned a quarter so its motif edge runs along the bottom */
+#intl .photo { position:relative; width:390px; height:380px; overflow:hidden; }
+#intl .photo .rot { position:absolute; width:443px; height:390px; left:-26.5px; top:-35.5px; transform:rotate(-90deg); -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; }
+#intl .photo .pic { position:absolute; width:390px; height:443px; left:26.5px; top:-26.5px; transform:rotate(90deg); background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; }
 #intl .body { padding:8px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
 #intl .eyebrow span { color:var(--dp); }
 #intl h2 { margin:0; font-size:40px; line-height:1.15; }
@@ -257,7 +260,7 @@ JS = r"""
     var down = false, x0 = 0, s0 = 0, moved = false;
     el.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; moved = false; x0 = e.clientX; s0 = el.scrollLeft; el.classList.add('dragging'); });
     addEventListener('pointermove', function (e) { if (!down) return; var dx = e.clientX - x0; if (Math.abs(dx) > 4) moved = true; el.scrollLeft = s0 - dx / scaleOf(); });
-    addEventListener('pointerup', function () { if (!down) return; down = false; el.classList.remove('dragging'); snap(el); });
+    addEventListener('pointerup', function () { if (!down) return; down = false; el.classList.remove('dragging'); if (el.classList.contains('promo-track')) { var i = nearest(); el.scrollTo({ left: centreOf(i), behavior: 'smooth' }); } else snap(el); });
     el.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
   });
   function scaleOf() { var m = /scale\(([\d.]+)\)/.exec(dev.style.transform); return m ? Number(m[1]) : 1; }
@@ -273,11 +276,16 @@ JS = r"""
   }
   function goTo(el, i) { var k = el.children[i]; if (!k) return; el.scrollTo({ left: k.offsetLeft - (parseFloat(getComputedStyle(el).paddingLeft) || 0), behavior: 'smooth' }); }
 
-  // Hero promos: one at a time, with dots
-  var pt = document.querySelector('.promo-track'), dots = Array.from(document.querySelectorAll('.dots button'));
-  function paintDots() { var i = indexOf(pt); dots.forEach(function (d, j) { d.setAttribute('aria-current', i === j ? 'true' : 'false'); }); }
-  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); }, { passive: true });
-  dots.forEach(function (d, j) { d.addEventListener('click', function () { goTo(pt, j); }); });
+  // Hero promos: one at a time, neighbours peek either side, loops endlessly
+  var pt = document.querySelector('.promo-track'), dots = Array.from(document.querySelectorAll('.dots button')), N = dots.length;
+  function centreOf(i) { var k = pt.children[i]; return k.offsetLeft + k.offsetWidth / 2 - pt.clientWidth / 2; }
+  function nearest() { var c = pt.scrollLeft, best = 0, bd = 1e9; Array.from(pt.children).forEach(function (k, i) { var d = Math.abs(centreOf(i) - c); if (d < bd) { bd = d; best = i; } }); return best; }
+  function paintDots() { var i = nearest() % N; dots.forEach(function (d, j) { d.setAttribute('aria-current', i === j ? 'true' : 'false'); }); }
+  var settle = 0;
+  function recentre() { var i = nearest(); if (i < N || i >= 2 * N) { var j = N + (i % N); pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(j); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; }); } }
+  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); clearTimeout(settle); settle = setTimeout(recentre, 140); }, { passive: true });
+  dots.forEach(function (d, j) { d.addEventListener('click', function () { var i = nearest(), base = i - (i % N); pt.scrollTo({ left: centreOf(base + j), behavior: 'smooth' }); }); });
+  pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });
   paintDots();
 
   // Stories carousel: counter and arrows
@@ -350,6 +358,8 @@ def page(v, switcher):
         + f'</span><span><span class="k">{k}</span><span class="t">{t}</span></span></a>'
         for img, pos, k, t, play in PROMOS)
     dots = "".join(f'<button aria-label="Show promotion {i + 1}"></button>' for i in range(len(PROMOS)))
+    # three copies so the slider can loop; the middle copy is the real one
+    promos = "".join(promos.replace('class="promo"', f'class="promo" data-copy="{c}"' + ('' if c == 1 else ' aria-hidden="true" tabindex="-1"')) for c in range(3))
     stories = "".join(f'<a href="#" class="story"><span class="img" style="background-image:url({img})"></span><span class="q">{q}</span><span class="n">{n}</span></a>' for img, q, n in STORIES)
     life = "".join(f'<li><a href="#"><span>{t}</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li>' for t in LIFE)
     rimgs = "".join(f'<div style="background-image:url({img})"></div>' for img, *_ in REASONS)
@@ -398,7 +408,7 @@ def page(v, switcher):
   </section>
 
   <section id="life" data-screen-label="Stats">
-    <div class="photo" aria-hidden="true"><svg viewBox="0 0 390 80" preserveAspectRatio="none"><path d="M0 80 L0 30 C 90 72 220 74 390 22 L390 80 Z" fill="#C68EFD"></path></svg></div>
+    <div class="photo" aria-hidden="true"><svg viewBox="0 0 390 120" preserveAspectRatio="none"><path d="M0 120 L0 40.8 C 56.6 28.8 128.3 24 185 31.2 C 261.7 40.8 328.4 72 390 112.8 L390 120 Z" fill="#C68EFD"></path></svg></div>
     <div class="body">{eyebrow("Life at Winchester", star=False)}<ul>{life}</ul></div>
   </section>
 
@@ -416,7 +426,7 @@ def page(v, switcher):
   </section>
 
   <section id="intl" class="on-lp" data-screen-label="International">
-    <div class="photo" aria-hidden="true"></div>
+    <div class="photo" aria-hidden="true"><div class="rot"><div class="pic"></div></div></div>
     <div class="body">{eyebrow("International students", star=False)}<h2 class="serif">Study in the UK, <em>made</em> for you</h2><p>Everything you need to know about studying at Winchester, from entry requirements and visas to scholarships and settling in.</p>{btn("Find out more", "btn dark")}</div>
   </section>
 
