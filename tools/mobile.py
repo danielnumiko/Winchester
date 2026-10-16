@@ -167,20 +167,24 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 #reasons-intro .eyebrow span { color:#FFFFFF; }
 #reasons-intro h2 { margin:0; font-size:42px; line-height:1.15; }
 #reasons-intro .down { width:56px; height:56px; transform:rotate(90deg); background:var(--lime); -webkit-mask:url(motifs/fig-icon-arrow-purple.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-purple.svg) center / contain no-repeat; }
-#reasons { height:2400px; background:var(--dp); }
-#reasons .sticky { position:sticky; top:0; height:844px; display:flex; flex-direction:column; overflow:hidden; }
-#reasons .imgs { position:relative; height:360px; flex-shrink:0; overflow:hidden; }
-#reasons .imgs div { position:absolute; inset:0; background-size:cover; background-position:center; will-change:clip-path, transform; transition:transform .9s cubic-bezier(.22,1,.36,1); }
-#reasons .strip { height:64px; flex-shrink:0; overflow:hidden; padding:10px 0; }
-#reasons .strip .row { display:flex; gap:12px; width:max-content; will-change:transform; }
-#reasons .strip .tile { width:44px; height:44px; background:var(--lime); display:flex; }
-#reasons .strip .tile i { width:100%; height:100%; background:var(--dp); }
-#reasons .texts { position:relative; flex:1; }
-#reasons .rt { position:absolute; inset:0; padding:20px 24px 32px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; color:#FFFFFF; opacity:0; visibility:hidden; transform:translateY(20px); transition:opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1), visibility 0s linear .6s; }
-#reasons .rt.on { opacity:1; visibility:visible; transform:none; transition:opacity .6s ease .15s, transform .7s cubic-bezier(.22,1,.36,1) .15s, visibility 0s; }
-#reasons .rt .eyebrow span { color:#FFFFFF; }
-#reasons .rt h3 { margin:0; font-size:38px; line-height:1.15; }
-#reasons .rt p { margin:0; font-weight:500; font-size:16px; line-height:1.55; color:var(--pale); }
+/* Stacked steps, after loveandmoney.com's mobile pattern: image, number + heading, text, sliding strip */
+#reasons { background:var(--dp); color:#FFFFFF; padding-bottom:24px; }
+.step { padding-bottom:48px; }
+.step .img { position:relative; height:420px; overflow:hidden; }
+.step .img div { position:absolute; inset:0; background-size:cover; background-position:center; will-change:clip-path, transform; }
+.step .tx { padding:28px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.step .top { align-self:stretch; display:flex; justify-content:space-between; align-items:flex-start; }
+.step .num { font-family:'IvyPresto Display', serif; font-size:64px; line-height:.9; color:var(--lime); }
+.step .ind { display:flex; gap:6px; padding-top:10px; }
+.step .ind i { width:14px; height:14px; display:block; background:var(--mp); -webkit-mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; }
+.step .ind i.on { background:var(--lime); }
+.step .eyebrow span { color:#FFFFFF; }
+.step h3 { margin:0; font-size:38px; line-height:1.15; }
+.step p { margin:0; font-weight:500; font-size:16px; line-height:1.55; color:var(--pale); }
+.step .strip { margin-top:32px; overflow:hidden; }
+.step .strip .row { display:flex; gap:12px; width:max-content; will-change:transform; }
+.step .strip .tile { width:64px; height:64px; background:var(--lime); display:flex; }
+.step .strip .tile i { width:100%; height:100%; background:var(--dp); }
 
 /* News */
 #news { padding:64px 16px 56px; display:flex; flex-direction:column; gap:28px; }
@@ -289,28 +293,27 @@ JS = r"""
   document.querySelector('#stories .next').addEventListener('click', function () { goTo(sc, Math.min(n - 1, indexOf(sc) + 1)); });
   paintCount();
 
-  // 3 Reasons: sticky, scroll-driven; images open with the star reveal, motif strip slides
-  var sec = document.getElementById('reasons'), imgs = Array.from(sec.querySelectorAll('.imgs div')), texts = Array.from(sec.querySelectorAll('.rt')), row = sec.querySelector('.strip .row');
+  // 3 Reasons: each image opens with the star as it scrolls in; the motif strips slide with the scroll
+  var steps = Array.from(document.querySelectorAll('.step'));
   var STAR = "M 611.077 301.577 C 498.575 301.577 317.423 120.465 317.423 7.923 C 317.423 3.526 313.857 0 309.5 0 C 305.143 0 301.577 3.565 301.577 7.923 C 301.577 120.425 120.465 301.577 7.923 301.577 C 3.565 301.577 0 305.143 0 309.5 C 0 313.857 3.565 317.423 7.923 317.423 C 120.425 317.423 301.577 498.535 301.577 611.077 C 301.577 615.474 305.143 619 309.5 619 C 313.857 619 317.423 615.435 317.423 611.077 C 317.423 498.575 498.535 317.423 611.077 317.423 C 615.435 317.423 619 313.857 619 309.5 C 619 305.143 615.435 301.577 611.077 301.577 Z";
   function starAt(el, size) {
     var w = el.offsetWidth, h = el.offsetHeight, k = Math.max(size, 0.01) / 619, ox = w / 2 - 309.5 * k, oy = h / 2 - 309.5 * k, c = 0;
     return 'path("' + STAR.replace(/-?\d*\.?\d+/g, function (v) { return (c++ % 2 === 0 ? ox + parseFloat(v) * k : oy + parseFloat(v) * k).toFixed(2); }) + '")';
   }
   var ease = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
-  var active = -1;
   function reasons() {
-    var span = sec.offsetHeight - vp.clientHeight, p = Math.max(0, Math.min(1, (vp.scrollTop - sec.offsetTop) / span)), v = p * 3;
-    var cur = Math.min(2, Math.floor(v + 0.15));
-    if (cur !== active) { active = cur; texts.forEach(function (t, i) { t.classList.toggle('on', i === cur); }); }
-    [1, 2].forEach(function (i) {
-      var t = reduced ? (v >= i - 0.15 ? 1 : 0) : ease(Math.max(0, Math.min(1, (v - (i - 0.5)) / 0.6)));
-      var el = imgs[i];
-      el.style.clipPath = t >= 0.999 ? 'none' : starAt(el, t * Math.hypot(el.offsetWidth, el.offsetHeight) * 2.2);
-      el.style.transform = reduced ? 'none' : 'scale(' + (1.12 - 0.12 * t).toFixed(3) + ')';
+    var vh = vp.clientHeight, st = vp.scrollTop;
+    steps.forEach(function (step) {
+      var box = step.querySelector('.img'), img = box.firstElementChild, top = step.offsetTop + step.parentNode.offsetTop - st;
+      // 0 when the image top enters the bottom of the screen, 1 when it reaches 25% from the top
+      var t = reduced ? 1 : ease(Math.max(0, Math.min(1, (vh - top) / (vh * 0.75))));
+      img.style.clipPath = t >= 0.999 ? 'none' : starAt(box, t * Math.hypot(box.offsetWidth, box.offsetHeight) * 2.2);
+      img.style.transform = reduced ? 'none' : 'scale(' + (1.15 - 0.15 * t).toFixed(3) + ')';
+      var row = step.querySelector('.strip .row'), dir = Number(row.getAttribute('data-dir')), travel = row.scrollWidth - 390;
+      var q = Math.max(0, Math.min(1, (vh - top) / (vh + step.offsetHeight)));
+      row.style.transform = 'translateX(' + (dir < 0 ? -travel * q : -travel * (1 - q)).toFixed(1) + 'px)';
     });
-    row.style.transform = 'translateX(' + (-(row.scrollWidth - 390) * p).toFixed(1) + 'px)';
   }
-  imgs.slice(1).forEach(function (el) { el.style.clipPath = starAt(el, 0); });
   vp.addEventListener('scroll', function () { requestAnimationFrame(reasons); }, { passive: true });
   addEventListener('load', reasons); reasons();
 
@@ -352,9 +355,16 @@ def page(v, switcher):
     dots = "".join(f'<button aria-label="Show promotion {i + 1}"></button>' for i in range(len(PROMOS)))
     stories = "".join(f'<a href="#" class="story"><span class="img" style="background-image:url({img})"></span><span class="q">{q}</span><span class="n">{n}</span></a>' for img, q, n in STORIES)
     life = "".join(f'<li><a href="#"><span>{t}</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li>' for t in LIFE)
-    rimgs = "".join(f'<div style="background-image:url({img})"></div>' for img, *_ in REASONS)
-    rtexts = "".join(f'<div class="rt">{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>' for _, k, h, p in REASONS)
-    tiles = "".join(f'<span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat; mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat"></i></span>' for t in TILES * 3)
+    def tiles_for(i):
+        seq = TILES[i * 3:] + TILES[:i * 3]
+        return "".join(f'<span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat; mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat"></i></span>' for t in seq * 2)
+    steps = "".join(
+        f'<article class="step"><div class="img"><div style="background-image:url({img})"></div></div>'
+        f'<div class="tx"><div class="top"><span class="num">0{i + 1}</span><span class="ind" aria-label="Reason {i + 1} of 3">'
+        + "".join(f'<i class="{"on" if j == i else ""}"></i>' for j in range(3))
+        + f'</span></div>{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>'
+        f'<div class="strip" aria-hidden="true"><div class="row" data-dir="{-1 if i % 2 == 0 else 1}">{tiles_for(i)}</div></div></article>'
+        for i, (img, k, h, p) in enumerate(REASONS))
     news = "".join(f'<a href="#" class="ncard"><span class="img" style="background-image:url({img})"></span><span class="tx"><span class="t">{t}</span><span class="d">{d}</span></span></a>' for img, t, d in NEWS)
     events = "".join(f'<a href="#" class="ev"><span class="date"><b>{d}</b><small>{m}</small></span><span><span class="k">{k}</span><span class="t">{t}</span></span><span class="m">{w}<br>{loc}</span></a>' for d, m, k, t, w, loc in EVENTS)
     cols = "".join(f'<div class="col"><h4>{h}</h4>' + "".join(f'<a href="#">{l}</a>' for l in ls) + '</div>' for h, ls in FOOT)
@@ -403,9 +413,7 @@ def page(v, switcher):
   </section>
 
   <section id="reasons-intro" data-screen-label="Reasons intro">{eyebrow("Why study with Winchester?")}<h2 class="serif">3 Reasons to study with Winchester</h2><span class="down" aria-hidden="true"></span></section>
-  <section id="reasons" class="on-dark" data-screen-label="Three reasons">
-    <div class="sticky"><div class="imgs">{rimgs}</div><div class="strip" aria-hidden="true"><div class="row">{tiles}</div></div><div class="texts">{rtexts}</div></div>
-  </section>
+  <section id="reasons" class="on-dark" data-screen-label="Three reasons">{steps}</section>
 
   <section id="news" data-screen-label="News"><h2 class="sec serif">The latest from Winchester</h2><div class="stack">{news}</div><div>{btn("All news")}</div></section>
 
