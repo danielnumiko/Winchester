@@ -876,7 +876,7 @@ class Component extends DCLogic {
     this._archDone = true;
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) return;
-    const rest = Array.from(hero.children).filter((n) => n !== film && n.style.display !== 'none');
+    const rest = Array.from(hero.children).filter((n) => n !== film && getComputedStyle(n).display !== 'none');
     const vid = film.querySelector('video');
     this._holdFilm = true;
     if (vid) { vid.muted = true; try { vid.currentTime = 0; } catch (e) {} const p0 = vid.play(); if (p0 && p0.catch) p0.catch(() => {}); }
