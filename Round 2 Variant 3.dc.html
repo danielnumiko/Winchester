@@ -54,9 +54,8 @@
   [data-nav-ask], [data-nav-menu] { transition:background-color .2s ease, color .2s ease !important; }
   [data-nav-ask]:hover, [data-nav-menu]:hover { background:#291647 !important; color:#FFFFFF !important; }
   [data-nav-ask]:hover img, [data-nav-menu]:hover img { filter:brightness(0) invert(1); }
-  /* On dark grounds the hover lightens instead, so the button stays visible */
-  html[data-o-navcolor="purple"] [data-nav] [data-nav-ask]:hover, html[data-o-navcolor="purple"] [data-nav] [data-nav-menu]:hover { background:#DBBAFF !important; color:#291647 !important; }
-  html[data-o-navcolor="purple"] [data-nav] [data-nav-ask]:hover img, html[data-o-navcolor="purple"] [data-nav] [data-nav-menu]:hover img { filter:none; }
+  /* On dark grounds the hover is mid purple, so the button stays visible */
+  html[data-o-navcolor="purple"] [data-nav] [data-nav-ask]:hover, html[data-o-navcolor="purple"] [data-nav] [data-nav-menu]:hover { background:#5C358E !important; color:#FFFFFF !important; }
   /* Option: lead story position (10) */
   html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(1) { grid-column:2; grid-row:1 / span 2; }
   html[data-o-lead="right"] [data-name="News grid"] > a:nth-child(2) { grid-column:1; grid-row:1; }
@@ -240,38 +239,39 @@
     </div>
   </section>
 
-  <section data-screen-label="Reasons intro" style="position:relative; display:flex; flex-direction:column; padding:120px 0 40px 0; align-items:flex-start; box-sizing:border-box; flex-shrink:0; align-self:stretch">
-    <div style="position:relative; display:flex; flex-direction:column; align-items:center; flex-shrink:0; align-self:stretch">
-      <div style="position:relative; width:787px; display:flex; flex-direction:column; gap:10px; align-items:center; flex-shrink:0">
+  <section data-screen-label="Reasons intro" style="position:relative; background-color:#291647; height:502px; display:flex; flex-direction:column; padding:120px 0 100px 0; align-items:flex-start; box-sizing:border-box; flex-shrink:0; align-self:stretch">
+    <div style="position:relative; height:282px; display:flex; flex-direction:column; align-items:center; flex-shrink:0; align-self:stretch">
+      <div style="position:relative; width:787px; height:282px; display:flex; flex-direction:column; gap:10px; align-items:center; flex-shrink:0">
         <div data-component="Frame 166" style="position:relative; width:273px; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0">
           <img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; flex-shrink:0; display:block" />
-          <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:var(--fg, #FFFFFF)">Why study with winchester?</span>
+          <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#FFFFFF">Why study with winchester?</span>
         </div>
-        <h2 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:72px; text-align:center; line-height:1.2000000476837158; color:var(--fg, #FFFFFF)">3 Reasons to study with Winchester</h2>
+        <h2 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:72px; text-align:center; line-height:1.2000000476837158; color:#FFFFFF">3 Reasons to study with Winchester</h2>
+        <img src="motifs/fig-icon-arrow-purple.svg" alt="" style="width:80px; height:80px; flex-shrink:0; display:block; transform:rotate(90deg)" />
       </div>
     </div>
   </section>
 
-  <section data-screen-label="Three reasons" data-name="Reasons scroller" style="position:relative; height:2912px; background-color:var(--bg, #291647); flex-shrink:0; align-self:stretch">
-    <div data-name="Reasons sticky" style="position:sticky; top:0; width:1280px; height:832px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:40px; padding:40px; align-items:stretch; box-sizing:border-box">
-      <div style="position:relative; min-width:0">
-        <div style="position:absolute; inset:0; overflow:hidden; border-radius:15px; isolation:isolate">
+  <section data-screen-label="Three reasons" data-name="Reasons scroller" style="position:relative; height:2496px; background-color:#291647; flex-shrink:0; align-self:stretch">
+    <div data-name="Reasons sticky" style="position:sticky; top:0; width:1280px; height:832px; display:flex; flex-direction:row; gap:100px; padding:0 40px 0 0; align-items:flex-start; box-sizing:border-box">
+      <div style="position:relative; width:434px; flex-shrink:0; align-self:stretch">
+        <div style="position:absolute; inset:0; overflow:hidden">
           <div data-reason-img="0" style="position:absolute; inset:0; background:url(assets/fig/455f6db08277613a.png) center / cover no-repeat; will-change:clip-path, transform"></div>
-          <div data-reason-img="1" style="position:absolute; inset:0; z-index:2; background:url(assets/fig/79da595167491963.png) center / cover no-repeat; will-change:clip-path, transform"></div>
-          <div data-reason-img="2" style="position:absolute; inset:0; z-index:4; background:url(assets/fig/61f81e899722bfd3.png) center / cover no-repeat; will-change:clip-path, transform"></div>
+          <div data-reason-img="1" style="position:absolute; inset:0; background:url(assets/fig/79da595167491963.png) center / cover no-repeat; will-change:clip-path, transform"></div>
+          <div data-reason-img="2" style="position:absolute; inset:0; background:url(assets/fig/61f81e899722bfd3.png) center / cover no-repeat; will-change:clip-path, transform"></div>
         </div>
+        <div style="position:absolute; left:405px; top:385.632px; width:60px; height:60px; z-index:2; background-color:#291647; -webkit-mask:url(motifs/fig-star60-dark.svg) center / contain no-repeat; mask:url(motifs/fig-star60-dark.svg) center / contain no-repeat"></div>
       </div>
-      <div data-name="Reasons progress" style="position:absolute; right:44px; top:50%; transform:translateY(-50%); z-index:5; display:flex; flex-direction:column; gap:14px"><button type="button" data-rp="0" aria-label="Reason 1 of 3" style="display:flex; align-items:center; gap:12px; padding:0; border:0; background:none; cursor:pointer; opacity:1; transition:opacity .3s ease"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; color:var(--fg, #FFFFFF); width:20px; text-align:right">01</span><span style="position:relative; width:3px; height:64px; border-radius:2px; overflow:hidden; background:rgba(198,142,253,0.3); display:block"><span data-rp-fill="1" style="position:absolute; inset:0; display:block; background:#C68EFD; transform-origin:50% 0; transform:scaleY(0)"></span></span></button><button type="button" data-rp="1" aria-label="Reason 2 of 3" style="display:flex; align-items:center; gap:12px; padding:0; border:0; background:none; cursor:pointer; opacity:0.45; transition:opacity .3s ease"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; color:var(--fg, #FFFFFF); width:20px; text-align:right">02</span><span style="position:relative; width:3px; height:64px; border-radius:2px; overflow:hidden; background:rgba(198,142,253,0.3); display:block"><span data-rp-fill="1" style="position:absolute; inset:0; display:block; background:#C68EFD; transform-origin:50% 0; transform:scaleY(0)"></span></span></button><button type="button" data-rp="2" aria-label="Reason 3 of 3" style="display:flex; align-items:center; gap:12px; padding:0; border:0; background:none; cursor:pointer; opacity:0.45; transition:opacity .3s ease"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; color:var(--fg, #FFFFFF); width:20px; text-align:right">03</span><span style="position:relative; width:3px; height:64px; border-radius:2px; overflow:hidden; background:rgba(198,142,253,0.3); display:block"><span data-rp-fill="1" style="position:absolute; inset:0; display:block; background:#C68EFD; transform-origin:50% 0; transform:scaleY(0)"></span></span></button></div>
-      <div data-name="Reason text" style="position:relative; min-width:0; margin:0 100px 0 20px">
+      <div data-name="Reason text" style="position:relative; flex:1 1 0; min-width:0; align-self:stretch">
         <div data-reason-text="0" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:flex-start">
           <div style="position:relative; display:flex; flex-direction:column; gap:30px; align-items:flex-start; flex-shrink:0; align-self:stretch">
-          <span data-name="Reason motif" aria-hidden="true" style="width:40px; height:40px; display:block; flex-shrink:0; background:#C68EFD; -webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></span>
           <div data-component="Frame 166" style="position:relative; width:123px; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0">
-            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:var(--fg, #FFFFFF)">Your future</span>
+            <img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; flex-shrink:0; display:block">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#FFFFFF">Your future</span>
           </div>
-          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:50px; line-height:1.2000000476837158; color:var(--fg, #FFFFFF)">95% <em style="font-style:italic">in work</em> within months</h3>
-          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:var(--body, #DBBAFF)">Employability runs through every course from the start, so you leave with experience behind you as well as a degree.</p>
-          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#291647">
+          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:72px; line-height:1.2000000476837158; color:#FFFFFF">95% <em style="font-style:italic">in work</em> within months</h3>
+          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:#DBBAFF">Employability runs through every course from the start, so you leave with experience behind you as well as a degree.</p>
+          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#5C358E">
             <span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; text-align:center; white-space:nowrap; line-height:1; color:#291647">Discover more</span>
             <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block">
           </a>
@@ -279,13 +279,13 @@
         </div>
         <div data-reason-text="1" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:flex-start">
           <div style="position:relative; display:flex; flex-direction:column; gap:30px; align-items:flex-start; flex-shrink:0; align-self:stretch">
-          <span data-name="Reason motif" aria-hidden="true" style="width:40px; height:40px; display:block; flex-shrink:0; background:#C68EFD; -webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></span>
           <div data-component="Frame 166" style="position:relative; width:141px; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0">
-            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:var(--fg, #FFFFFF)">Small classes</span>
+            <img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; flex-shrink:0; display:block">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#FFFFFF">Small classes</span>
           </div>
-          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:50px; line-height:1.2000000476837158; color:var(--fg, #FFFFFF)">Small classes, <em style="font-style:italic">big thinking</em></h3>
-          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:var(--body, #DBBAFF)">Seminars small enough that your tutors know your name, and where being wrong out loud is part of how you learn.</p>
-          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#291647">
+          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:72px; line-height:1.2000000476837158; color:#FFFFFF">Small classes, <em style="font-style:italic">big thinking</em></h3>
+          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:#DBBAFF">Seminars small enough that your tutors know your name, and where being wrong out loud is part of how you learn.</p>
+          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#5C358E">
             <span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; text-align:center; white-space:nowrap; line-height:1; color:#291647">Discover more</span>
             <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block">
           </a>
@@ -293,17 +293,43 @@
         </div>
         <div data-reason-text="2" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:flex-start">
           <div style="position:relative; display:flex; flex-direction:column; gap:30px; align-items:flex-start; flex-shrink:0; align-self:stretch">
-          <span data-name="Reason motif" aria-hidden="true" style="width:40px; height:40px; display:block; flex-shrink:0; background:#C68EFD; -webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></span>
           <div data-component="Frame 166" style="position:relative; width:100px; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0">
-            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:var(--fg, #FFFFFF)">The place</span>
+            <img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; flex-shrink:0; display:block">
+            <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#FFFFFF">The place</span>
           </div>
-          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:50px; line-height:1.2000000476837158; color:var(--fg, #FFFFFF)">The UK's <em style="font-style:italic">safest</em> university city</h3>
-          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:var(--body, #DBBAFF)">A small, walkable city with a campus you can cross in fifteen minutes. Somewhere you can settle in quickly and feel at home.</p>
-          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#291647">
+          <h3 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:72px; line-height:1.2000000476837158; color:#FFFFFF">The UK's <em style="font-style:italic">safest</em> university city</h3>
+          <p style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; line-height:1.600000023841858; color:#DBBAFF">A small, walkable city with a campus you can cross in fifteen minutes. Somewhere you can settle in quickly and feel at home.</p>
+          <a href="#" data-component="Button" style="position:relative; height:60px; overflow:hidden; border-radius:5px; background-color:#C68EFD; display:flex; flex-direction:row; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; transition:background-color 0.2s ease" style-hover="background-color:#5C358E">
             <span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; text-align:center; white-space:nowrap; line-height:1; color:#291647">Discover more</span>
             <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block">
           </a>
         </div>
+        </div>
+      </div>
+      <div data-name="Motifs" style="position:relative; width:100px; background-color:#291647; overflow:hidden; flex-shrink:0; align-self:stretch">
+        <div data-name="Motif strip" style="position:absolute; left:0; top:0; width:100px; display:flex; flex-direction:column; gap:20px; align-items:flex-start; will-change:transform">
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></div></div><div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></div></div><div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></div></div>
+          <div style="width:86.5px; height:86.5px; flex-shrink:0; background-color:#5C358E; display:flex; justify-content:center; align-items:center"><div style="width:100%; height:100%; background-color:#291647; -webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></div></div>
         </div>
       </div>
     </div>
@@ -350,7 +376,7 @@
         <div style="display:flex; gap:5px; align-items:center"><img src="motifs/fig-star8-purple.svg" alt="" style="width:8px; height:8px; display:block" /><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; color:#FFFFFF">What’s on</span></div>
         <h2 style="margin:0; font-family:'IvyPresto Display', serif; font-weight:400; font-size:60px; line-height:1.2; color:#FFFFFF">Open days and <em style="font-style:italic; color:#C68EFD">events</em></h2>
       </div>
-      <a href="#" style="height:60px; border-radius:5px; background-color:#C68EFD; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#DBBAFF"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
+      <a href="#" data-component="Button" style="height:60px; border-radius:5px; background-color:#C68EFD; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; flex-shrink:0; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#5C358E"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
     </div>
     <div data-name="Events grid" style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:20px">
         <a href="#" style="display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding:30px; border-radius:15px; background-color:#3D2566; text-decoration:none; transition:background-color .25s ease" style-hover="background-color:#5C358E">
@@ -408,7 +434,7 @@
       <div style="display:flex; flex-direction:column; gap:24px; align-items:flex-start">
         <img src="assets/fig/logo-fig-white.svg" alt="University of Winchester" style="width:200px; height:auto; display:block" />
         <p style="margin:0; font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.5; color:#DBBAFF">University of Winchester<br />Sparkford Road, Winchester<br />Hampshire SO22 4NR</p>
-        <a href="#" style="height:60px; border-radius:5px; background-color:#C68EFD; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#DBBAFF"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">Contact us</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
+        <a href="#" data-component="Button" style="height:60px; border-radius:5px; background-color:#C68EFD; display:flex; gap:10px; padding:20px; align-items:center; box-sizing:border-box; text-decoration:none; transition:background-color 0.2s ease" style-hover="background-color:#5C358E"><span style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; white-space:nowrap; line-height:1; color:#291647">Contact us</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px; flex-shrink:0; display:block" /></a>
       </div>
       <div style="display:flex; flex-direction:column; gap:14px"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD; margin-bottom:6px">Study</span><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Undergraduate</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Postgraduate</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">International</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Clearing</a></div>
       <div style="display:flex; flex-direction:column; gap:14px"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#C68EFD; margin-bottom:6px">Visit</span><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Open days</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Campus tours</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Find us</a><a href="#" style="font-family:Figtree, sans-serif; font-weight:500; font-size:16px; line-height:1.4; color:#FFFFFF; text-decoration:none; transition:color .2s ease" style-hover="color:#C68EFD">Accommodation</a></div>
@@ -1327,13 +1353,7 @@ class Component extends DCLogic {
     const strip = sec.querySelector('[data-name="Motif strip"]');
     const words = texts.map((t) => this._split(t.querySelector('h3')));
     const rest = texts.map((t) => [...t.firstElementChild.children].filter((c) => c.tagName !== 'H3'));
-    const STAR = "M 611.077 301.577 C 498.575 301.577 317.423 120.465 317.423 7.923 C 317.423 3.526 313.857 0 309.5 0 C 305.143 0 301.577 3.565 301.577 7.923 C 301.577 120.425 120.465 301.577 7.923 301.577 C 3.565 301.577 0 305.143 0 309.5 C 0 313.857 3.565 317.423 7.923 317.423 C 120.425 317.423 301.577 498.535 301.577 611.077 C 301.577 615.474 305.143 619 309.5 619 C 313.857 619 317.423 615.435 317.423 611.077 C 317.423 498.575 498.535 317.423 611.077 317.423 C 615.435 317.423 619 313.857 619 309.5 C 619 305.143 615.435 301.577 611.077 301.577 Z";
-    const starAt = (el, size) => {
-      const w = el.offsetWidth, h = el.offsetHeight, k = Math.max(size, 0.01) / 619, ox = w / 2 - 309.5 * k, oy = h / 2 - 309.5 * k;
-      let n = 0;
-      return 'path("' + STAR.replace(/-?\d*\.?\d+/g, (v) => (n++ % 2 === 0 ? ox + parseFloat(v) * k : oy + parseFloat(v) * k).toFixed(2)) + '")';
-    };
-    imgs.slice(1).forEach((el) => { el.style.clipPath = starAt(el, 0); });
+    gsap.set(imgs.slice(1), { clipPath: 'circle(0% at 50% 50%)' });
     gsap.set(texts.slice(1), { autoAlpha: 0 });
     let active = 0;
     const show = (i) => {
@@ -1344,33 +1364,16 @@ class Component extends DCLogic {
       gsap.fromTo(words[i], { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1, ease: 'power4.out', stagger: 0.06, delay: 0.25, overwrite: true });
       gsap.fromTo(rest[i], { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.08, delay: 0.45, overwrite: true });
     };
-    const rps = [...sec.querySelectorAll('[data-rp]')];
-    const SEG = [[0, 0.85], [0.85, 1.85], [1.85, 3.75]];
-    const paint = (p) => {
-      const v = p * 3.75, cur = Math.min(2, Math.floor(v + 0.15));
-      rps.forEach((b, i) => {
-        const f = Math.max(0, Math.min(1, (v - SEG[i][0]) / (SEG[i][1] - SEG[i][0])));
-        b.firstElementChild.nextElementSibling.firstElementChild.style.transform = 'scaleY(' + f.toFixed(3) + ')';
-        b.style.opacity = i === cur ? '1' : '0.45';
-        if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-      });
-    };
-    rps.forEach((b, i) => b.addEventListener('click', () => {
-      const top = sec.getBoundingClientRect().top - frame.getBoundingClientRect().top + frame.scrollTop;
-      const p = (SEG[i][0] + (i ? 0.3 : 0)) / 3.75;
-      frame.scrollTo({ top: top + p * (sec.offsetHeight - frame.clientHeight) + (i ? 0 : 1), behavior: 'smooth' });
-    }));
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sec, scroller: frame, start: 'top top', end: 'bottom bottom', scrub: 0.6,
-        onUpdate: (self) => { show(Math.min(2, Math.floor(self.progress * 3.75 + 0.15))); paint(self.progress); }
+        onUpdate: (self) => show(Math.min(2, Math.floor(self.progress * 3 + 0.15)))
       }
     });
-    tl.to({}, { duration: 3.75 }, 0);
+    tl.to(strip, { y: -(strip.scrollHeight - 832), ease: 'none', duration: 3 }, 0);
     [1, 2].forEach((i) => {
       const at = i - 0.35;
-      const o = { t: 0 }, el = imgs[i];
-      tl.to(o, { t: 1, ease: 'power2.inOut', duration: 0.7, onUpdate: () => { el.style.clipPath = o.t >= 0.999 ? 'none' : starAt(el, o.t * Math.hypot(el.offsetWidth, el.offsetHeight) * 2.2); } }, at)
+      tl.to(imgs[i], { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.inOut', duration: 0.7 }, at)
         .fromTo(imgs[i - 1], { scale: 1 }, { scale: 1.08, ease: 'power2.inOut', duration: 0.7 }, at)
         .fromTo(imgs[i], { scale: 1.12 }, { scale: 1, ease: 'power2.out', duration: 0.9 }, at);
     });
