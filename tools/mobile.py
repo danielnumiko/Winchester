@@ -46,6 +46,14 @@ SOCIAL = ["Facebook", "X", "Instagram", "YouTube", "LinkedIn"]
 ARROW = '<img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico">'
 
 
+def story_detail():
+    """The story pages' content lives in the desktop page; read it from there so both stay in step."""
+    import json
+    lines = open("Round 2 Variant 1.dc.html", encoding="utf-8").read().split("\n")
+    start = next(i for i, l in enumerate(lines) if l.startswith("const STORY_DETAIL = ["))
+    return [json.loads(lines[start + k].strip().rstrip(",")) for k in range(1, len(STORIES) + 1)]
+
+
 def btn(label, cls="btn"):
     return f'<a href="#" class="{cls}"><span>{label}</span>{ARROW}</a>'
 
@@ -226,6 +234,34 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .on-lp .btn.dark:hover, .on-lp .btn.dark:active { background:#FFFFFF; color:var(--dp); }
 .on-lp .btn.dark:hover .ico { filter:none; }
 
+/* Story page: opens over the homepage with an arch wipe */
+#wipe { position:absolute; inset:0; z-index:60; background:var(--lp); visibility:hidden; pointer-events:none; }
+#story { position:absolute; inset:0; z-index:50; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; background:#FFFFFF; visibility:hidden; }
+#story::-webkit-scrollbar { display:none; }
+#story.open { visibility:visible; }
+#story .s-hero { position:relative; height:460px; background-size:cover; background-position:center 30%; }
+#story .s-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(rgba(41,22,71,.35), rgba(41,22,71,0) 40%); }
+#story .mnav { top:12px; }
+html[data-m-navfull="on"] #story .mnav { top:0; }
+#story .panel { position:relative; margin-top:-30px; border-radius:30px 30px 0 0; background:#FFFFFF; color:var(--dp); padding:0 24px 48px; }
+#story .crumb { margin:0 -24px; padding:16px 24px; border-radius:30px 30px 0 0; background:var(--lp); display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+#story .crumb a, #story .crumb span { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--dp); }
+#story .crumb svg { width:5px; height:7px; display:block; }
+#story h1 { margin:28px 0 0; font-size:36px; line-height:1.15; text-wrap:balance; }
+#story .meta { margin-top:14px; font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--mp); }
+#story .stand { margin:24px 0 0; font-weight:500; font-size:20px; line-height:1.5; }
+#story h2 { margin:36px 0 0; font-size:26px; line-height:1.2; }
+#story p.b { margin:14px 0 0; font-weight:500; font-size:17px; line-height:1.6; color:#3D2566; }
+#story blockquote { margin:40px 0 8px; padding:28px 24px; border-radius:15px; background:var(--dp); color:#FFFFFF; font-family:'IvyPresto Display', serif; font-size:28px; line-height:1.25; }
+#story blockquote::before { content:""; display:block; width:28px; height:28px; margin-bottom:14px; background:var(--lime); -webkit-mask:url(motifs/i-quote.svg) center / contain no-repeat; mask:url(motifs/i-quote.svg) center / contain no-repeat; }
+#story .img2 { margin-top:32px; height:260px; border-radius:15px; background-size:cover; background-position:center; }
+#story .next { margin-top:48px; display:flex; flex-direction:column; border-radius:15px; overflow:hidden; background:var(--grey); color:var(--dp); cursor:pointer; text-align:left; border:0; padding:0; width:100%; font:inherit; }
+#story .next .img { height:200px; border-radius:15px; background-size:cover; background-position:center; }
+#story .next .k { padding:20px 20px 6px; font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mp); display:flex; align-items:center; gap:8px; }
+#story .next .q { padding:0 20px 22px; font-weight:600; font-size:19px; line-height:1.3; }
+#story .next:hover { background:var(--lp); }
+#story .back { margin-top:24px; }
+
 /* Footer */
 footer { background:var(--dp); color:#FFFFFF; padding:56px 24px 32px; display:flex; flex-direction:column; gap:40px; }
 footer .contact { display:flex; flex-direction:column; align-items:flex-start; gap:20px; }
@@ -330,6 +366,61 @@ JS = r"""
   vp.addEventListener('scroll', function () { requestAnimationFrame(reasons); }, { passive: true });
   addEventListener('load', reasons); reasons();
 
+  // Story pages: tap a story card, an arch wipe rises, the story opens full screen
+  var story = document.getElementById('story'), wipe = document.getElementById('wipe'), cur = 0, busy = false;
+  function q(sel) { return story.querySelector('[data-s="' + sel + '"]'); }
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function fill(i) {
+    var s = STORIES[i], d = STORY_DETAIL[i], nx = STORIES[(i + 1) % STORIES.length], parts = s.name.split(',').map(function (x) { return x.trim(); });
+    var hl = d.headline || s.quote, fn = parts[0], hi = hl.indexOf(fn);
+    q('hero').style.backgroundImage = 'url(' + s.img + ')'; q('hero').style.backgroundPosition = d.imgPos || 'center 30%';
+    q('first').textContent = fn;
+    q('h1').innerHTML = hi > -1 ? esc(hl.slice(0, hi)) + '<em>' + esc(fn) + '</em>' + esc(hl.slice(hi + fn.length)) : esc(hl);
+    q('meta').textContent = parts.slice(1).join(' · ');
+    q('stand').textContent = d.standfirst || '';
+    function sec(arr) { return (arr || []).map(function (x) { return (x.q ? '<h2 class="serif">' + esc(x.q) + '</h2>' : '') + x.paras.map(function (p) { return '<p class="b">' + esc(p) + '</p>'; }).join(''); }).join(''); }
+    q('body1').innerHTML = sec(d.body1); q('body2').innerHTML = sec(d.body2);
+    q('pull').textContent = d.pull ? '“' + d.pull + '”' : ''; q('pull').style.display = d.pull ? '' : 'none';
+    q('img2').style.backgroundImage = d.img2 ? 'url(' + d.img2 + ')' : ''; q('img2').style.display = d.img2 ? '' : 'none';
+    q('nextimg').style.backgroundImage = 'url(' + nx.img + ')'; q('nextq').textContent = nx.quote;
+    story.scrollTop = 0; cur = i;
+  }
+  var VW = 390, VH = 844;
+  function archClip(t) {
+    // Westgate arch rising from the bottom; t = 0 hidden, 1 covers the screen
+    var w = 200 + (VW * 2.6 - 200) * t, h = (VH + w * 0.3 + 40) * t, k = w / 208, x0 = VW / 2 - w / 2, top = VH - h;
+    var X = function (x) { return (x0 + x * k).toFixed(1); }, Y = function (y) { return (top + y * k).toFixed(1); };
+    return 'path("M ' + X(0) + ' ' + (VH + 2) + ' L ' + X(0) + ' ' + Y(56.077) + ' C ' + X(16.533) + ' ' + Y(36.281) + ' ' + X(48.374) + ' ' + Y(9.929) + ' ' + X(105.147) + ' ' + Y(0) + ' L ' + X(105.178) + ' ' + Y(0) + ' C ' + X(159.409) + ' ' + Y(9.494) + ' ' + X(190.878) + ' ' + Y(33.951) + ' ' + X(208) + ' ' + Y(53.389) + ' L ' + X(208) + ' ' + (VH + 2) + ' Z")';
+  }
+  function play(dur, from, to, cb) {
+    var t0 = performance.now(), e = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    var done = false, finish = function () { if (done) return; done = true; wipe.style.clipPath = archClip(to); cb && cb(); };
+    (function f(now) { if (done) return; var p = Math.min(1, (now - t0) / dur), v = from + (to - from) * e(p); wipe.style.clipPath = archClip(v); if (p < 1) requestAnimationFrame(f); else finish(); })(t0);
+    setTimeout(finish, dur + 120); // never leave the wipe hanging if frames are paused
+  }
+  function openStory(i) {
+    if (busy) return; busy = true;
+    var show = function () { fill(i); story.classList.add('open'); story.setAttribute('aria-hidden', 'false'); };
+    if (reduced) { show(); busy = false; return; }
+    wipe.style.opacity = '1'; wipe.style.visibility = 'visible'; wipe.style.clipPath = archClip(0);
+    play(700, 0, 1, function () {
+      show();
+      wipe.style.transition = 'opacity .45s ease'; wipe.style.opacity = '0';
+      setTimeout(function () { wipe.style.visibility = 'hidden'; wipe.style.transition = ''; busy = false; }, 460);
+    });
+  }
+  function closeStory() {
+    story.classList.remove('open'); story.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('[data-story]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); openStory(Number(a.getAttribute('data-story'))); });
+  });
+  story.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-close]'); if (c) { e.preventDefault(); closeStory(); return; }
+    var n = e.target.closest('[data-next]'); if (n) { e.preventDefault(); openStory((cur + 1) % STORIES.length); }
+  });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && story.classList.contains('open')) closeStory(); });
+
   // Hero intro: the film opens through the arch, then the header and copy fade in
   (function archIntro() {
     var film = document.getElementById('film'), hero = document.getElementById('hero');
@@ -359,6 +450,7 @@ JS = r"""
 
 
 def page(v, switcher):
+    import json
     o = VARIANTS[v]
     promos = "".join(
         f'<a href="#" class="promo"><span class="thumb" style="background-image:url({img}); background-position:{pos}">'
@@ -368,7 +460,7 @@ def page(v, switcher):
     dots = "".join(f'<button aria-label="Show promotion {i + 1}"></button>' for i in range(len(PROMOS)))
     # three copies so the slider can loop; the middle copy is the real one
     promos = "".join(promos.replace('class="promo"', f'class="promo" data-copy="{c}"' + ('' if c == 1 else ' aria-hidden="true" tabindex="-1"')) for c in range(3))
-    stories = "".join(f'<a href="#" class="story"><span class="img" style="background-image:url({img})"></span><span class="q">{q}</span><span class="n">{n}</span></a>' for img, q, n in STORIES)
+    stories = "".join(f'<a href="#" class="story" data-story="{i}"><span class="img" style="background-image:url({img})"></span><span class="q">{q}</span><span class="n">{n}</span></a>' for i, (img, q, n) in enumerate(STORIES))
     life = "".join(f'<li><a href="#"><span>{t}</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li>' for t in LIFE)
     rimgs = "".join(f'<div style="background-image:url({img})"></div>' for img, *_ in REASONS)
     rtexts = "".join(f'<div class="rt">{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>' for _, k, h, p in REASONS)
@@ -447,7 +539,28 @@ def page(v, switcher):
     <span class="copy">© University of Winchester 2026</span>
   </footer>
 
-</div></div></div>
+</div>
+<div id="story" role="dialog" aria-modal="true" aria-label="Story" aria-hidden="true">
+  <div class="s-hero" data-s="hero">
+    <nav class="mnav" aria-label="Main"><a href="#" data-close="1" aria-label="University of Winchester home"><img class="logo dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester"><img class="logo light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester"></a>
+      <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div></nav>
+  </div>
+  <article class="panel">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#" data-close="1">Home</a><svg viewBox="0 0 6 8" aria-hidden="true"><path d="M0 0 L6 4 L0 8 Z" fill="#291647"></path></svg><a href="#" data-close="1">Stories made here</a><svg viewBox="0 0 6 8" aria-hidden="true"><path d="M0 0 L6 4 L0 8 Z" fill="#291647"></path></svg><span aria-current="page" data-s="first"></span></nav>
+    <h1 class="serif" data-s="h1"></h1>
+    <div class="meta" data-s="meta"></div>
+    <p class="stand" data-s="stand"></p>
+    <div data-s="body1"></div>
+    <blockquote data-s="pull"></blockquote>
+    <div class="img2" data-s="img2"></div>
+    <div data-s="body2"></div>
+    <button class="next" data-next="1"><span class="img" data-s="nextimg"></span><span class="k">Next story <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px"></span><span class="q" data-s="nextq"></span></button>
+    <div class="back"><a href="#" class="btn" data-close="1"><span>Back to home</span>{ARROW}</a></div>
+  </article>
+</div>
+<div id="wipe" aria-hidden="true"></div>
+</div></div>
+<script>window.STORIES = {json.dumps([dict(img=i, quote=q, name=n) for i, q, n in STORIES], ensure_ascii=False)}; window.STORY_DETAIL = {json.dumps(story_detail(), ensure_ascii=False)};</script>
 <script>{JS}</script>
 </body>
 </html>
