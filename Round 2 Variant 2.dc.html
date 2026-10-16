@@ -45,11 +45,6 @@
   html[data-o-icon="flower"] [data-name="Hero star"] { -webkit-mask-image:url(motifs/m-flower.svg) !important; mask-image:url(motifs/m-flower.svg) !important; }
   html[data-o-icon="chapel"] [data-name="Hero star"] { -webkit-mask-image:url(motifs/m-chapel.svg) !important; mask-image:url(motifs/m-chapel.svg) !important; }
   html[data-o-icon="none"] [data-name="Hero star"] { display:none !important; }
-  /* Option: embedded search (6, 18) */
-  html[data-o-search="on"] [data-hero-search] { display:flex !important; }
-  [data-hero-search] input::placeholder { color:#5C358E; opacity:1; }
-  [data-hero-search] input:focus { outline:none; }
-  [data-hero-search] [data-search-field]:focus-within { box-shadow:0 0 0 3px #C68EFD; }
   /* Buttons: light purple, dark purple with white text on hover (round 2) */
   [data-nav-ask], [data-nav-menu] { transition:background-color .2s ease, color .2s ease !important; }
   [data-nav-ask]:hover, [data-nav-menu]:hover { background:#291647 !important; color:#FFFFFF !important; }
@@ -169,18 +164,6 @@
       <div style="position:relative; display:flex; flex-direction:column; gap:20px; align-items:center; flex-shrink:0; align-self:stretch">
         <span data-name="Hero star" aria-hidden="true" style="display:block; width:48px; height:48px; flex-shrink:0; margin-bottom:-8px; background:#C68EFD; -webkit-mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat"></span>
         <h1 style="position:relative; margin:0; flex-shrink:0; align-self:stretch; font-family:'IvyPresto Display', serif; font-weight:400; font-size:88px; text-align:center; line-height:1.05; text-shadow:0 2px 24px rgba(20,10,40,0.28); letter-spacing:-.01em; text-wrap:balance; color:var(--fg, #FFFFFF)">The best version of you isn’t found, <em style="font-style:italic">it’s made.</em></h1>
-      </div>
-      <div data-hero-search="1" style="display:none; flex-direction:column; align-items:center; gap:16px; width:1000px">
-        <div data-search-field="1" role="search" style="width:720px; height:72px; border-radius:5px; background:#FFFFFF; display:flex; align-items:center; gap:20px; padding:6px 6px 6px 24px; box-sizing:border-box">
-          <input type="search" aria-label="Ask us anything about studying here" placeholder="Ask us anything about studying here" style="flex:1 1 auto; min-width:0; border:0; background:transparent; font-family:Figtree, sans-serif; font-weight:500; font-size:20px; color:#291647" />
-          <button aria-label="Search" style="width:60px; height:60px; flex-shrink:0; border:0; border-radius:5px; background:#C68EFD; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease" style-hover="background-color:#291647"><img src="motifs/fig-icon-search.svg" alt="" style="width:18px; height:18px; display:block" /></button>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:center">
-          <span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:#FFFFFF; margin-right:4px">Try asking</span>
-          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">Which nursing courses include placements?</a>
-          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">What’s it like to live in Winchester?</a>
-          <a href="#" style="display:flex; align-items:center; height:36px; padding:0 14px; border-radius:5px; background:rgba(255,255,255,0.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); font-family:Figtree, sans-serif; font-weight:500; font-size:14px; color:#FFFFFF; white-space:nowrap; text-decoration:none; transition:background-color .2s ease" style-hover="background-color:rgba(198,142,253,0.85)">Can I study part-time?</a>
-        </div>
       </div>
     </div>
   
