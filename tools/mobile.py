@@ -215,10 +215,10 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 
 /* International banner */
 #intl { background:var(--lp); color:var(--dp); padding-bottom:48px; }
-/* The curved frame keeps its proportions (834:735) and is turned a quarter so its motif edge runs along the bottom */
+/* Flower window at its true proportions (79.4:86.5); only its bottom edge shows, so the motif runs horizontally */
 #intl .photo { position:relative; width:390px; height:380px; overflow:hidden; }
-#intl .photo .rot { position:absolute; width:443px; height:390px; left:-26.5px; top:-35.5px; transform:rotate(-90deg); -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; }
-#intl .photo .pic { position:absolute; width:390px; height:443px; left:26.5px; top:-26.5px; transform:rotate(90deg); background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; }
+#intl .photo .fl { position:absolute; left:-135px; top:-334px; width:660px; height:714px; -webkit-mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; }
+#intl .photo .pic { position:absolute; left:135px; top:334px; width:390px; height:380px; background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; }
 #intl .body { padding:8px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
 #intl .eyebrow span { color:var(--dp); }
 #intl h2 { margin:0; font-size:40px; line-height:1.15; }
@@ -432,7 +432,7 @@ def page(v, switcher):
   </section>
 
   <section id="intl" class="on-lp" data-screen-label="International">
-    <div class="photo" aria-hidden="true"><div class="rot"><div class="pic"></div></div></div>
+    <div class="photo" aria-hidden="true"><div class="fl"><div class="pic"></div></div></div>
     <div class="body">{eyebrow("International students", star=False)}<h2 class="serif">Study in the UK, <em>made</em> for you</h2><p>Everything you need to know about studying at Winchester, from entry requirements and visas to scholarships and settling in.</p>{btn("Find out more", "btn dark")}</div>
   </section>
 
