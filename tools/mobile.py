@@ -219,7 +219,7 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 #intl .photo { position:relative; width:390px; height:380px; overflow:hidden; }
 #intl .photo .fl { position:absolute; left:-135px; top:-334px; width:660px; height:714px; -webkit-mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; }
 #intl .photo .pic { position:absolute; left:135px; top:334px; width:390px; height:380px; background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; }
-#intl .body { padding:8px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+#intl .body { padding:36px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
 #intl .eyebrow span { color:var(--dp); }
 #intl h2 { margin:0; font-size:40px; line-height:1.15; }
 #intl p { margin:0; font-size:17px; line-height:1.45; }
@@ -294,14 +294,16 @@ JS = r"""
   pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });
   paintDots();
 
-  // Stories carousel: counter and arrows
-  var sc = document.querySelector('#stories .car'), cnt = document.querySelector('#stories .count'), n = sc.children.length;
+  // Carousels with a counter and arrows (stories, events)
   var pad = function (v) { return (v < 10 ? '0' : '') + v; };
-  function paintCount() { cnt.textContent = pad(indexOf(sc) + 1) + ' / ' + pad(n); }
-  sc.addEventListener('scroll', function () { requestAnimationFrame(paintCount); }, { passive: true });
-  document.querySelector('#stories .prev').addEventListener('click', function () { goTo(sc, Math.max(0, indexOf(sc) - 1)); });
-  document.querySelector('#stories .next').addEventListener('click', function () { goTo(sc, Math.min(n - 1, indexOf(sc) + 1)); });
-  paintCount();
+  document.querySelectorAll('.car-ctrl').forEach(function (ctrl) {
+    var car = ctrl.previousElementSibling, cnt = ctrl.querySelector('.count'), n = car.children.length;
+    function paint() { cnt.textContent = pad(indexOf(car) + 1) + ' / ' + pad(n); }
+    car.addEventListener('scroll', paint, { passive: true });
+    ctrl.querySelector('.prev').addEventListener('click', function () { goTo(car, Math.max(0, indexOf(car) - 1)); });
+    ctrl.querySelector('.next').addEventListener('click', function () { goTo(car, Math.min(n - 1, indexOf(car) + 1)); });
+    paint();
+  });
 
   // 3 Reasons: sticky, scroll-driven; images open with the star reveal, motif strip slides
   var sec = document.getElementById('reasons'), imgs = Array.from(sec.querySelectorAll('.imgs div')), texts = Array.from(sec.querySelectorAll('.rt')), row = sec.querySelector('.strip .row');
@@ -428,6 +430,7 @@ def page(v, switcher):
   <section id="events" data-screen-label="Events">
     <div class="head">{eyebrow("What’s on")}<h2 class="sec serif">Open days and <em>events</em></h2></div>
     <div class="car">{events}</div>
+    <div class="car-ctrl"><span class="count">01 / 0{len(EVENTS)}</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
     <div class="after">{btn("All events")}</div>
   </section>
 
