@@ -240,9 +240,10 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 #story { position:absolute; inset:0; z-index:50; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; background:#FFFFFF; visibility:hidden; }
 #story::-webkit-scrollbar { display:none; }
 #story.open { visibility:visible; }
-#story .s-hero { position:relative; height:460px; background-size:cover; background-position:center 30%; }
-#story .s-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(rgba(41,22,71,.35), rgba(41,22,71,0) 40%); }
-#story .mnav { top:12px; }
+#story .s-hero { position:relative; height:460px; overflow:hidden; }
+#story .s-img { position:absolute; left:0; right:0; top:0; height:600px; background-size:cover; background-position:center 30%; will-change:transform; }
+#story .s-hero::after { content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(rgba(41,22,71,.35), rgba(41,22,71,0) 40%); }
+#story .mnav { top:12px; z-index:2; }
 html[data-m-navfull="on"] #story .mnav { top:0; }
 #story .panel { position:relative; margin-top:-30px; border-radius:30px 30px 0 0; background:#FFFFFF; color:var(--dp); padding:0 24px 48px; }
 #story .crumb { margin:0 -24px; padding:16px 24px; border-radius:30px 30px 0 0; background:var(--lp); display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
@@ -388,8 +389,12 @@ JS = r"""
     q('pull').textContent = d.pull ? '“' + d.pull + '”' : ''; q('pull').style.display = d.pull ? '' : 'none';
     q('img2').style.backgroundImage = d.img2 ? 'url(' + d.img2 + ')' : ''; q('img2').style.display = d.img2 ? '' : 'none';
     q('nextimg').style.backgroundImage = 'url(' + nx.img + ')'; q('nextq').textContent = nx.quote;
-    story.scrollTop = 0; cur = i;
+    story.scrollTop = 0; parallax(); cur = i;
   }
+  // The hero photo scrolls up at half speed
+  var heroImg = story.querySelector('.s-img');
+  function parallax() { var y = Math.min(story.scrollTop, 460); heroImg.style.transform = reduced ? 'none' : 'translateY(' + (y * 0.5).toFixed(1) + 'px)'; }
+  story.addEventListener('scroll', parallax, { passive: true });
   // Easings matching GSAP's power2/power3/expo
   var E = {
     p2io: function (t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; },
@@ -609,7 +614,8 @@ def page(v, switcher):
 
 </div>
 <div id="story" role="dialog" aria-modal="true" aria-label="Story" aria-hidden="true">
-  <div class="s-hero" data-s="hero">
+  <div class="s-hero">
+    <div class="s-img" data-s="hero" aria-hidden="true"></div>
     <nav class="mnav" aria-label="Main"><a href="#" data-close="1" aria-label="University of Winchester home"><img class="logo dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester"><img class="logo light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester"></a>
       <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div></nav>
   </div>
