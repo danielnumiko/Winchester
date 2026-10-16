@@ -1001,7 +1001,7 @@ class Component extends DCLogic {
       layer.style.background = box.style.background;
       box.style.background = 'none';
       box.appendChild(layer);
-      if (reduced) return;
+      if (reduced || card.closest('[data-screen-label="News"]')) return;
       card.addEventListener('mouseenter', () => { layer.style.transform = 'scale(1.05)'; });
       card.addEventListener('mouseleave', () => { layer.style.transform = 'scale(1)'; });
     });
@@ -1065,6 +1065,29 @@ class Component extends DCLogic {
       });
     });
   }
+  _teaserArrow(img) {
+    const rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (getComputedStyle(img).position === 'static') img.style.position = 'relative';
+    const box = document.createElement('span');
+    box.setAttribute('aria-hidden', 'true');
+    box.style.cssText = 'position:absolute; right:20px; bottom:20px; width:60px; height:60px; border-radius:5px; background:#C68EFD; display:flex; align-items:center; justify-content:center; overflow:hidden; opacity:0; transform:translateY(12px) scale(0.9); transition:opacity .3s ease, transform .45s cubic-bezier(.22,1,.36,1); pointer-events:none; z-index:2';
+    const clip = document.createElement('span');
+    clip.style.cssText = 'position:relative; width:14px; height:14px; overflow:hidden; display:block';
+    const mk = (x) => { const i = document.createElement('img'); i.src = 'motifs/fig-icon-arrow-dark.svg'; i.alt = ''; i.style.cssText = 'position:absolute; left:0; top:0; width:14px; height:14px; display:block; transform:translateX(' + x + '); transition:transform .45s cubic-bezier(.65,0,.35,1)'; return i; };
+    const a1 = mk('0'), a2 = mk('-100%');
+    clip.appendChild(a1); clip.appendChild(a2); box.appendChild(clip);
+    img.appendChild(box);
+    return {
+      on: () => {
+        box.style.opacity = '1'; box.style.transform = 'translateY(0) scale(1)';
+        if (rm) return;
+        a1.style.transition = a2.style.transition = 'none'; a1.style.transform = 'translateX(0)'; a2.style.transform = 'translateX(-100%)'; void a1.offsetWidth;
+        a1.style.transition = a2.style.transition = 'transform .45s cubic-bezier(.65,0,.35,1) .15s';
+        a1.style.transform = 'translateX(100%)'; a2.style.transform = 'translateX(0)';
+      },
+      off: () => { box.style.opacity = '0'; box.style.transform = 'translateY(12px) scale(0.9)'; }
+    };
+  }
   _setupQuoteHovers() {
     const frame = this.frameRef.current;
     if (!frame || this._qhDone) return;
@@ -1078,24 +1101,11 @@ class Component extends DCLogic {
       if (news) setTimeout(() => news.querySelectorAll('a[data-name="Quote"]').forEach((card) => {
         const img = card.firstElementChild;
         if (!img) return;
-        if (getComputedStyle(img).position === 'static') img.style.position = 'relative';
-        const box = document.createElement('span');
-        box.setAttribute('aria-hidden', 'true');
-        box.style.cssText = 'position:absolute; right:20px; bottom:20px; width:60px; height:60px; border-radius:5px; background:#C68EFD; display:flex; align-items:center; justify-content:center; overflow:hidden; opacity:0; transform:translateY(12px) scale(0.9); transition:opacity .3s ease, transform .45s cubic-bezier(.22,1,.36,1); pointer-events:none; z-index:2';
-        const clip = document.createElement('span');
-        clip.style.cssText = 'position:relative; width:14px; height:14px; overflow:hidden; display:block';
-        const mk = (x) => { const i = document.createElement('img'); i.src = 'motifs/fig-icon-arrow-dark.svg'; i.alt = ''; i.style.cssText = 'position:absolute; left:0; top:0; width:14px; height:14px; display:block; transform:translateX(' + x + '); transition:transform .45s cubic-bezier(.65,0,.35,1)'; return i; };
-        const a1 = mk('0'), a2 = mk('-100%');
-        clip.appendChild(a1); clip.appendChild(a2); box.appendChild(clip);
-        img.appendChild(box);
-        card.addEventListener('mouseenter', () => {
-          box.style.opacity = '1'; box.style.transform = 'translateY(0) scale(1)';
-          if (rm) return;
-          a1.style.transition = a2.style.transition = 'none'; a1.style.transform = 'translateX(0)'; a2.style.transform = 'translateX(-100%)'; void a1.offsetWidth;
-          a1.style.transition = a2.style.transition = 'transform .45s cubic-bezier(.65,0,.35,1) .15s';
-          a1.style.transform = 'translateX(100%)'; a2.style.transform = 'translateX(0)';
-        });
-        card.addEventListener('mouseleave', () => { box.style.opacity = '0'; box.style.transform = 'translateY(12px) scale(0.9)'; });
+        img.style.transformOrigin = '50% 50%';
+        img.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
+        const arrow = this._teaserArrow(img);
+        card.addEventListener('mouseenter', () => { arrow.on(); if (!rm) img.style.transform = 'scale(0.94)'; });
+        card.addEventListener('mouseleave', () => { arrow.off(); img.style.transform = 'scale(1)'; });
       }), 0);
     }
     if (!this._introCardsDone) {
@@ -1158,6 +1168,7 @@ class Component extends DCLogic {
         if (!a || !trk.contains(a) || (e.relatedTarget && a.contains(e.relatedTarget))) return;
         const img = a.querySelector('[data-card-img]');
         if (img && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) img.style.transform = on ? 'scale(0.94)' : 'scale(1)';
+        if (img) { if (!img.__arrow) img.__arrow = this._teaserArrow(img); if (on) img.__arrow.on(); else img.__arrow.off(); }
       };
       trk.addEventListener('mouseover', (e) => hov(e, true));
       trk.addEventListener('mouseout', (e) => hov(e, false));
