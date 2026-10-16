@@ -216,11 +216,10 @@
   </section>
 
   <section data-screen-label="Stats" style="position:relative; overflow:hidden; min-height:620px; background:#C68EFD; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
-    <div data-name="Life curved frame" aria-hidden="true" style="position:absolute; right:0; top:-7px; width:720px; height:634px; overflow:hidden; -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat">
     <sc-for list="{{ lifePanels }}" as="p" hint-placeholder-count="1">
-      <span aria-hidden="true" data-life-bg="1" style="position:absolute; left:0; right:0; top:-90px; bottom:-90px; display:block; background:url({{ p.img }}) center / cover no-repeat; opacity:{{ p.opacity }}; transition:opacity .6s ease; will-change:transform"></span>
+      <span aria-hidden="true" data-life-bg="1" style="position:absolute; left:380px; right:0; top:-90px; bottom:-90px; display:block; background:url({{ p.img }}) center / cover no-repeat; opacity:{{ p.opacity }}; transition:opacity .6s ease; will-change:transform"></span>
     </sc-for>
-    </div>
+    <svg data-name="Life curved frame" aria-hidden="true" viewBox="0 0 1280 620" preserveAspectRatio="none" style="position:absolute; z-index:1; inset:0; width:100%; height:100%; display:block; pointer-events:none"><path d="M0 0 H512 C 532 90 540 204 528 294 C 512 416 460 522 392 620 H0 Z" fill="#C68EFD"></path><path d="M517 620 C 640 542 760 514 872 514 C 1000 514 1118 535 1207 563 L 1207 620 Z" fill="#C68EFD"></path></svg>
     <div data-name="Stats panel" style="position:relative; z-index:2; width:420px; border-radius:0; background:transparent; padding:50px; box-sizing:border-box; display:flex; flex-direction:column; gap:20px">
       <div style="display:flex; gap:5px; align-items:center"><span style="font-family:Figtree, sans-serif; font-weight:600; font-size:11px; line-height:10px; letter-spacing:0.3em; text-transform:uppercase; white-space:nowrap; color:#291647">Life at Winchester</span></div>
       <div style="display:flex; flex-direction:column">
@@ -382,7 +381,7 @@
     </div>
   </section>
 
-  <section data-screen-label="Open days" style="position:relative; overflow:hidden; min-height:620px; background:#D4EF70; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
+  <section data-screen-label="Open days" style="position:relative; overflow:hidden; min-height:620px; background:#C68EFD; padding:60px 40px; box-sizing:border-box; display:flex; justify-content:flex-start; align-items:center; flex-shrink:0; align-self:stretch">
     <div data-name="Open days curved frame" aria-hidden="true" style="position:absolute; right:0; top:-7px; width:720px; height:634px; -webkit-mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-curve-mask.svg) 0 0 / 100% 100% no-repeat"><span style="position:absolute; inset:0; display:block; background:url(assets/fig/careers-hub.jpg) center / cover no-repeat"></span></div>
     <div style="position:relative; z-index:2; width:420px; display:flex; flex-direction:column; gap:20px; align-items:flex-start">
       <div data-component="Frame 166" style="position:relative; height:10px; display:flex; gap:5px; align-items:center; flex-shrink:0; align-self:stretch">
