@@ -270,7 +270,6 @@
 .wsm-chip:hover { background:#C68EFD; }\
 .wsm-chip.out { background:#FFFFFF; box-shadow:inset 0 0 0 1.5px #C68EFD; }\
 .wsm-chip.out:hover { background:#C68EFD; }\
-.wsm-q { align-self:flex-end; max-width:78%; padding:14px 18px; border-radius:15px 15px 4px 15px; background:#291647; color:#FFFFFF; font-weight:500; font-size:16px; line-height:1.45; }\
 .wsm-a { display:flex; gap:16px; align-items:flex-start; }\
 .wsm-av { flex:none; width:40px; height:40px; border-radius:50%; background:#291647; display:flex; align-items:center; justify-content:center; }\
 .wsm-av i { width:18px; height:18px; background:#D4EF70; -webkit-mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; }\
@@ -288,17 +287,26 @@
 .wsm-dots span { width:8px; height:8px; border-radius:50%; background:#C68EFD; animation:wsm-dot 1s infinite ease-in-out; }\
 .wsm-dots span:nth-child(2) { animation-delay:.15s; } .wsm-dots span:nth-child(3) { animation-delay:.3s; }\
 @keyframes wsm-dot { 0%, 80%, 100% { opacity:.3; transform:translateY(0); } 40% { opacity:1; transform:translateY(-4px); } }\
-.wsm-foot { flex:none; padding:16px 48px 22px; border-top:1px solid #EDE0FF; }\
-.wsm.mobile .wsm-foot { padding:12px 16px 16px; }\
-.wsm-field { height:60px; border-radius:5px; box-shadow:inset 0 0 0 2px #291647; display:flex; align-items:center; gap:12px; padding:0 8px 0 18px; }\
+.wsm-field { align-self:stretch; height:68px; border-radius:5px; box-shadow:inset 0 0 0 2px #291647; display:flex; align-items:center; gap:12px; padding:0 8px 0 18px; }\
 .wsm-field:focus-within { box-shadow:inset 0 0 0 2px #291647, 0 0 0 3px #C68EFD; }\
 .wsm-field > i { flex:none; width:18px; height:18px; background:#291647; -webkit-mask:url(motifs/fig-icon-search.svg) center / contain no-repeat; mask:url(motifs/fig-icon-search.svg) center / contain no-repeat; }\
-.wsm-field input { flex:1; min-width:0; border:0; outline:0; background:transparent; font:500 17px Figtree, sans-serif; color:#291647; }\
+.wsm-field input { flex:1; min-width:0; border:0; outline:0; background:transparent; font:500 19px Figtree, sans-serif; color:#291647; }\
 .wsm-field input::placeholder { color:#5C358E; opacity:1; }\
 .wsm-send { flex:none; width:44px; height:44px; border:0; border-radius:5px; background:#C68EFD; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }\
 .wsm-send img { width:14px; height:14px; transition:filter .2s ease; }\
 .wsm-send:hover { background:#291647; } .wsm-send:hover img { filter:brightness(0) invert(1); }\
-.wsm-hint { margin:10px 0 0; font-weight:500; font-size:12px; color:#5C358E; }\
+.wsm-hint { margin:-4px 0 0; font-weight:500; font-size:12px; color:#5C358E; }\
+.wsm-search { width:100%; max-width:660px; margin:auto; display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; padding:12px 0; }\
+.wsm-search .wsm-chips { margin-top:0; }\
+.wsm.has-result .wsm-body { justify-content:flex-start; }\
+.wsm.has-result .wsm-search { margin:0 auto; padding:0; gap:10px; }\
+.wsm.has-result .wsm-intro, .wsm.has-result .wsm-search .wsm-chips { display:none; }\
+.wsm-intro { display:flex; flex-direction:column; align-items:center; gap:14px; margin-bottom:10px; }\
+.wsm-intro h2 { margin:0; font-family:'IvyPresto Display', serif; font-weight:400; font-size:52px; line-height:1.1; }\
+.wsm.mobile .wsm-intro h2 { font-size:38px; }\
+.wsm-intro p { margin:0; font-weight:500; font-size:17px; line-height:1.5; color:#5C358E; }\
+.wsm-result { width:100%; max-width:660px; margin:0 auto; }\
+.wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
 @media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
@@ -356,7 +364,7 @@
     }).catch(function () { return fallback(q); });
   }
 
-  var root, body, input, mode = 'ask', thread = [], thinking = false, token = 0, lastFocus = null;
+  var root, body, input, result, mode = 'ask', answer = null, thinking = false, token = 0, lastFocus = null;
   function build(container, mobile) {
     if (!document.getElementById('wsm-css')) { var st = document.createElement('style'); st.id = 'wsm-css'; st.textContent = CSS; document.head.appendChild(st); }
     root = document.createElement('div');
@@ -364,11 +372,12 @@
     root.setAttribute('role', 'dialog'); root.setAttribute('aria-modal', 'true'); root.setAttribute('aria-label', 'Ask us anything');
     root.innerHTML = '<div class="wsm-back" data-wsm-close></div><div class="wsm-panel">' +
       '<div class="wsm-head"><span class="wsm-label"><i aria-hidden="true"></i>Ask us anything</span><button class="wsm-x" data-wsm-close aria-label="Close search"><i aria-hidden="true"></i></button></div>' +
-      '<div class="wsm-body" aria-live="polite"></div>' +
-      '<div class="wsm-foot"><div class="wsm-field"><i aria-hidden="true"></i><input type="text" placeholder="Write a message" aria-label="Ask us anything"><button class="wsm-send" aria-label="Ask"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></div>' +
-      '<p class="wsm-hint">Press Enter to ask · Esc to close · answers are drawn from pages on this site</p></div></div>';
+      '<div class="wsm-body"><div class="wsm-search"><div class="wsm-intro"><h2></h2><p></p></div>' +
+      '<div class="wsm-field"><i aria-hidden="true"></i><input type="search" placeholder="' + (mobile ? 'Ask us anything' : 'Ask us anything about studying here') + '" aria-label="Ask us anything"><button class="wsm-send" aria-label="Search"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></div>' +
+      '<p class="wsm-hint">Press Enter to search · Esc to close · answers are drawn from pages on this site</p>' +
+      '<div class="wsm-chips"></div></div><div class="wsm-result" aria-live="polite"></div></div></div>';
     container.appendChild(root);
-    body = root.querySelector('.wsm-body'); input = root.querySelector('input');
+    body = root.querySelector('.wsm-body'); input = root.querySelector('input'); result = root.querySelector('.wsm-result');
     root.addEventListener('click', function (e) {
       if (e.target.closest('[data-wsm-close]')) { close(); return; }
       var c = e.target.closest('[data-wsm-ask]'); if (c) { ask(c.getAttribute('data-wsm-ask')); return; }
@@ -379,52 +388,55 @@
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
   }
-  function render() {
-    var h = '';
-    if (!thread.length && !thinking) {
-      var t = TOPICS[mode];
-      h += '<div class="wsm-idle"><h2>' + t.heading + '</h2><p>' + esc(t.sub) + '</p><div class="wsm-chips">' +
-        t.chips.map(function (c) { return c[1] ? '<button class="wsm-chip" data-wsm-ask="' + esc(c[1]) + '">' + esc(c[0]) + '</button>' : '<button class="wsm-chip" data-wsm-subject="' + esc(c[0]) + '">' + esc(c[0]) + '</button>'; }).join('') + '</div></div>';
-    }
-    thread.forEach(function (m) {
-      if (m.role === 'user') { h += '<div class="wsm-q">' + esc(m.text) + '</div>'; return; }
-      h += '<div class="wsm-a"><span class="wsm-av" aria-hidden="true"><i></i></span><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
-        (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
-      if (m.kind === 'clarify') {
-        var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
-        h += '<div class="wsm-chips" style="justify-content:flex-start">' + opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>';
-      } else if ((m.sources || []).length) {
-        h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
-          m.sources.map(function (s) { return '<a href="#" class="wsm-src" title="' + esc(s.path) + '">' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
-      }
-      h += '</div></div>';
-    });
-    if (thinking) h += '<div class="wsm-a" aria-label="Thinking"><span class="wsm-av" aria-hidden="true"><i></i></span><span class="wsm-dots"><span></span><span></span><span></span></span></div>';
-    body.innerHTML = h;
-    body.scrollTop = body.scrollHeight;
+  function renderIntro() {
+    var t = TOPICS[mode];
+    root.querySelector('.wsm-intro h2').innerHTML = t.heading;
+    root.querySelector('.wsm-intro p').textContent = t.sub;
+    root.querySelector('.wsm-search .wsm-chips').innerHTML = t.chips.map(function (c) {
+      return c[1] ? '<button class="wsm-chip" data-wsm-ask="' + esc(c[1]) + '">' + esc(c[0]) + '</button>' : '<button class="wsm-chip" data-wsm-subject="' + esc(c[0]) + '">' + esc(c[0]) + '</button>';
+    }).join('');
   }
+  function render() {
+    root.classList.toggle('has-result', thinking || !!answer);
+    if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-av" aria-hidden="true"><i></i></span><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
+    if (!answer) { result.innerHTML = ''; return; }
+    var m = answer, h = '<div class="wsm-a"><span class="wsm-av" aria-hidden="true"><i></i></span><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
+      (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
+    if (m.kind === 'clarify') {
+      var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
+      h += '<div class="wsm-chips" style="justify-content:flex-start">' + opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>';
+    } else if ((m.sources || []).length) {
+      h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
+        m.sources.map(function (s) { return '<a href="#" class="wsm-src" title="' + esc(s.path) + '">' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
+    }
+    result.innerHTML = h + '</div></div>';
+    body.scrollTop = 0;
+  }
+  // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
-    q = String(q || '').trim(); if (!q || thinking) return;
-    input.value = '';
-    thread.push({ role: 'user', text: q }); thinking = true; render();
+    q = String(q || '').trim(); if (!q) return;
+    input.value = q; answer = null; thinking = true; render();
     var my = ++token;
-    generate(q, thread.slice()).then(function (reply) { if (my !== token) return; thinking = false; thread.push(reply); render(); });
+    generate(q, [{ role: 'user', text: q }]).then(function (reply) { if (my !== token) return; thinking = false; answer = reply; render(); });
   }
   function askSubject(label) {
     var a = SUBJECTS[label]; if (!a) return ask(label);
-    thread.push({ role: 'user', text: label + ' courses' }); thinking = true; render();
+    input.value = label + ' courses'; answer = null; thinking = true; render();
     var my = ++token;
-    setTimeout(function () { if (my !== token) return; thinking = false; thread.push({ role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }); render(); }, 900);
+    setTimeout(function () { if (my !== token) return; thinking = false; answer = { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; render(); }, 900);
   }
   var host = null, deviceEl = null;
   function place() {
     // keep the desktop layer over the device frame, which the page scales to fit the window
-    if (!host || !deviceEl) return;
+    if (!host) return;
+    // the runtime can replace the frame element, so look it up fresh each time
+    deviceEl = document.querySelector('[data-name="Device"]') || deviceEl;
     var r = deviceEl.getBoundingClientRect(), k = r.width / 1280;
+    if (!k) return;
     host.style.left = r.left + 'px'; host.style.top = r.top + 'px'; host.style.transform = 'scale(' + k + ')';
   }
   function open(m) {
-    mode = m === 'study' ? 'study' : 'ask'; thread = []; thinking = false; token++;
+    mode = m === 'study' ? 'study' : 'ask'; answer = null; thinking = false; token++; input.value = ''; renderIntro();
     place();
     lastFocus = document.activeElement;
     render(); root.classList.add('open');
@@ -433,7 +445,6 @@
   }
   function close() {
     root.classList.remove('show'); token++;
-    deviceEl = deviceEl && document.querySelector('[data-name="Device"]');
     setTimeout(function () { root.classList.remove('open'); }, 320);
     if (lastFocus && lastFocus.focus) try { lastFocus.focus({ preventScroll: true }); } catch (e) {}
   }
