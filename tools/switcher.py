@@ -8,6 +8,7 @@ ROUNDS = [
     ("Round 2", [("Variant 1", "Round 2 Variant 1.dc.html", "Round 2 Variant 1 Mobile.dc.html"),
                  ("Variant 2", "Round 2 Variant 2.dc.html", "Round 2 Variant 2 Mobile.dc.html"),
                  ("Variant 3", "Round 2 Variant 3.dc.html", "Round 2 Variant 3 Mobile.dc.html")]),
+    ("Round 3", [("Homepage", "Round 3.dc.html", "Round 3 Mobile.dc.html")]),
 ]
 F = "font-family:Figtree, sans-serif; font-weight:600; font-size:14px"
 NAVSTYLE = "position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10000; display:flex; align-items:center; gap:4px; padding:4px; border-radius:8px; background:rgba(20,20,20,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.3)"

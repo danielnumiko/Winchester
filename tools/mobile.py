@@ -648,6 +648,10 @@ def page(v, switcher):
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, sys.argv[1])
+    placeholder = "<!-- switcher -->\n<nav data-name=\"Concept switcher\"></nav>"
     for v in VARIANTS:
-        open(f"Round 2 Variant {v} Mobile.dc.html", "w", encoding="utf-8").write(page(v, "<!-- switcher -->\n<nav data-name=\"Concept switcher\"></nav>"))
+        open(f"Round 2 Variant {v} Mobile.dc.html", "w", encoding="utf-8").write(page(v, placeholder))
         print("wrote", v)
+    # Round 3 is Round 2's Variant 2 (mobile already uses the menu button, so the header is unchanged)
+    open("Round 3 Mobile.dc.html", "w", encoding="utf-8").write(page(2, placeholder).replace("Round 2, Variant 2 (mobile)", "Round 3 (mobile)"))
+    print("wrote round 3")

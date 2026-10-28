@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-m-navcolor="purple" data-m-navfull="off" data-m-broadcast="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winchester: Round 3 (mobile)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root { --dp:#291647; --lp:#C68EFD; --mp:#5C358E; --pale:#DBBAFF; --lime:#D4EF70; --grey:#F5F5F5; --bc:0px; }
+html[data-m-broadcast="on"] { --bc:40px; }
+* { box-sizing:border-box; }
+body { margin:0; background:#141414; -webkit-font-smoothing:antialiased; font-family:Figtree, sans-serif; }
+a { text-decoration:none; color:inherit; }
+.serif { font-family:'IvyPresto Display', serif; font-weight:400; }
+em { font-style:italic; }
+#stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding-top:56px; overflow:hidden; }
+#device { position:relative; width:390px; height:844px; flex-shrink:0; border-radius:28px; overflow:hidden; background:var(--dp); box-shadow:0 30px 80px rgba(0,0,0,.5); transform-origin:center center; isolation:isolate; }
+#vp { position:absolute; inset:0; overflow-x:hidden; overflow-y:auto; scrollbar-width:none; background:#FFFFFF; }
+#vp::-webkit-scrollbar { display:none; }
+section, footer { position:relative; }
+.pad { padding-left:16px; padding-right:16px; }
+.eyebrow { display:flex; gap:6px; align-items:center; }
+.eyebrow img { width:8px; height:8px; display:block; }
+.eyebrow span { font-weight:600; font-size:11px; letter-spacing:.3em; text-transform:uppercase; line-height:1; }
+.ico { width:12px; height:12px; display:block; flex-shrink:0; transition:filter .2s ease; }
+/* Buttons: light purple; dark purple + white text on light grounds, white on dark grounds */
+.btn { display:inline-flex; align-items:center; gap:10px; height:52px; padding:0 20px; border-radius:5px; background:var(--lp); color:var(--dp); font-weight:500; font-size:16px; white-space:nowrap; transition:background-color .2s ease, color .2s ease; }
+.btn:hover, .btn:active { background:var(--dp); color:#FFFFFF; }
+.btn:hover .ico, .btn:active .ico { filter:brightness(0) invert(1); }
+.on-dark .btn:hover, .on-dark .btn:active, .on-lp .btn:hover, .on-lp .btn:active { background:#FFFFFF; color:var(--dp); }
+.on-dark .btn:hover .ico, .on-dark .btn:active .ico, .on-lp .btn:hover .ico, .on-lp .btn:active .ico { filter:none; }
+.btn.dark { background:var(--dp); color:#FFFFFF; }
+.btn.dark .ico { filter:brightness(0) invert(1); }
+
+/* Hero */
+#hero { height:844px; overflow:hidden; background:var(--dp); color:#FFFFFF; }
+#film { position:absolute; inset:0; }
+#film video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; transform:scale(1.16); transform-origin:50% 38%; }
+#film::after { content:""; position:absolute; inset:0; background:rgba(41,22,71,.35); }
+.broadcast { display:none; position:absolute; z-index:25; left:0; right:0; top:0; height:40px; padding:0 44px 0 16px; background:var(--lime); color:var(--dp); align-items:center; font-size:13px; font-weight:500; line-height:1; white-space:nowrap; }
+html[data-m-broadcast="on"] .broadcast { display:flex; }
+.broadcast a { font-weight:700; text-decoration:underline; text-underline-offset:3px; white-space:nowrap; }
+.broadcast button { position:absolute; right:6px; top:50%; transform:translateY(-50%); width:30px; height:30px; border:0; border-radius:5px; background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.broadcast button:hover { background:rgba(41,22,71,.12); }
+.broadcast button span { width:14px; height:14px; display:block; background:var(--dp); -webkit-mask:url(motifs/i-cross.svg) center / contain no-repeat; mask:url(motifs/i-cross.svg) center / contain no-repeat; }
+.mnav { position:absolute; z-index:20; left:12px; right:12px; top:calc(var(--bc) + 12px); height:64px; border-radius:5px; background:#FFFFFF; display:flex; align-items:center; justify-content:space-between; padding:0 10px 0 12px; transition:top .35s cubic-bezier(.22,1,.36,1); }
+.mnav .logo { width:150px; height:auto; display:block; }
+.mnav .logo.light { display:none; }
+.mnav .acts { display:flex; gap:8px; }
+.mnav button { width:44px; height:44px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
+.mnav button img { width:20px; height:20px; display:block; transition:filter .2s ease; }
+.mnav button:hover { background:var(--dp); }
+.mnav button:hover img { filter:brightness(0) invert(1); }
+html[data-m-navcolor="purple"] .mnav { background:var(--dp); }
+html[data-m-navcolor="purple"] .mnav .logo.dark { display:none; }
+html[data-m-navcolor="purple"] .mnav .logo.light { display:block; }
+html[data-m-navcolor="purple"] .mnav button:hover { background:#FFFFFF; }
+html[data-m-navcolor="purple"] .mnav button:hover img { filter:none; }
+html[data-m-navfull="on"] .mnav { left:0; right:0; top:var(--bc); height:68px; border-radius:0; padding:0 12px 0 16px; }
+.hero-copy { position:absolute; z-index:3; left:20px; right:20px; top:50%; transform:translateY(-58%); display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; }
+.hero-copy .arch { width:40px; height:40px; background:var(--lp); -webkit-mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; mask:url(motifs/fig-icon-archway95.svg) center / contain no-repeat; }
+.hero-copy h1 { margin:0; font-size:46px; line-height:1.05; letter-spacing:-.01em; text-shadow:0 2px 24px rgba(20,10,40,.28); text-wrap:balance; }
+.promos { position:absolute; z-index:3; left:0; right:0; bottom:28px; }
+.promo-track { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding:0 36px; gap:10px; }
+.promo-track::-webkit-scrollbar { display:none; }
+.promo { flex:0 0 318px; scroll-snap-align:center; display:flex; align-items:center; gap:16px; padding:10px; border-radius:10px; background:rgba(255,255,255,.14); backdrop-filter:blur(24px) saturate(160%); -webkit-backdrop-filter:blur(24px) saturate(160%); color:#FFFFFF; }
+.promo .thumb { flex:none; width:60px; height:60px; border-radius:5px; background-size:cover; display:flex; align-items:center; justify-content:center; }
+.promo .play { width:24px; height:24px; background:var(--dp); display:flex; align-items:center; justify-content:center; }
+.promo .k { display:block; font-size:11px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:5px; }
+.promo .t { display:block; font-size:18px; font-weight:600; line-height:1.25; }
+.dots { display:flex; justify-content:center; gap:6px; margin-top:14px; }
+.dots button { width:8px; height:8px; padding:0; border:0; border-radius:4px; background:rgba(255,255,255,.45); cursor:pointer; transition:width .3s ease, background-color .3s ease; }
+.dots button[aria-current="true"] { width:24px; background:#FFFFFF; }
+
+/* Intro cards */
+#intro { padding:48px 16px; display:flex; flex-direction:column; gap:12px; }
+.icard { border-radius:15px; background:var(--grey); padding:32px 24px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; color:var(--dp); }
+.icard h3 { margin:0; font-size:34px; line-height:1.15; }
+.icard p { margin:0; font-weight:500; font-size:16px; line-height:1.5; color:var(--mp); }
+
+/* Carousels */
+.car { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; gap:12px; padding:0 16px; scroll-padding:0 16px; cursor:grab; }
+.car::-webkit-scrollbar { display:none; }
+.car.dragging { cursor:grabbing; scroll-snap-type:none; }
+.car > * { scroll-snap-align:start; flex-shrink:0; }
+.car-ctrl { display:flex; justify-content:space-between; align-items:center; padding:20px 16px 0; }
+.car-ctrl .count { font-weight:600; font-size:11px; letter-spacing:.3em; color:var(--dp); }
+.car-ctrl .arrows { display:flex; gap:8px; }
+.car-ctrl button { width:44px; height:44px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
+.car-ctrl button:hover { background:var(--dp); }
+.car-ctrl button:hover img { filter:brightness(0) invert(1); }
+.car-ctrl button img { width:14px; height:14px; }
+.car-ctrl button.prev img { transform:rotate(180deg); }
+h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
+
+/* Stories */
+#stories { padding:24px 0 56px; }
+#stories .head { padding:0 16px 28px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; }
+.story { width:280px; border-radius:15px; background:var(--grey); color:var(--dp); display:flex; flex-direction:column; overflow:hidden; }
+.story .img { height:280px; border-radius:15px; background-size:cover; background-position:center; }
+.story .q { padding:20px 20px 12px; font-weight:600; font-size:19px; line-height:1.3; }
+.story .n { padding:0 20px 22px; margin-top:auto; font-weight:500; font-size:13px; line-height:1.4; color:var(--mp); }
+
+/* Life banner */
+#life { background:var(--lp); color:var(--dp); padding-bottom:40px; }
+#life .photo { position:relative; height:320px; background:url(assets/life-cafe.jpg) center / cover no-repeat; }
+#life .photo svg { position:absolute; left:0; right:0; bottom:-1px; width:100%; height:120px; display:block; }
+#life .body { padding:8px 24px 0; }
+#life .eyebrow span { color:var(--dp); }
+#life ul { list-style:none; margin:16px 0 0; padding:0; }
+#life li a { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px 0; border-bottom:1px solid rgba(41,22,71,.25); font-weight:600; font-size:20px; line-height:1.25; }
+#life li:last-child a { border-bottom:0; }
+#life li a img { width:16px; height:16px; }
+
+/* 3 Reasons */
+#reasons-intro { background:var(--dp); color:#FFFFFF; padding:72px 24px 48px; display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; }
+#reasons-intro .eyebrow span { color:#FFFFFF; }
+#reasons-intro h2 { margin:0; font-size:42px; line-height:1.15; }
+#reasons-intro .down { width:56px; height:56px; transform:rotate(90deg); background:var(--lime); -webkit-mask:url(motifs/fig-icon-arrow-purple.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-purple.svg) center / contain no-repeat; }
+#reasons { height:2400px; background:var(--dp); }
+#reasons .sticky { position:sticky; top:0; height:844px; display:flex; flex-direction:column; overflow:hidden; }
+#reasons .imgs { position:relative; height:360px; flex-shrink:0; overflow:hidden; }
+#reasons .imgs div { position:absolute; inset:0; background-size:cover; background-position:center; will-change:clip-path, transform; transition:transform .9s cubic-bezier(.22,1,.36,1); }
+#reasons .strip { height:84px; flex-shrink:0; overflow:hidden; padding:10px 0 30px; }
+#reasons .strip .row { display:flex; gap:12px; width:max-content; will-change:transform; }
+#reasons .strip .tile { width:44px; height:44px; background:var(--lime); display:flex; }
+#reasons .strip .tile i { width:100%; height:100%; background:var(--dp); }
+#reasons .texts { position:relative; flex:1; }
+#reasons .rt { position:absolute; inset:0; padding:16px 24px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:16px; color:#FFFFFF; opacity:0; visibility:hidden; transform:translateY(20px); transition:opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1), visibility 0s linear .6s; }
+#reasons .rt.on { opacity:1; visibility:visible; transform:none; transition:opacity .6s ease .15s, transform .7s cubic-bezier(.22,1,.36,1) .15s, visibility 0s; }
+#reasons .rt .eyebrow span { color:#FFFFFF; }
+#reasons .rt h3 { margin:0; font-size:38px; line-height:1.15; }
+#reasons .rt p { margin:0; font-weight:500; font-size:16px; line-height:1.55; color:var(--pale); }
+
+/* News */
+#news { padding:64px 16px 56px; display:flex; flex-direction:column; gap:28px; }
+.ncard { display:flex; flex-direction:column; border-radius:15px; overflow:hidden; background:var(--grey); color:var(--dp); transition:background-color .25s ease; }
+.ncard:hover { background:var(--lp); }
+.ncard .img { height:200px; border-radius:15px; background-size:cover; background-position:center; }
+.ncard .tx { padding:20px; display:flex; flex-direction:column; gap:12px; }
+.ncard .t { font-weight:600; font-size:20px; line-height:1.25; }
+.ncard .d { font-weight:500; font-size:14px; color:var(--mp); }
+.stack { display:flex; flex-direction:column; gap:12px; }
+.ncard.lead .img { height:240px; }
+.ncard.lead .t { font-size:24px; }
+.ncard.small { flex-direction:row; align-items:stretch; }
+.ncard.small .img { flex:0 0 132px; height:auto; min-height:148px; }
+.ncard.small .tx { padding:16px; justify-content:space-between; }
+.ncard.small .t { font-size:17px; }
+
+/* Events */
+#events { padding:16px 0 64px; }
+#events .head { padding:0 16px 28px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+#events .head > div { margin-top:4px; }
+#events .eyebrow span { color:var(--dp); }
+#events h2 em { color:var(--mp); }
+.ev { width:260px; border-radius:15px; background:var(--grey); padding:24px; display:flex; flex-direction:column; align-items:flex-start; gap:20px; color:var(--dp); transition:background-color .25s ease; }
+.ev:hover { background:var(--lp); }
+.ev .date { width:76px; height:76px; border-radius:5px; background:var(--lime); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.ev .date b { font-family:'IvyPresto Display', serif; font-weight:400; font-size:34px; line-height:1; }
+.ev .date small { font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; margin-top:4px; }
+.ev .k { font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--mp); }
+.ev .t { font-weight:600; font-size:20px; line-height:1.25; margin-top:8px; display:block; }
+.ev .m { margin-top:auto; font-weight:500; font-size:14px; line-height:1.45; color:var(--mp); }
+#events .after { padding:24px 16px 0; }
+
+/* International banner */
+#intl { background:var(--lp); color:var(--dp); padding-bottom:48px; }
+/* Flower window at its true proportions (79.4:86.5); only its bottom edge shows, so the motif runs horizontally */
+#intl .photo { position:relative; width:390px; height:380px; overflow:hidden; }
+#intl .photo .fl { position:absolute; left:-135px; top:-334px; width:660px; height:714px; -webkit-mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; mask:url(motifs/fig-flower-mask.svg) 0 0 / 100% 100% no-repeat; }
+#intl .photo .pic { position:absolute; left:135px; top:334px; width:390px; height:380px; background:url(assets/ph-cathedral-talking.jpg) center 30% / cover no-repeat; }
+#intl .body { padding:36px 24px 0; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+#intl .eyebrow span { color:var(--dp); }
+#intl h2 { margin:0; font-size:40px; line-height:1.15; }
+#intl p { margin:0; font-size:17px; line-height:1.45; }
+.on-lp .btn.dark:hover, .on-lp .btn.dark:active { background:#FFFFFF; color:var(--dp); }
+.on-lp .btn.dark:hover .ico { filter:none; }
+
+/* Story page: opens over the homepage with an arch wipe */
+#wipe { position:absolute; inset:0; z-index:49; background:var(--lp); visibility:hidden; pointer-events:none; }
+#story { position:absolute; inset:0; z-index:50; overflow:hidden; background:#FFFFFF; visibility:hidden; }
+#story .s-bg { position:absolute; inset:0; overflow:hidden; }
+#story .s-bg::after { content:""; position:absolute; inset:0; background:linear-gradient(rgba(41,22,71,.35), rgba(41,22,71,0) 30%); }
+#story .s-scroll { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
+#story .s-scroll::-webkit-scrollbar { display:none; }
+#story.open { visibility:visible; }
+#story .s-hero { position:relative; height:520px; }
+#story .s-img { position:absolute; left:0; right:0; top:0; bottom:-60px; background-size:cover; background-position:center 30%; will-change:transform; }
+#story .mnav { top:12px; z-index:2; }
+html[data-m-navfull="on"] #story .mnav { top:0; }
+#story .panel { position:relative; margin-top:-30px; border-radius:30px 30px 0 0; background:#FFFFFF; color:var(--dp); padding:0 24px 48px; }
+#story .crumb { margin:0 -24px; padding:16px 24px; border-radius:30px 30px 0 0; background:var(--lp); display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+#story .crumb a, #story .crumb span { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--dp); }
+#story .crumb svg { width:5px; height:7px; display:block; }
+#story h1 { margin:28px 0 0; font-size:36px; line-height:1.15; text-wrap:balance; }
+#story .meta { margin-top:14px; font-weight:600; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--mp); }
+#story .stand { margin:24px 0 0; font-weight:500; font-size:20px; line-height:1.5; }
+#story h2 { margin:36px 0 0; font-size:26px; line-height:1.2; }
+#story p.b { margin:14px 0 0; font-weight:500; font-size:17px; line-height:1.6; color:#3D2566; }
+#story blockquote { margin:40px 0 8px; padding:28px 24px; border-radius:15px; background:var(--dp); color:#FFFFFF; font-family:'IvyPresto Display', serif; font-size:28px; line-height:1.25; }
+#story blockquote::before { content:""; display:block; width:28px; height:28px; margin-bottom:14px; background:var(--lime); -webkit-mask:url(motifs/i-quote.svg) center / contain no-repeat; mask:url(motifs/i-quote.svg) center / contain no-repeat; }
+#story .img2 { margin-top:32px; height:260px; border-radius:15px; background-size:cover; background-position:center; }
+#story .next { margin-top:48px; display:flex; flex-direction:column; border-radius:15px; overflow:hidden; background:var(--grey); color:var(--dp); cursor:pointer; text-align:left; border:0; padding:0; width:100%; font:inherit; }
+#story .next .img { height:200px; border-radius:15px; background-size:cover; background-position:center; }
+#story .next .k { padding:20px 20px 6px; font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--mp); display:flex; align-items:center; gap:8px; }
+#story .next .q { padding:0 20px 22px; font-weight:600; font-size:19px; line-height:1.3; }
+#story .next:hover { background:var(--lp); }
+#story .back { margin-top:24px; }
+
+/* Footer */
+footer { background:var(--dp); color:#FFFFFF; padding:56px 24px 32px; display:flex; flex-direction:column; gap:40px; }
+footer .contact { display:flex; flex-direction:column; align-items:flex-start; gap:20px; }
+footer .contact img.logo { width:180px; height:auto; display:block; }
+footer p { margin:0; font-weight:500; font-size:16px; line-height:1.5; color:var(--pale); }
+footer .tel { display:flex; flex-direction:column; gap:4px; font-weight:500; font-size:16px; }
+footer .cols { display:grid; grid-template-columns:1fr 1fr; gap:32px 16px; }
+footer .col { display:flex; flex-direction:column; gap:12px; }
+footer .col h4 { margin:0 0 4px; font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--lp); }
+footer .col a { font-weight:500; font-size:16px; line-height:1.35; }
+footer .col a:hover, footer .tel a:hover { color:var(--lp); }
+footer .legal { border-top:1px solid var(--mp); padding-top:24px; display:flex; flex-wrap:wrap; gap:10px 18px; }
+footer .legal a, footer .soc a { font-weight:500; font-size:14px; color:var(--pale); }
+footer .soc { display:flex; flex-wrap:wrap; gap:10px 18px; }
+footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
+</style>
+</head>
+<body>
+<!-- switcher -->
+<nav data-name="Concept switcher" aria-label="Switch version and concept" style="position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10000; display:flex; align-items:center; gap:4px; padding:4px; border-radius:8px; background:rgba(20,20,20,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 8px 24px rgba(0,0,0,0.3)"><style>[data-name="Concept switcher"] a[data-sw]:not([aria-current]):hover { background-color:rgba(255,255,255,0.12) !important; }</style><details data-name="Version" style="position:relative"><style>[data-name="Version"] > summary::-webkit-details-marker { display:none; } [data-name="Version"][open] > summary svg { transform:rotate(180deg); }</style><summary aria-label="Version: Round 3" style="list-style:none; height:32px; padding:0 12px 0 14px; border-radius:5px; border:1px solid rgba(255,255,255,0.25); box-sizing:border-box; display:flex; align-items:center; gap:10px; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; color:#FFFFFF; cursor:pointer; white-space:nowrap">Round 3<svg aria-hidden="true" viewBox="0 0 10 6" width="10" height="6" style="display:block"><path d="M1 1l4 4 4-4" fill="none" stroke="#FFFFFF" stroke-width="1.5"></path></svg></summary><div style="position:absolute; left:0; top:40px; min-width:140px; padding:4px; border-radius:8px; background:rgba(20,20,20,0.95); box-shadow:0 8px 24px rgba(0,0,0,0.3); display:flex; flex-direction:column; gap:2px"><a data-sw="1" href="Concepts%20Overview.dc.html" style="display:flex; align-items:center; justify-content:space-between; gap:16px; height:36px; padding:0 12px; border-radius:5px; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; color:#FFFFFF; background:transparent" style-hover="background-color:rgba(255,255,255,0.12)">Round 1</a><a data-sw="1" href="Round%202%20Variant%201.dc.html" style="display:flex; align-items:center; justify-content:space-between; gap:16px; height:36px; padding:0 12px; border-radius:5px; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; color:#FFFFFF; background:transparent" style-hover="background-color:rgba(255,255,255,0.12)">Round 2</a><a data-sw="1" href="Round%203.dc.html" aria-current="true" style="display:flex; align-items:center; justify-content:space-between; gap:16px; height:36px; padding:0 12px; border-radius:5px; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; color:#291647; background:#C68EFD">Round 3</a></div></details><span aria-hidden="true" style="width:1px; height:20px; margin:0 6px; background:rgba(255,255,255,0.2)"></span><a data-sw="1" href="Round%203%20Mobile.dc.html" aria-current="page" style="height:32px; padding:0 18px; border-radius:5px; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; background:#C68EFD; color:#291647; cursor:pointer">Homepage</a><span aria-hidden="true" style="width:1px; height:20px; margin:0 6px; background:rgba(255,255,255,0.2)"></span><span role="group" aria-label="Device" style="display:flex; gap:2px; padding:3px; border-radius:6px; border:1px solid rgba(255,255,255,0.25)"><a data-sw="1" href="Round%203.dc.html" style="height:26px; padding:0 12px; border-radius:4px; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; font-size:13px; text-decoration:none; white-space:nowrap; color:#FFFFFF; background:transparent" style-hover="background-color:rgba(255,255,255,0.12)">Desktop</a><a data-sw="1" href="Round%203%20Mobile.dc.html" aria-current="page" style="height:26px; padding:0 12px; border-radius:4px; display:flex; align-items:center; font-family:Figtree, sans-serif; font-weight:600; font-size:14px; font-size:13px; text-decoration:none; white-space:nowrap; color:#291647; background:#FFFFFF">Mobile</a></span></nav>
+<div id="stage"><div id="device"><div id="vp">
+
+  <section id="hero" data-screen-label="Hero">
+    <div id="film" aria-hidden="true"><video src="assets/hero-film.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+    <div class="broadcast" role="region" aria-label="Announcement"><span><strong>Open Day: Saturday 10 October.</strong> <a href="#">Book your place</a></span><button data-broadcast-close="1" aria-label="Dismiss this message"><span aria-hidden="true"></span></button></div>
+    <nav class="mnav" aria-label="Main">
+      <img class="logo dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester"><img class="logo light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester">
+      <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div>
+    </nav>
+    <div class="hero-copy"><span class="arch" aria-hidden="true"></span><h1 class="serif">The best version of you isn’t found, <em>it’s made.</em></h1></div>
+    <div class="promos"><div class="promo-track"><a href="#" class="promo" data-copy="0" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/hero.jpg); background-position:center 30%"><span class="play"><svg viewBox="0 0 10 12" width="8" height="10"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span></span><span><span class="k">Film</span><span class="t">Why study at Winchester</span></span></a><a href="#" class="promo" data-copy="0" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/fig/teaching.jpg); background-position:62% 20%"></span><span><span class="k">Teacher training</span><span class="t">Train to teach</span></span></a><a href="#" class="promo" data-copy="0" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/fig/264755df75fdb788.png); background-position:center"></span><span><span class="k">Open day: Saturday 10 October</span><span class="t">Come and see us</span></span></a><a href="#" class="promo" data-copy="1"><span class="thumb" style="background-image:url(assets/hero.jpg); background-position:center 30%"><span class="play"><svg viewBox="0 0 10 12" width="8" height="10"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span></span><span><span class="k">Film</span><span class="t">Why study at Winchester</span></span></a><a href="#" class="promo" data-copy="1"><span class="thumb" style="background-image:url(assets/fig/teaching.jpg); background-position:62% 20%"></span><span><span class="k">Teacher training</span><span class="t">Train to teach</span></span></a><a href="#" class="promo" data-copy="1"><span class="thumb" style="background-image:url(assets/fig/264755df75fdb788.png); background-position:center"></span><span><span class="k">Open day: Saturday 10 October</span><span class="t">Come and see us</span></span></a><a href="#" class="promo" data-copy="2" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/hero.jpg); background-position:center 30%"><span class="play"><svg viewBox="0 0 10 12" width="8" height="10"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span></span><span><span class="k">Film</span><span class="t">Why study at Winchester</span></span></a><a href="#" class="promo" data-copy="2" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/fig/teaching.jpg); background-position:62% 20%"></span><span><span class="k">Teacher training</span><span class="t">Train to teach</span></span></a><a href="#" class="promo" data-copy="2" aria-hidden="true" tabindex="-1"><span class="thumb" style="background-image:url(assets/fig/264755df75fdb788.png); background-position:center"></span><span><span class="k">Open day: Saturday 10 October</span><span class="t">Come and see us</span></span></a></div><div class="dots"><button aria-label="Show promotion 1"></button><button aria-label="Show promotion 2"></button><button aria-label="Show promotion 3"></button></div></div>
+  </section>
+
+  <section id="intro" data-screen-label="Intro">
+    <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p><a href="#" class="btn"><span>What do you want to study?</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+    <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p><a href="#" class="btn"><span>Tell us about yourself</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+  </section>
+
+  <section id="stories" data-screen-label="Made here">
+    <div class="head"><h2 class="sec serif">Where stories are made</h2><a href="#" class="btn"><span>All stories</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+    <div class="car"><a href="#" class="story" data-story="0"><span class="img" style="background-image:url(assets/fig/gabrielle-eeg-2.png)"></span><span class="q">“The staff got to know me as an individual, and I began to feel at home”</span><span class="n">Gabrielle, BSc Sport and Exercise Psychology, now associate lecturer</span></a><a href="#" class="story" data-story="1"><span class="img" style="background-image:url(assets/fig/macy-nursing.jpg)"></span><span class="q">“Coming on campus for my interview was the reason I chose Winchester”</span><span class="n">Macy, BSc Nursing (Child), final year</span></a><a href="#" class="story" data-story="2"><span class="img" style="background-image:url(assets/fig/barrister-moot.jpg)"></span><span class="q">“Their openness and sincerity was so reassuring”</span><span class="n">Trinity-Jade, LLB Law, second year</span></a><a href="#" class="story" data-story="3"><span class="img" style="background-image:url(assets/fig/evie-social.jpg)"></span><span class="q">“Thanks to Winchester, the only way is up”</span><span class="n">Evie, MA Creative and Critical Writing, postgraduate</span></a><a href="#" class="story" data-story="4"><span class="img" style="background-image:url(https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Thomas-and-international-students.jpg)"></span><span class="q">“I am an international student, but I feel a sense of belonging”</span><span class="n">Thomas, BSc Computer Science with Foundation Year, student</span></a></div>
+    <div class="car-ctrl"><span class="count">01 / 05</span><span class="arrows"><button class="prev" aria-label="Previous story"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next story"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
+  </section>
+
+  <section id="life" data-screen-label="Stats">
+    <div class="photo" aria-hidden="true"><svg viewBox="0 0 390 120" preserveAspectRatio="none"><path d="M0 120 L0 40.8 C 56.6 28.8 128.3 24 185 31.2 C 261.7 40.8 328.4 72 390 112.8 L390 120 Z" fill="#C68EFD"></path></svg></div>
+    <div class="body"><div class="eyebrow"><span>Life at Winchester</span></div><ul><li><a href="#"><span>Student life at Winchester</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li><li><a href="#"><span>Campus tours</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li><li><a href="#"><span>Get to know your student union</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li><li><a href="#"><span>Careers support for life</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li></ul></div>
+  </section>
+
+  <section id="reasons-intro" data-screen-label="Reasons intro"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>Why study with Winchester?</span></div><h2 class="serif">3 Reasons to study with Winchester</h2><span class="down" aria-hidden="true"></span></section>
+  <section id="reasons" class="on-dark" data-screen-label="Three reasons">
+    <div class="sticky"><div class="imgs"><div style="background-image:url(assets/fig/455f6db08277613a.png)"></div><div style="background-image:url(assets/fig/79da595167491963.png)"></div><div style="background-image:url(assets/fig/61f81e899722bfd3.png)"></div></div><div class="texts"><div class="rt"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>Your future</span></div><h3 class="serif">95% <em>in work</em> within months</h3><p>Employability runs through every course from the start, so you leave with experience behind you as well as a degree.</p><a href="#" class="btn"><span>Discover more</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div><div class="rt"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>Small classes</span></div><h3 class="serif">Small classes, <em>big thinking</em></h3><p>Seminars small enough that your tutors know your name, and where being wrong out loud is part of how you learn.</p><a href="#" class="btn"><span>Discover more</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div><div class="rt"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>The place</span></div><h3 class="serif">The UK’s <em>safest</em> university city</h3><p>A small, walkable city with a campus you can cross in fifteen minutes. Somewhere you can settle in quickly and feel at home.</p><a href="#" class="btn"><span>Discover more</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></div><div class="strip" aria-hidden="true"><div class="row"><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat; mask:url(motifs/fig-tile-star4.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat; mask:url(motifs/fig-tile-greenery.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat; mask:url(motifs/fig-tile-archway.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat; mask:url(motifs/fig-tile-stripes.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat; mask:url(motifs/fig-tile-flower.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat; mask:url(motifs/fig-tile-lecture.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat; mask:url(motifs/fig-tile-chapel.svg) center / contain no-repeat"></i></span><span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat; mask:url(motifs/fig-tile-westdowns.svg) center / contain no-repeat"></i></span></div></div></div>
+  </section>
+
+  <section id="news" data-screen-label="News"><h2 class="sec serif">The latest from Winchester</h2><div class="stack"><a href="#" class="ncard lead"><span class="img" style="background-image:url(assets/fig/6c403a8fc3746f43.png)"></span><span class="tx"><span class="t">University of Winchester’s Teacher Training rated among the best in the country by Ofsted</span><span class="d">20 Sep 2026</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/ba079fbcf2387c43.png)"></span><span class="tx"><span class="t">New nurses wear their Winchester badges with pride</span><span class="d">19 Sep 2026</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/e91e55e8c8ddd1c3.png)"></span><span class="tx"><span class="t">Annabelle’s project to combat plastic pollution in Africa up for top environmental award</span><span class="d">17 Sep 2026</span></span></a></div><div><a href="#" class="btn"><span>All news</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></section>
+
+  <section id="events" data-screen-label="Events">
+    <div class="head"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>What’s on</span></div><h2 class="sec serif">Open days and <em>events</em></h2><div><a href="#" class="btn"><span>All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></div>
+    <div class="car"><a href="#" class="ev"><span class="date"><b>10</b><small>Oct</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a><a href="#" class="ev"><span class="date"><b>4</b><small>Nov</small></span><span><span class="k">Open evening</span><span class="t">Postgraduate open evening</span></span><span class="m">Wednesday, 5pm to 7pm<br>Online</span></a><a href="#" class="ev"><span class="date"><b>12</b><small>Nov</small></span><span><span class="k">Public lecture</span><span class="t">Making history: the story of Winchester</span></span><span class="m">Thursday, 6.30pm<br>West Downs Centre</span></a><a href="#" class="ev"><span class="date"><b>21</b><small>Nov</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a></div>
+    <div class="car-ctrl"><span class="count">01 / 04</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
+  </section>
+
+  <section id="intl" class="on-lp" data-screen-label="International">
+    <div class="photo" aria-hidden="true"><div class="fl"><div class="pic"></div></div></div>
+    <div class="body"><div class="eyebrow"><span>International students</span></div><h2 class="serif">Study in the UK, <em>made</em> for you</h2><p>Everything you need to know about studying at Winchester, from entry requirements and visas to scholarships and settling in.</p><a href="#" class="btn dark"><span>Find out more</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+  </section>
+
+  <footer class="on-dark" data-screen-label="Footer">
+    <div class="contact"><img class="logo" src="assets/fig/logo-fig-white.svg" alt="University of Winchester"><p>University of Winchester<br>Sparkford Road, Winchester<br>Hampshire SO22 4NR</p><div class="tel"><a href="#">+44 (0)1962 841515</a><a href="#">enquiries@winchester.ac.uk</a></div><a href="#" class="btn"><span>Contact us</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+    <div class="cols"><div class="col"><h4>Explore</h4><a href="#">Study</a><a href="#">International</a><a href="#">Student Life</a><a href="#">Research</a><a href="#">Collaborate</a><a href="#">About Us</a></div><div class="col"><h4>For you</h4><a href="#">Current Students</a><a href="#">Staff</a><a href="#">Alumni</a></div><div class="col"><h4>Services</h4><a href="#">Online store</a><a href="#">Payment Portal</a><a href="#">Corporate and Statutory Information</a></div></div>
+    <div class="legal"><a href="#">Policies</a><a href="#">Disclaimer</a><a href="#">Privacy and cookie policy</a><a href="#">Freedom of Information</a><a href="#">Modern Slavery Statement</a><a href="#">Accessibility</a><a href="#">Freedom of Speech</a></div>
+    <div class="soc"><a href="#">Facebook</a><a href="#">X</a><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">LinkedIn</a></div>
+    <span class="copy">© University of Winchester 2026</span>
+  </footer>
+
+</div>
+<div id="story" role="dialog" aria-modal="true" aria-label="Story" aria-hidden="true">
+  <div class="s-bg" aria-hidden="true"><div class="s-img" data-s="hero"></div></div>
+  <div class="s-scroll">
+  <div class="s-hero">
+    <nav class="mnav" aria-label="Main"><a href="#" data-close="1" aria-label="University of Winchester home"><img class="logo dark" src="assets/fig/logo-fig-black.svg" alt="University of Winchester"><img class="logo light" src="assets/fig/logo-fig-white.svg" alt="University of Winchester"></a>
+      <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div></nav>
+  </div>
+  <article class="panel">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#" data-close="1">Home</a><svg viewBox="0 0 6 8" aria-hidden="true"><path d="M0 0 L6 4 L0 8 Z" fill="#291647"></path></svg><a href="#" data-close="1">Stories made here</a><svg viewBox="0 0 6 8" aria-hidden="true"><path d="M0 0 L6 4 L0 8 Z" fill="#291647"></path></svg><span aria-current="page" data-s="first"></span></nav>
+    <h1 class="serif" data-in="1" data-s="h1"></h1>
+    <div class="meta" data-in="1" data-s="meta"></div>
+    <p class="stand" data-in="1" data-s="stand"></p>
+    <div data-s="body1"></div>
+    <blockquote data-s="pull"></blockquote>
+    <div class="img2" data-s="img2"></div>
+    <div data-s="body2"></div>
+    <button class="next" data-next="1"><span class="img" data-s="nextimg"></span><span class="k">Next story <img src="motifs/fig-icon-arrow-dark.svg" alt="" style="width:12px; height:12px"></span><span class="q" data-s="nextq"></span></button>
+    <div class="back"><a href="#" class="btn" data-close="1"><span>Back to home</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+  </article>
+  </div>
+</div>
+<div id="wipe" aria-hidden="true"></div>
+</div></div>
+<script>window.STORIES = [{"img": "assets/fig/gabrielle-eeg-2.png", "quote": "“The staff got to know me as an individual, and I began to feel at home”", "name": "Gabrielle, BSc Sport and Exercise Psychology, now associate lecturer"}, {"img": "assets/fig/macy-nursing.jpg", "quote": "“Coming on campus for my interview was the reason I chose Winchester”", "name": "Macy, BSc Nursing (Child), final year"}, {"img": "assets/fig/barrister-moot.jpg", "quote": "“Their openness and sincerity was so reassuring”", "name": "Trinity-Jade, LLB Law, second year"}, {"img": "assets/fig/evie-social.jpg", "quote": "“Thanks to Winchester, the only way is up”", "name": "Evie, MA Creative and Critical Writing, postgraduate"}, {"img": "https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Thomas-and-international-students.jpg", "quote": "“I am an international student, but I feel a sense of belonging”", "name": "Thomas, BSc Computer Science with Foundation Year, student"}]; window.STORY_DETAIL = [{"headline": "Changing university: how Gabrielle found her place at Winchester", "img2": "https://www.winchester.ac.uk/media/Gabrielle-Thomas-SEP-header.jpg", "standfirst": "Gabrielle studied A-levels in Biology, Psychology and PE and always enjoyed participating in sport. As soon as she realised she could do sport psychology as a career, she knew this was something she wanted to pursue. She went on to study BSc (Hons) Sport and Exercise Psychology at Winchester as a commuting student, before progressing on to MSc Applied Sport Psychology.", "body1": [{"q": "Why did you choose to study at Winchester?", "paras": ["I was originally at another university; however, it wasn’t long before I realised I wanted to be closer to home. After only looking at the website, I decided Winchester would be the best fit, and it was the best decision for me."]}, {"q": "Did you have any concerns about studying your degree?", "paras": ["The main concern I had was starting late due to joining the University later than everyone else. I was extremely nervous when I attended my first lecture; however, someone on the course reached out to me, took me under her wing, showed me where to go, and sat next to me in class. The staff were accommodating, got to know me as an individual, and from that point onwards, I began to feel at home in the environment I was in."]}, {"q": "What was the best thing about your course lecturers?", "paras": ["I think the best thing about the course lecturers was the welcoming family environment and the guidance, advice and support they gave me through some of the most challenging periods of my life. In addition, the lecturers had a wealth of experience and knowledge within sport and exercise psychology. Their applied examples gave substance to what they taught and made the knowledge and theory come to life and easier to understand.", "They also knew when I needed to be challenged and pushed further, alongside easing off when they knew I had a lot to balance, which had a huge impact on my experience as a student."]}], "pull": "The small, family environment that the course and staff have created has shaped me into the person I am today.", "body2": [{"q": "What personal or professional skills did you gain during the course?", "paras": ["There were numerous skills I developed while I was studying the course; however, the two standout skills would be interpersonal and presentation skills. My interpersonal skills were developed through modules like developing effective relationships, where I learned how to interact, communicate and build relationships with people I haven’t met before. I also learned how to display empathy and active listening, both being vital interpersonal skills needed as a sport psychologist.", "The course was designed in a way that allowed my confidence to grow when presenting. During my first year, we had a group presentation and an individual presentation with no audience, for which we were allowed cue cards. By the final year, we were presenting for 20 minutes with no cue cards and in front of an audience. This progression helped to build my confidence over the years, to the point where presenting in front of an audience no longer feels daunting."]}, {"q": "Did you do any work experience as part of your course?", "paras": ["I had two placement opportunities, which were part of the course. The first was during a volunteering module where I was a tutor for an organisation called Action Tutoring. This opportunity boosted my employability by developing my interpersonal skills and learning how to work with those who were significantly younger than me.", "The second placement I did in my final year was during the professional development module, where I was supervised in co-delivering psychoeducation workshops to talented athletes in a local sixth form. This was by far the most valuable opportunity I could have had as a student, as it taught me how to prepare and deliver workshops, how to communicate effectively with others and how to handle constructive criticism."]}, {"q": "How did studying at Winchester help you to prepare for the world of work?", "paras": ["I continued to study at Winchester, doing a postgraduate degree in applied sport psychology. By getting involved at the University through being a course champion at open days, engaging in placement opportunities and developing my presentation and interpersonal skills, this led to my lecturer contacting me and suggesting that I applied for an associate lecturing position at the University. Without developing these skills throughout my degrees, I don’t think I would be in the position I am now or have the confidence in myself to teach in sport and exercise psychology."]}, {"q": "What advice would you give someone considering studying this subject?", "paras": ["My advice would be to take any opportunity that is given to you and use your lecturers as much as possible for advice and guidance. Start the course with an open mind, be engaged and interact within the sessions as much as possible. Be prepared to be challenged and to be pushed out of your comfort zone, but know that it will lead to personal growth and development over the course of three years, and you will be a better version of yourself by the end of the course."]}]}, {"imgPos": "center 40%", "headline": "Macy’s route into nursing", "img2": "assets/fig/455f6db08277613a.png", "standfirst": "Macy volunteered with St John Ambulance from the age of 11, studied Psychology, Medical Science and Health and Social Care at A level, and chose children’s nursing at Winchester. She now features on the cover of our undergraduate prospectus.", "body1": [{"q": "What was your journey into higher education?", "paras": ["I have always had an interest in healthcare. I volunteered with St John Ambulance from the ages of 11 to 18 where I learnt basic life support and communication skills. I wasn’t sure whether I wanted to study Paramedic Science or Nursing. I weighed up the pros and cons and I decided I wanted to go with children’s Nursing.", "I applied during Covid and I was offered an in-person interview for Winchester. Coming on campus for my interview was definitely the reason I chose Winchester, as I was meeting like-minded people and other applicants on the day. When I joined in September, there were familiar faces that I’d already met."]}, {"q": "Do you have a highlight so far of your time at Winchester?", "paras": ["My highlight would be a clinical skills session in first year where we had to act as a nurse in an emergency situation. One of our lecturers pretended to be in a real-life scenario in anaphylaxis. From my previous experience with St John’s I was able to realise what was going on, search for an EpiPen and give a fake administration of it. I basically took charge of the whole scenario.", "That way of learning is really what puts you in the position to be a better nurse because you need to think on your feet."]}], "pull": "I really woke up feeling excited to go in, building a rapport with families and learning as I went.", "body2": [{"q": "Did you have a favourite placement?", "paras": ["My most recent placement was paediatric cardiology at Southampton General Hospital. That was amazing, the team was so supportive. I was given a lot of responsibility which really helped develop my leadership and management skills, and I was able to help teach the first years who were also on placement.", "My neonatal placement at the hospital in Winchester was also amazing. I have been offered a graduate job in neonatal care at a hospital in Oxford. I think I was the first person in my cohort to be offered a job, near the beginning of my third year."]}, {"q": "What advice would you give someone considering studying Nursing?", "paras": ["Try and get a job as a Healthcare Assistant, or work in and around a hospital or within healthcare, because coming in without any hospital experience can be quite scary on your first placement. Get that experience where you can, even if it is voluntary, as it’s so beneficial in the long term."]}]}, {"imgPos": "center 20%", "headline": "Trinity-Jade finds out what it’s like to become a barrister", "img2": "https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Blog-Image-Archive/Inner-Temple-dinner-article.jpg", "standfirst": "Trinity-Jade, a second-year LLB (Hons) Law student, tells us about her visit to The Honourable Society of the Inner Temple to find out what life is really like at the Bar.", "body1": [{"q": "", "paras": ["Last night I had the incredible opportunity to attend ‘Dinner to the Universities’ held at The Honourable Society of the Inner Temple. This evening gave me the chance to network, meet and speak to a number of barristers and judges, who gave up their evenings to put on an event for students to have dinner and discuss what life is really like at the Bar.", "It started with a panel discussion led by Heidi Stonecliffe KC, Sushil Kumar and Benjamin Gray, all of whom were so open about how the path to the Bar will not be linear, and shared the stories behind who they are, what they do and how they got to where they are. It was very refreshing and motivating to listen to."]}], "pull": "The path to the Bar will not be linear, and that was the most reassuring thing I heard all night.", "body2": [{"q": "", "paras": ["I also had the pleasure of talking to Nancy Kelehar, Elizabeth Garcia and Dermot Keating KC throughout the evening. Each of them was so helpful and lovely to talk to, and their hard work and dedication is inspiring. The company, the atmosphere and the food made it an evening to remember.", "I left feeling incredibly fortunate and grateful to receive first-hand advice from professionals. Their openness and sincerity was so reassuring, and I feel very lucky to have had this experience. Thank you to everyone involved, to Dr Emma Nottingham and to the University of Winchester for the chance to attend."]}]}, {"imgPos": "center 22%", "headline": "Postgraduate life: my experience", "img2": "https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/Evie-grad.jpg", "standfirst": "Evie studied BA (Hons) English Literature and Creative Writing at Winchester, graduated in 2016 with a 2:1, and decided she hadn’t had enough of the lectures and surroundings, so she stayed on for the MA in Creative and Critical Writing.", "body1": [{"q": "Why come back for a Masters?", "paras": ["Throughout the application process I was encouraged and reassured by the tutors who had supported me during my undergraduate degree. These were the lecturers who offered up their free time to help me, who always made an effort to remember my name, and who stopped me around campus to see how I was doing, particularly when we were knee-deep in research for our dissertations.", "Other factors were the great location of the campus, the incredible cathedral graduation, and the life-long friends I made during my previous three years of study."]}, {"q": "Life beyond the course", "paras": ["One of the highlights that kept me coming back was the wide variety of societies Winchester has on offer, over one hundred of them. From performing arts or rugby to the pudding society, there’s something for everyone."]}], "pull": "I managed to get a first in my dissertation, something I never imagined achieving before I began.", "body2": [{"q": "From undergraduate to postgraduate", "paras": ["Joining the Creative and Critical Writing Masters has only furthered my sense of self-belief, and we have all been encouraged to start submitting our work to journals and magazines. This professional development has been the biggest change from undergraduate study and, at first, felt like an impossible jump.", "With the help of lecturers, all of whom are published authors or well-respected poets, that impossibility is slowly becoming a reality. I have already had a piece published in a small collection of personal memoirs, and I’m considering continuing on to a PhD."]}]}, {"imgPos": "center 35%", "headline": "Uganda to Winchester: Thomas’s story", "img2": "https://www.winchester.ac.uk/media/Content-Assets/UWin-Student-Blog/mum.jpg", "standfirst": "Thomas came to England in 2022 to volunteer with a charity in Southampton. A visit to Winchester changed his plans. He now studies Computer Science with Foundation Year, supported by a scholarship from Winchester Rotary and the University.", "body1": [{"q": "My journey to Winchester", "paras": ["At the end of my time in the UK, I had the opportunity to visit the University of Winchester. I spoke to the programme leader of Computer Science who gave me valuable insights into studying here, and I explored the West Downs Centre and library. I couldn’t think of a better place.", "I made my UCAS application which was successful, and I am delighted to be part of the student community today."]}, {"q": "Confident and capable", "paras": ["I have grown in confidence through class assignments and positions of responsibility. I was elected Student Academic Representative for my class, collecting students’ feedback and presenting it to the Associate Dean. I now have a paid position as a student Digital Ambassador, recording videos to guide prospective students."]}], "pull": "I am an international student, but I feel a sense of belonging.", "body2": [{"q": "My city highlights", "paras": ["Winchester stands as a captivating blend of history, culture and natural beauty. One of my main highlights is the Cathedral, with its stunning stained glass windows. I have done two guided tours and each time I learned something new. What I love most is that the city is hospitable and diverse."]}, {"q": "My future", "paras": ["My aim is to create cost-efficient and sustainable software to address some of the problems affecting my community and the planet. I also want to share my knowledge and skills with less privileged children back home in Uganda when I graduate, and support them to explore their full potential."]}, {"q": "My advice for international students", "paras": ["Even the greatest journeys often begin with the smallest steps. The distance might seem intimidating, but think of it as a stepping stone on your path to self-discovery. I was anxious before coming to university, but those anxieties quickly faded as I found a diverse and welcoming community at Winchester."]}]}];</script>
+<script>
+(function () {
+  var html = document.documentElement, vp = document.getElementById('vp'), dev = document.getElementById('device');
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Fit the phone frame to the window
+  function fit() { var s = Math.min(1, (innerWidth - 32) / 390, (innerHeight - 88) / 844); dev.style.transform = 'scale(' + Math.max(0.3, s) + ')'; }
+  fit(); addEventListener('resize', fit);
+  // Remember scroll position per page, like the desktop pages
+  var KEY = 'wnc-m-scroll-' + location.pathname;
+  try { var y = Number(sessionStorage.getItem(KEY) || 0); if (y) vp.scrollTop = y; } catch (e) {}
+  vp.addEventListener('scroll', function () { try { sessionStorage.setItem(KEY, String(vp.scrollTop)); } catch (e) {} }, { passive: true });
+
+  // Broadcast bar: dismissible, comes back on reload
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-broadcast-close]');
+    if (!b) return; e.preventDefault(); html.setAttribute('data-m-broadcast', 'off');
+  });
+
+  // Drag to scroll carousels with a mouse (touch scrolls natively)
+  document.querySelectorAll('.car, .promo-track').forEach(function (el) {
+    var down = false, x0 = 0, s0 = 0, moved = false;
+    el.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; moved = false; x0 = e.clientX; s0 = el.scrollLeft; el.classList.add('dragging'); });
+    addEventListener('pointermove', function (e) { if (!down) return; var dx = e.clientX - x0; if (Math.abs(dx) > 4) moved = true; el.scrollLeft = s0 - dx / scaleOf(); });
+    addEventListener('pointerup', function () { if (!down) return; down = false; el.classList.remove('dragging'); if (el.classList.contains('promo-track')) { var i = nearest(); el.scrollTo({ left: centreOf(i), behavior: 'smooth' }); } else snap(el); });
+    el.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  });
+  function scaleOf() { var m = /scale\(([\d.]+)\)/.exec(dev.style.transform); return m ? Number(m[1]) : 1; }
+  function snap(el) {
+    var kids = Array.from(el.children), pl = parseFloat(getComputedStyle(el).paddingLeft) || 0, best = 0, bd = 1e9;
+    kids.forEach(function (k, i) { var d = Math.abs(k.offsetLeft - pl - el.scrollLeft); if (d < bd) { bd = d; best = i; } });
+    el.scrollTo({ left: kids[best].offsetLeft - pl, behavior: 'smooth' });
+  }
+  function indexOf(el) {
+    var kids = Array.from(el.children), pl = parseFloat(getComputedStyle(el).paddingLeft) || 0, best = 0, bd = 1e9;
+    kids.forEach(function (k, i) { var d = Math.abs(k.offsetLeft - pl - el.scrollLeft); if (d < bd) { bd = d; best = i; } });
+    return best;
+  }
+  function goTo(el, i) { var k = el.children[i]; if (!k) return; el.scrollTo({ left: k.offsetLeft - (parseFloat(getComputedStyle(el).paddingLeft) || 0), behavior: 'smooth' }); }
+
+  // Hero promos: one at a time, neighbours peek either side, loops endlessly
+  var pt = document.querySelector('.promo-track'), dots = Array.from(document.querySelectorAll('.dots button')), N = dots.length;
+  function centreOf(i) { var k = pt.children[i]; return k.offsetLeft + k.offsetWidth / 2 - pt.clientWidth / 2; }
+  function nearest() { var c = pt.scrollLeft, best = 0, bd = 1e9; Array.from(pt.children).forEach(function (k, i) { var d = Math.abs(centreOf(i) - c); if (d < bd) { bd = d; best = i; } }); return best; }
+  function paintDots() { var i = nearest() % N; dots.forEach(function (d, j) { d.setAttribute('aria-current', i === j ? 'true' : 'false'); }); }
+  var settle = 0;
+  function recentre() { var i = nearest(); if (i < N || i >= 2 * N) { var j = N + (i % N); pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(j); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; }); } }
+  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); clearTimeout(settle); settle = setTimeout(recentre, 140); }, { passive: true });
+  dots.forEach(function (d, j) { d.addEventListener('click', function () { var i = nearest(), base = i - (i % N); pt.scrollTo({ left: centreOf(base + j), behavior: 'smooth' }); }); });
+  pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });
+  paintDots();
+
+  // Carousels with a counter and arrows (stories, events)
+  var pad = function (v) { return (v < 10 ? '0' : '') + v; };
+  document.querySelectorAll('.car-ctrl').forEach(function (ctrl) {
+    var car = ctrl.previousElementSibling, cnt = ctrl.querySelector('.count'), n = car.children.length;
+    function paint() { cnt.textContent = pad(indexOf(car) + 1) + ' / ' + pad(n); }
+    car.addEventListener('scroll', paint, { passive: true });
+    ctrl.querySelector('.prev').addEventListener('click', function () { goTo(car, Math.max(0, indexOf(car) - 1)); });
+    ctrl.querySelector('.next').addEventListener('click', function () { goTo(car, Math.min(n - 1, indexOf(car) + 1)); });
+    paint();
+  });
+
+  // 3 Reasons: sticky, scroll-driven; images open with the star reveal, motif strip slides
+  var sec = document.getElementById('reasons'), imgs = Array.from(sec.querySelectorAll('.imgs div')), texts = Array.from(sec.querySelectorAll('.rt')), row = sec.querySelector('.strip .row');
+  var STAR = "M 611.077 301.577 C 498.575 301.577 317.423 120.465 317.423 7.923 C 317.423 3.526 313.857 0 309.5 0 C 305.143 0 301.577 3.565 301.577 7.923 C 301.577 120.425 120.465 301.577 7.923 301.577 C 3.565 301.577 0 305.143 0 309.5 C 0 313.857 3.565 317.423 7.923 317.423 C 120.425 317.423 301.577 498.535 301.577 611.077 C 301.577 615.474 305.143 619 309.5 619 C 313.857 619 317.423 615.435 317.423 611.077 C 317.423 498.575 498.535 317.423 611.077 317.423 C 615.435 317.423 619 313.857 619 309.5 C 619 305.143 615.435 301.577 611.077 301.577 Z";
+  function starAt(el, size) {
+    var w = el.offsetWidth, h = el.offsetHeight, k = Math.max(size, 0.01) / 619, ox = w / 2 - 309.5 * k, oy = h / 2 - 309.5 * k, c = 0;
+    return 'path("' + STAR.replace(/-?\d*\.?\d+/g, function (v) { return (c++ % 2 === 0 ? ox + parseFloat(v) * k : oy + parseFloat(v) * k).toFixed(2); }) + '")';
+  }
+  var ease = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
+  var active = -1;
+  function reasons() {
+    var span = sec.offsetHeight - vp.clientHeight, p = Math.max(0, Math.min(1, (vp.scrollTop - sec.offsetTop) / span)), v = p * 3;
+    var cur = Math.min(2, Math.floor(v + 0.15));
+    if (cur !== active) { active = cur; texts.forEach(function (t, i) { t.classList.toggle('on', i === cur); }); }
+    [1, 2].forEach(function (i) {
+      var t = reduced ? (v >= i - 0.15 ? 1 : 0) : ease(Math.max(0, Math.min(1, (v - (i - 0.5)) / 0.6)));
+      var el = imgs[i];
+      el.style.clipPath = t >= 0.999 ? 'none' : starAt(el, t * Math.hypot(el.offsetWidth, el.offsetHeight) * 2.2);
+      el.style.transform = reduced ? 'none' : 'scale(' + (1.12 - 0.12 * t).toFixed(3) + ')';
+    });
+    row.style.transform = 'translateX(' + (-(row.scrollWidth - 390) * p).toFixed(1) + 'px)';
+  }
+  imgs.slice(1).forEach(function (el) { el.style.clipPath = starAt(el, 0); });
+  vp.addEventListener('scroll', function () { requestAnimationFrame(reasons); }, { passive: true });
+  addEventListener('load', reasons); reasons();
+
+  // Story pages: the same sequence as desktop.
+  // Open: a light purple panel grows out of the tapped card to full screen, the story is revealed
+  // through the rising, opening Westgate arch, then the article panel slides up and its copy fades up.
+  // Close: a purple panel wipes up over the story and carries on off the top. Next: as open, from the next-story card.
+  var story = document.getElementById('story'), wipe = document.getElementById('wipe'), cur = 0, busy = false;
+  var panel = story.querySelector('.panel'), chrome = story.querySelector('.mnav');
+  function q(sel) { return story.querySelector('[data-s="' + sel + '"]'); }
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  function fill(i) {
+    var s = STORIES[i], d = STORY_DETAIL[i], nx = STORIES[(i + 1) % STORIES.length], parts = s.name.split(',').map(function (x) { return x.trim(); });
+    var hl = d.headline || s.quote, fn = parts[0], hi = hl.indexOf(fn);
+    q('hero').style.backgroundImage = 'url(' + s.img + ')'; q('hero').style.backgroundPosition = d.imgPos || 'center 30%';
+    q('first').textContent = fn;
+    q('h1').innerHTML = hi > -1 ? esc(hl.slice(0, hi)) + '<em>' + esc(fn) + '</em>' + esc(hl.slice(hi + fn.length)) : esc(hl);
+    q('meta').textContent = parts.slice(1).join(' · ');
+    q('stand').textContent = d.standfirst || '';
+    function sec(arr) { return (arr || []).map(function (x) { return (x.q ? '<h2 class="serif">' + esc(x.q) + '</h2>' : '') + x.paras.map(function (p) { return '<p class="b">' + esc(p) + '</p>'; }).join(''); }).join(''); }
+    q('body1').innerHTML = sec(d.body1); q('body2').innerHTML = sec(d.body2);
+    q('pull').textContent = d.pull ? '“' + d.pull + '”' : ''; q('pull').style.display = d.pull ? '' : 'none';
+    q('img2').style.backgroundImage = d.img2 ? 'url(' + d.img2 + ')' : ''; q('img2').style.display = d.img2 ? '' : 'none';
+    q('nextimg').style.backgroundImage = 'url(' + nx.img + ')'; q('nextq').textContent = nx.quote;
+    sc.scrollTop = 0; parallax(); cur = i;
+  }
+  // As desktop: the photo stays put behind the page and the article scrolls up over it, with a slight drift
+  var sc = story.querySelector('.s-scroll'), heroImg = story.querySelector('.s-img');
+  function parallax() { heroImg.style.transform = reduced ? 'none' : 'translateY(' + (-Math.min(sc.scrollTop, VH) * 0.06).toFixed(1) + 'px)'; }
+  sc.addEventListener('scroll', parallax, { passive: true });
+  // Easings matching GSAP's power2/power3/expo
+  var E = {
+    p2io: function (t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; },
+    p3io: function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+    p3o: function (t) { return 1 - Math.pow(1 - t, 3); },
+    expo: function (t) { return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); },
+    lin: function (t) { return t; }
+  };
+  // tween(ms, ease, onUpdate) -> Promise; a timer finishes it if frames are paused
+  function tween(ms, ease, fn) {
+    return new Promise(function (res) {
+      var t0 = performance.now(), done = false;
+      var end = function () { if (done) return; done = true; fn(1); res(); };
+      (function f(now) { if (done) return; var p = Math.min(1, (now - t0) / ms); fn(ease(p)); if (p < 1) requestAnimationFrame(f); else end(); })(t0);
+      setTimeout(end, ms + 150);
+    });
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  var VW = 390, VH = 844;
+  function archClip(p) {
+    // desktop's _archClip, scaled to the phone: the arch rises, then opens out past the edges
+    var W0 = 160, H1 = VH - 90, W2 = VW * 2.2, SPLIT = 0.5;
+    var r = E.p2io(Math.min(1, p / SPLIT)), o = E.p3io(Math.max(0, (p - SPLIT * 0.8) / (1 - SPLIT * 0.8)));
+    var gr = 0.65 + 0.35 * r, w = W0 * gr + (W2 - W0 * gr) * o, hA = H1 * r, h = hA + (VH + w * 0.27 + 40 - hA) * o;
+    var k = w / 208, x0 = VW / 2 - w / 2, top = VH - h;
+    var X = function (x) { return (x0 + x * k).toFixed(2); }, Y = function (y) { return (top + y * k).toFixed(2); };
+    return 'path("M ' + X(0) + ' ' + (VH + 2) + ' L ' + X(0) + ' ' + Y(56.077) + ' C ' + X(16.533) + ' ' + Y(36.281) + ' ' + X(48.374) + ' ' + Y(9.929) + ' ' + X(105.147) + ' ' + Y(0) + ' L ' + X(105.178) + ' ' + Y(0) + ' C ' + X(159.409) + ' ' + Y(9.494) + ' ' + X(190.878) + ' ' + Y(33.951) + ' ' + X(208) + ' ' + Y(53.389) + ' L ' + X(208) + ' ' + (VH + 2) + ' Z")';
+  }
+  function rectIn(el) {
+    var d = dev.getBoundingClientRect(), r = el.getBoundingClientRect(), s = scaleOf();
+    return { left: (r.left - d.left) / s, top: (r.top - d.top) / s, width: r.width / s, height: r.height / s };
+  }
+  function ins(cr, q, rad) {
+    return 'inset(' + (cr.top * q).toFixed(1) + 'px ' + ((VW - cr.left - cr.width) * q).toFixed(1) + 'px ' + ((VH - cr.top - cr.height) * q).toFixed(1) + 'px ' + (cr.left * q).toFixed(1) + 'px round ' + (rad * q).toFixed(1) + 'px)';
+  }
+  var ins_ = function () { return Array.from(story.querySelectorAll('[data-in]')); };
+  function hideCopy() {
+    panel.style.transform = 'translateY(160px)'; panel.style.opacity = '0';
+    chrome.style.transform = 'translateY(-20px)'; chrome.style.opacity = '0';
+    ins_().forEach(function (n) { n.style.transform = 'translateY(30px)'; n.style.opacity = '0'; });
+  }
+  function showCopy() {
+    // chrome, then the panel (1.1s expo.out) 0.1s later, then the copy staggered 0.07s
+    tween(600, E.p3o, function (t) { chrome.style.opacity = t; chrome.style.transform = 'translateY(' + (-20 * (1 - t)) + 'px)'; });
+    wait(100).then(function () { return tween(1100, E.expo, function (t) { panel.style.opacity = t; panel.style.transform = 'translateY(' + (160 * (1 - t)) + 'px)'; }); });
+    ins_().forEach(function (n, i) { wait(150 + i * 70).then(function () { return tween(900, E.p3o, function (t) { n.style.opacity = t; n.style.transform = 'translateY(' + (30 * (1 - t)) + 'px)'; }); }); });
+  }
+  function reveal(fromEl) {
+    // purple panel grows out of fromEl, then the story opens through the arch
+    var cr = fromEl ? rectIn(fromEl) : { left: 0, top: VH, width: VW, height: 0 };
+    wipe.style.zIndex = '49'; wipe.style.clipPath = ins(cr, 1, 15); wipe.style.visibility = 'visible';
+    story.style.clipPath = archClip(0); story.classList.add('open'); story.setAttribute('aria-hidden', 'false');
+    var grow = tween(600, E.p3io, function (t) { wipe.style.clipPath = ins(cr, 1 - t, 15); });
+    var arch = wait(400).then(function () { return tween(1800, E.lin, function (t) { story.style.clipPath = t >= 1 ? 'none' : archClip(t); }); });
+    return Promise.all([grow, arch]).then(function () { wipe.style.visibility = 'hidden'; wipe.style.clipPath = 'none'; story.style.clipPath = 'none'; showCopy(); });
+  }
+  function openStory(i, fromEl) {
+    if (busy) return; busy = true;
+    fill(i);
+    if (reduced) { story.classList.add('open'); story.setAttribute('aria-hidden', 'false'); busy = false; return; }
+    hideCopy();
+    reveal(fromEl).then(function () { busy = false; });
+  }
+  function closeStory() {
+    if (busy) return;
+    var done = function () { story.classList.remove('open'); story.setAttribute('aria-hidden', 'true'); story.style.clipPath = 'none'; };
+    if (reduced) { done(); return; }
+    busy = true;
+    wipe.style.zIndex = '60'; wipe.style.clipPath = 'inset(100% 0% 0% 0%)'; wipe.style.visibility = 'visible';
+    tween(550, E.p3io, function (t) { wipe.style.clipPath = 'inset(' + (100 * (1 - t)).toFixed(2) + '% 0% 0% 0%)'; })
+      .then(function () { done(); return wait(50); })
+      .then(function () { return tween(600, E.p3io, function (t) { wipe.style.clipPath = 'inset(0% 0% ' + (100 * t).toFixed(2) + '% 0%)'; }); })
+      .then(function () { wipe.style.visibility = 'hidden'; wipe.style.clipPath = 'none'; wipe.style.zIndex = '49'; busy = false; });
+  }
+  function nextStory(card) {
+    if (busy) return;
+    var nx = (cur + 1) % STORIES.length;
+    if (reduced) { fill(nx); return; }
+    busy = true;
+    var cr = rectIn(card);
+    wipe.style.zIndex = '60'; wipe.style.clipPath = ins(cr, 1, 15); wipe.style.visibility = 'visible';
+    tween(600, E.p3io, function (t) { wipe.style.clipPath = ins(cr, 1 - t, 15); })
+      .then(function () {
+        // swap the story underneath, drop the wipe behind it, then open through the arch
+        wipe.style.zIndex = '49'; wipe.style.clipPath = 'none';
+        fill(nx); hideCopy(); story.style.clipPath = archClip(0);
+        return wait(100);
+      })
+      .then(function () { return tween(1800, E.lin, function (t) { story.style.clipPath = t >= 1 ? 'none' : archClip(t); }); })
+      .then(function () { wipe.style.visibility = 'hidden'; story.style.clipPath = 'none'; showCopy(); busy = false; });
+  }
+  document.querySelectorAll('[data-story]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); openStory(Number(a.getAttribute('data-story')), a); });
+  });
+  story.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-close]'); if (c) { e.preventDefault(); closeStory(); return; }
+    var n = e.target.closest('[data-next]'); if (n) { e.preventDefault(); nextStory(n); }
+  });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && story.classList.contains('open')) closeStory(); });
+
+  // Hero intro: the film opens through the arch, then the header and copy fade in
+  (function archIntro() {
+    var film = document.getElementById('film'), hero = document.getElementById('hero');
+    var rest = Array.from(hero.children).filter(function (n) { return n !== film && getComputedStyle(n).display !== 'none'; });
+    if (reduced || vp.scrollTop > 0) return;
+    rest.forEach(function (n) { n.style.opacity = '0'; });
+    var VW = 390, VH = 844, CX = VW / 2, W0 = 200, H1 = VH - 90, W2 = VW * 2.4;
+    function arch(w, h) {
+      var k = w / 208, x0 = CX - w / 2, top = VH - h;
+      var X = function (x) { return (x0 + x * k).toFixed(2); }, Y = function (y) { return (top + y * k).toFixed(2); };
+      return 'path("M ' + X(0) + ' ' + (VH + 2) + ' L ' + X(0) + ' ' + Y(56.077) + ' C ' + X(16.533) + ' ' + Y(36.281) + ' ' + X(48.374) + ' ' + Y(9.929) + ' ' + X(105.147) + ' ' + Y(0) + ' L ' + X(105.178) + ' ' + Y(0) + ' C ' + X(159.409) + ' ' + Y(9.494) + ' ' + X(190.878) + ' ' + Y(33.951) + ' ' + X(208) + ' ' + Y(53.389) + ' L ' + X(208) + ' ' + (VH + 2) + ' Z")';
+    }
+    function bez(p1x, p1y, p2x, p2y) { return function (t) { var x = t, cx = 3 * p1x, bx = 3 * (p2x - p1x) - cx, ax = 1 - cx - bx, cy = 3 * p1y, by = 3 * (p2y - p1y) - cy, ay = 1 - cy - by; for (var i = 0; i < 8; i++) { var fx = ((ax * x + bx) * x + cx) * x - t, d = (3 * ax * x + 2 * bx) * x + cx; if (Math.abs(fx) < 1e-5 || !d) break; x -= fx / d; } return ((ay * x + by) * x + cy) * x; }; }
+    var eRise = bez(0.65, 0, 0.35, 1), eOpen = bez(0.76, 0, 0.24, 1), DUR = 3000, SPLIT = 0.5, t0 = performance.now() + 200, shown = false;
+    film.style.clipPath = arch(W0, 0);
+    function tick(now) {
+      var p = Math.max(0, Math.min(1, (now - t0) / DUR)), r = eRise(Math.min(1, p / SPLIT)), o = eOpen(Math.max(0, (p - SPLIT * 0.8) / (1 - SPLIT * 0.8)));
+      var g = 0.65 + 0.35 * r, w = W0 * g + (W2 - W0 * g) * o, hA = H1 * r, h = hA + (VH + w * 0.27 + 40 - hA) * o;
+      film.style.clipPath = arch(w, h);
+      if (!shown && p > 0.85) { shown = true; rest.forEach(function (n, i) { n.style.transition = 'opacity .8s ease ' + (i * 0.15) + 's'; n.style.opacity = '1'; }); }
+      if (p < 1) requestAnimationFrame(tick); else film.style.clipPath = '';
+    }
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>
