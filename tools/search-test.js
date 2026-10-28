@@ -1,4 +1,4 @@
-// Run from the repo root: node tools/search-test.js — prints which answer each test question gets
+// Run from the repo root: node tools/search-test.js to print which answer each test question gets
 let src=require('fs').readFileSync('search-modal.js','utf8');
 src=src.replace("if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();","globalThis.__fb=fallback;");
 eval(src);
