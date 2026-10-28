@@ -47,11 +47,11 @@ html.wnm-open [data-name='Nav bar'], html.wnm-open [data-name='Story nav bar'] {
 .wnm-top::after, .wnm-link::after, .wnm-quick a::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#C68EFD; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
 .wnm-quick a::after { bottom:-4px; }\
 .wnm-top:hover::after, .wnm-top:focus-visible::after, .wnm-link:hover::after, .wnm-link:focus-visible::after, .wnm-quick a:hover::after, .wnm-quick a:focus-visible::after { transform:scaleX(1); }\
-.wnm-head { display:flex; flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.16); }\
-.wnm-backbtn { display:inline-flex; align-items:center; gap:10px; height:36px; padding:0 14px; border:0; border-radius:5px; background:rgba(255,255,255,.1); color:#FFFFFF; font:600 14px Figtree, sans-serif; cursor:pointer; transition:background-color .2s ease; }\
+.wnm-head { display:flex; flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:30px; }\
+.wnm-backbtn { display:inline-flex; align-items:center; gap:10px; height:36px; padding:0 14px; border:0; border-radius:5px; background:#C68EFD; color:#291647; font:600 14px Figtree, sans-serif; cursor:pointer; transition:background-color .2s ease; }\
 .wnm-backbtn i { width:12px; height:12px; transform:rotate(180deg); }\
 .wnm-foot { margin-top:40px; }\
-.wnm-backbtn:hover { background:rgba(255,255,255,.2); }\
+.wnm-backbtn:hover { background:#FFFFFF; }\
 .wnm-land { display:inline-flex; align-items:center; gap:14px; color:#FFFFFF !important; text-decoration:none; font-family:'IvyPresto Display', serif; font-size:38px; line-height:1.15; transition:color .2s ease; }\
 .wnm-land i { width:20px; height:20px; color:#C68EFD; }\
 .wnm-land:hover { color:#C68EFD !important; }\
