@@ -31,19 +31,24 @@ html.wnm-open .mnav { left:0 !important; right:0 !important; border-radius:0 !im
 .wnm.mobile .wnm-cols { grid-template-columns:1fr; grid-auto-flow:row; grid-template-rows:none !important; }\
 .wnm-top { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; padding:18px 0; border:0; border-bottom:1px solid rgba(255,255,255,.16); background:none; color:#FFFFFF; cursor:pointer; text-align:left; font-family:'IvyPresto Display', serif; font-weight:400; font-size:38px; line-height:1.15; transition:color .2s ease; }\
 .wnm.mobile .wnm-top { padding:16px 0; }\
-.wnm-top i, .wnm-land i, .wnm-backbtn i { flex:none; display:block; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; }\
-.wnm-top i { width:18px; height:18px; color:#C68EFD; transition:transform .3s cubic-bezier(.22,1,.36,1); }\
-.wnm-top:hover, .wnm-top:focus-visible { color:#C68EFD; } .wnm-top:hover i { transform:translateX(6px); }\
+.wnm-top i, .wnm-land i, .wnm-backbtn i { position:relative; flex:none; display:block; overflow:hidden; }\
+.wnm i b { position:absolute; inset:0; display:block; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wnm i b + b { transform:translateX(-100%); }\
+.wnm-top:hover i b, .wnm-top:focus-visible i b, .wnm-land:hover i b, .wnm-land:focus-visible i b, .wnm-backbtn:hover i b, .wnm-backbtn:focus-visible i b { transform:translateX(100%); }\
+.wnm-top:hover i b + b, .wnm-top:focus-visible i b + b, .wnm-land:hover i b + b, .wnm-land:focus-visible i b + b, .wnm-backbtn:hover i b + b, .wnm-backbtn:focus-visible i b + b { transform:translateX(0); }\
+.wnm-top i { width:18px; height:18px; color:#C68EFD; }\
+.wnm-top:hover, .wnm-top:focus-visible { color:#C68EFD; }\
 .wnm-quick { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:40px; }\
-.wnm-quick a { color:#DBBAFF; text-decoration:none; font-weight:600; font-size:16px; transition:color .2s ease; }\
-.wnm-quick a:hover { color:#FFFFFF; }\
+.wnm-quick a { color:#DBBAFF; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:4px; text-decoration-thickness:1px; font-weight:600; font-size:16px; transition:color .2s ease, text-decoration-color .2s ease; }\
+.wnm-quick a:hover { color:#C68EFD; text-decoration-color:currentColor; }\
 .wnm-head { display:flex; flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.16); }\
 .wnm-backbtn { display:inline-flex; align-items:center; gap:10px; height:36px; padding:0 14px; border:0; border-radius:5px; background:rgba(255,255,255,.1); color:#FFFFFF; font:600 14px Figtree, sans-serif; cursor:pointer; transition:background-color .2s ease; }\
 .wnm-backbtn i { width:12px; height:12px; transform:rotate(180deg); }\
+.wnm-foot { margin-top:40px; }\
 .wnm-backbtn:hover { background:rgba(255,255,255,.2); }\
 .wnm-land { display:inline-flex; align-items:center; gap:14px; color:#FFFFFF !important; text-decoration:none; font-family:'IvyPresto Display', serif; font-size:38px; line-height:1.15; transition:color .2s ease; }\
-.wnm-land i { width:20px; height:20px; color:#C68EFD; transition:transform .3s cubic-bezier(.22,1,.36,1); }\
-.wnm-land:hover { color:#C68EFD !important; } .wnm-land:hover i { transform:translateX(6px); }\
+.wnm-land i { width:20px; height:20px; color:#C68EFD; }\
+.wnm-land:hover { color:#C68EFD !important; }\
 .wnm-land small { display:block; }\
 .wnm-kicker { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#C68EFD; margin-bottom:-10px; }\
 .wnm-link { display:block; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.12); color:#FFFFFF !important; text-decoration:none; font-weight:600; font-size:18px; line-height:1.3; transition:color .2s ease; }\
@@ -55,12 +60,12 @@ html.wnm-open .mnav button[aria-label='Close menu'] img { opacity:0; }\
 html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; position:absolute; left:50%; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px; background:#291647; -webkit-mask:url(motifs/i-cross.svg) center / contain no-repeat; mask:url(motifs/i-cross.svg) center / contain no-repeat; }\
 .wnm button:focus, .wnm a:focus { outline:none; }\
 .wnm button:focus-visible, .wnm a:focus-visible { outline:2px solid #C68EFD; outline-offset:4px; border-radius:3px; }\
-@media (prefers-reduced-motion: reduce) { .wnm-box, .wnm-pane, .wnm-back { transition:none; } }\
+@media (prefers-reduced-motion: reduce) { .wnm-box, .wnm-pane, .wnm-back, .wnm i b { transition:none; } }\
 ";
 
   var navTop = 0, mobile = false, host = null, deviceEl = null, root, box, scroller, navEl = null, btnEl = null, lastFocus = null, current = -1;
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-  function arrow() { return '<i aria-hidden="true"></i>'; }
+  function arrow() { return '<i aria-hidden="true"><b></b><b></b></i>'; }
 
   function topPane() {
     var rows = Math.ceil(IA.length / 2);
@@ -70,10 +75,11 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
   }
   function sectionPane(i) {
     var s = IA[i], rows = Math.ceil(s[1].length / 2);
-    return '<div class="wnm-pane" data-level="2"><div class="wnm-head"><button class="wnm-backbtn" data-back="1">' + arrow() + 'All sections</button>' +
+    return '<div class="wnm-pane" data-level="2"><div class="wnm-head">' +
       '<span class="wnm-kicker">You are in</span><a href="#" class="wnm-land">' + esc(s[0]) + arrow() + '</a></div>' +
       '<nav aria-label="' + esc(s[0]) + '"><div class="wnm-cols" style="grid-template-rows:repeat(' + rows + ', auto)">' +
-      s[1].map(function (p) { return '<a href="#" class="wnm-link">' + esc(p) + '</a>'; }).join('') + '</div></nav></div>';
+      s[1].map(function (p) { return '<a href="#" class="wnm-link">' + esc(p) + '</a>'; }).join('') + '</div></nav>' +
+      '<div class="wnm-foot"><button class="wnm-backbtn" data-back="1">' + arrow() + 'All sections</button></div></div>';
   }
 
   function geometry() {
@@ -112,7 +118,7 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
     }, 180);
   }
   function focusFirst() {
-    var f = scroller.querySelector(current < 0 ? '.wnm-top' : '.wnm-backbtn');
+    var f = scroller.querySelector(current < 0 ? '.wnm-top' : '.wnm-land');
     if (f) try { f.focus({ preventScroll: true }); } catch (e) {}
   }
 
