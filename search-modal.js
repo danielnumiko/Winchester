@@ -309,11 +309,11 @@
 .wsm-src img { flex:none; width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
 .wsm a:hover { color:#291647; }\
-.wsm-more { margin-top:20px; }\
+.wsm-more { margin-top:18px; } .wsm-from + .wsm-more { margin-top:-2px; }\
 .wsm-kick { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
-.wsm-all { box-sizing:border-box; width:100%; min-height:74px; padding:15px 20px; justify-content:space-between; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:flex; align-items:center; gap:20px; text-decoration:none; font-weight:600; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
+.wsm-all { box-sizing:border-box; width:100%; min-height:60px; padding:10px 20px; justify-content:space-between; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:flex; align-items:center; gap:20px; text-decoration:none; font-weight:500; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
 .wsm-all:hover { background:#291647; color:#FFFFFF !important; }\
-.wsm-all i { position:relative; flex:none; width:11px; height:11px; overflow:hidden; }\
+.wsm-all i { position:relative; flex:none; width:12px; height:12px; overflow:hidden; }\
 .wsm-all b { position:absolute; inset:0; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
 .wsm-all b + b { transform:translateX(-100%); }\
 .wsm-all:hover b { transform:translateX(100%); } .wsm-all:hover b + b { transform:translateX(0); }\
