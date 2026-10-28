@@ -292,6 +292,9 @@ footer .col a:hover, footer .tel a:hover { color:var(--lp); }
 footer .legal { border-top:1px solid var(--mp); padding-top:24px; display:flex; flex-wrap:wrap; gap:10px 18px; }
 footer .legal a, footer .soc a { font-weight:500; font-size:14px; color:var(--pale); }
 footer .soc { display:flex; flex-wrap:wrap; gap:10px 18px; }
+footer .soc a.icon { width:24px; height:24px; display:flex; color:var(--pale); transition:color .2s ease; }
+footer .soc a.icon span { width:100%; height:100%; display:block; background-color:currentColor; -webkit-mask-position:center; mask-position:center; -webkit-mask-size:contain; mask-size:contain; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; }
+footer .soc a.icon:hover { color:#FFFFFF; }
 footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
 """
 
@@ -560,6 +563,9 @@ def page(v, switcher, name_first=False):
     cols = "".join(f'<div class="col"><h4>{h}</h4>' + "".join(f'<a href="#">{l}</a>' for l in ls) + '</div>' for h, ls in FOOT)
     legal = "".join(f'<a href="#">{l}</a>' for l in LEGAL)
     soc = "".join(f'<a href="#">{l}</a>' for l in SOCIAL)
+    if name_first:
+        # Round 3: the networks' own icons
+        soc = "".join(f'<a href="#" class="icon" aria-label="{l}"><span aria-hidden="true" style="-webkit-mask-image:url(motifs/social-{l.lower()}.svg); mask-image:url(motifs/social-{l.lower()}.svg)"></span></a>' for l in SOCIAL)
     return f'''<!DOCTYPE html>
 <html lang="en-GB" data-m-navcolor="{o["navcolor"]}" data-m-navfull="{o["navfull"]}" data-m-broadcast="on">
 <head>
