@@ -80,16 +80,9 @@
 .wsm-src img { width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
 .wsm a:hover { color:#291647; }\
-.wsm-more { margin-top:30px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }\
+.wsm-more { margin-top:30px; }\
 .wsm-kick { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
-.wsm-list { list-style:none; margin:0; padding:0; align-self:stretch; }\
-.wsm-res { position:relative; display:flex; flex-direction:column; gap:4px; padding:15px 0; border-bottom:1px solid #E7E1EF; color:#291647; text-decoration:none; }\
-.wsm-res small { font-weight:500; font-size:14px; line-height:1.3; color:#5C358E; }\
-.wsm-res strong { font-weight:600; font-size:18px; line-height:1.3; transition:color .2s ease; }\
-.wsm-res:hover strong { color:#5C358E; }\
-.wsm-res::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#C68EFD; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
-.wsm-res:hover::after, .wsm-res:focus-visible::after { transform:scaleX(1); }\
-.wsm-all { margin-top:20px; min-height:60px; box-sizing:border-box; padding:15px 20px; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:500; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
+.wsm-all { min-height:60px; box-sizing:border-box; padding:15px 20px; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:500; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
 .wsm-all:hover { background:#291647; color:#FFFFFF !important; }\
 .wsm-all i { position:relative; flex:none; width:12px; height:12px; overflow:hidden; }\
 .wsm-all b { position:absolute; inset:0; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
@@ -122,7 +115,7 @@
 .wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
 [data-screen-label=\"Intro\"] > div > div:first-child, #intro .icard:first-child { cursor:pointer; }\
-@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-res::after, .wsm-all b { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
+@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-all b { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -227,45 +220,12 @@
     }).filter(function (x) { return x.score > 0; }).sort(function (a, b) { return b.score - a.score; });
     return scored.map(function (x) { return x.src; });
   }
-  var START = [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }, { title: 'Undergraduate Open Days', path: 'Visit us / On Campus Events / Open Days' }];
+  var START = [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }];
   function nearestSources(q) {
     var hit = match(q);
     if (hit) return { sources: hit.sources.slice(0, 3), drawn: true };
     var found = termSources(q);
-    return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START.slice(0, 2), drawn: false };
-  }
-  // Pages grouped by topic, so "More pages about this" stays on the subject of the answer
-  var TOPIC_PAGES = [
-    ['Tuition fees and funding', 'Scholarships, Bursaries and Awards', 'Students and money', 'Accommodation costs', 'International scholarships', 'Student jobs', 'Information for parents and supporters'],
-    ['Our Accommodation Guarantee', 'How to apply for accommodation', 'Accommodation costs', 'Guaranteed accommodation in Clearing', 'Commuting students', 'Life in Winchester'],
-    ['Study adjustments and disability support', 'Student wellbeing', 'Health and wellbeing', 'Academic skills', 'Faith and chaplaincy', 'Your first weeks', 'Information for parents and supporters'],
-    ['How to apply', 'Entry requirements explained', 'Apply after the UCAS deadline', 'Clearing', 'Academic Pathways Programme', 'Information for mature learners', 'Applying as an international student'],
-    ['Applying as an international student', 'International entry requirements', 'International scholarships', 'Visa Information'],
-    ['Teaching and assessment', 'How you will be assessed', 'Academic skills', 'Degree Apprenticeships'],
-    ['Browse Undergraduate Degrees', 'Browse Postgraduate Degrees', 'Psychology courses', 'Nursing, health and social care courses', 'Teaching and education courses', 'Film, media and digital arts courses', 'Conversion Courses', 'Degree Apprenticeships'],
-    ['Undergraduate Open Days', 'Campus Tours', 'Virtual Tour', 'Getting here', 'Life in Winchester'],
-    ['Student societies', 'Sport and fitness', 'Life in Winchester', 'Your first weeks', 'Commuting students', 'Student jobs'],
-    ['Your employability toolkit', 'Student jobs', 'Degree Apprenticeships']
-  ];
-  // Page results for the search: pages on the same topics as the answer's sources, nudged by the words searched
-  function pageResults(q, shown, n) {
-    var lib = allSources(), qt = toks(q).filter(function (w) { return STOP.indexOf(w) < 0 && w.length > 2; });
-    var seeds = (shown || []).map(function (s) { return s.title; }), seen = {}, out = [];
-    seeds.forEach(function (t) { seen[t] = 1; });
-    if (!seeds.length) seeds = termSources(q).slice(0, 2).map(function (s) { return s.title; });
-    var score = {};
-    seeds.forEach(function (t, i) {
-      TOPIC_PAGES.forEach(function (group) {
-        if (group.indexOf(t) < 0) return;
-        group.forEach(function (g, j) { if (g !== t) score[g] = (score[g] || 0) + (seeds.length - i) * 2 + (group.length - j) * 0.1; });
-      });
-    });
-    Object.keys(score).forEach(function (t) { var hay = toks(t + ' ' + ((lib[t] || {}).path || '')); qt.forEach(function (w) { if (hay.indexOf(w) > -1) score[t] += 3; }); });
-    function add(s) { if (s && !seen[s.title] && out.length < n) { seen[s.title] = 1; out.push(s); } }
-    Object.keys(score).sort(function (a, b) { return score[b] - score[a]; }).forEach(function (t) { add(lib[t]); });
-    termSources(q).forEach(add);
-    if (out.length < 3) START.forEach(add);
-    return out;
+    return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START, drawn: false };
   }
   // stand-in for the search index's total, steady for the same query
   function resultCount(q) { var h = 0; String(q).toLowerCase().split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) | 0; }); return 18 + Math.abs(h) % 70; }
@@ -320,7 +280,7 @@
       var c = e.target.closest('[data-wsm-ask]'); if (c) { ask(c.getAttribute('data-wsm-ask')); return; }
       var s = e.target.closest('[data-wsm-subject]'); if (s) { askSubject(s.getAttribute('data-wsm-subject')); return; }
       if (e.target.closest('.wsm-send')) ask(input.value);
-      if (e.target.closest('.wsm-src, .wsm-res, .wsm-all')) e.preventDefault(); // pages aren't in the prototype
+      if (e.target.closest('.wsm-src, .wsm-all')) e.preventDefault(); // pages aren't in the prototype
     });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
@@ -342,8 +302,8 @@
     if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
       h = '<div class="wsm-a"><div><p class="wsm-lead">We couldn’t find one clear answer to that.</p>' +
-        '<p class="wsm-p">These pages are the closest match to what you searched. See everything we found, or tell us a bit more.</p>' +
-        moreHtml(q, [], 'Best matches') +
+        '<p class="wsm-p">See everything we found for your search, or tell us a bit more about what you’re after.</p>' +
+        moreHtml(q) +
         '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
         opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
       result.innerHTML = h + '</div></div>';
@@ -356,15 +316,14 @@
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
         m.sources.map(function (s) { return '<a href="#" class="wsm-src" title="' + esc(s.path) + '">' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
-    h += moreHtml(q, m.sources, 'More pages about this');
+    h += moreHtml(q);
     result.innerHTML = h + '</div></div>';
     body.scrollTop = 0;
   }
-  function moreHtml(q, shown, kicker) {
-    var list = pageResults(q, shown, 4), label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
-    return '<div class="wsm-more">' + (list.length ? '<span class="wsm-kick">' + kicker + '</span><ul class="wsm-list">' +
-      list.map(function (s) { return '<li><a href="#" class="wsm-res"><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></a></li>'; }).join('') + '</ul>' : '') +
-      '<a href="#" class="wsm-all">See all ' + resultCount(q) + ' results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
+  // The full results page is where the list lives; the modal just links to it
+  function moreHtml(q) {
+    var label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
+    return '<div class="wsm-more"><a href="#" class="wsm-all">See all ' + resultCount(q) + ' results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
