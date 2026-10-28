@@ -15,15 +15,14 @@
 
   var CSS = "\
 html.wnm-open [data-name='Nav bar'], html.wnm-open [data-name='Story nav bar'] { border-radius:5px 5px 0 0 !important; }\
-html.wnm-open .mnav { border-radius:5px 5px 0 0 !important; }\
-html[data-m-navfull='on'].wnm-open .mnav { border-radius:0 !important; }\
+html.wnm-open .mnav { left:0 !important; right:0 !important; border-radius:0 !important; transition:top .35s cubic-bezier(.22,1,.36,1), left .3s ease, right .3s ease, border-radius .3s ease; }\
 .wnm-host { position:fixed; left:0; top:0; width:1280px; height:832px; transform-origin:0 0; z-index:8999; pointer-events:none; border-radius:15px; overflow:hidden; }\
 .wnm { position:absolute; inset:0; z-index:250; pointer-events:none; font-family:Figtree, sans-serif; }\
 .wnm.open .wnm-back, .wnm.open .wnm-box { pointer-events:auto; }\
 .wnm-back { position:absolute; left:0; right:0; bottom:0; top:0; background:rgba(20,10,36,.55); opacity:0; transition:opacity .35s ease; }\
 .wnm.show .wnm-back { opacity:1; }\
 .wnm-box { position:absolute; overflow:hidden; background:#291647; color:#FFFFFF; border-radius:0 0 5px 5px; height:0; transition:height .45s cubic-bezier(.22,1,.36,1); box-shadow:0 24px 48px rgba(20,10,36,.35); }\
-.wnm-box.full { border-radius:0; }\
+.wnm-box.full, .wnm.mobile .wnm-box { border-radius:0; }\
 .wnm-scroll { position:absolute; inset:0; overflow-y:auto; scrollbar-width:thin; }\
 .wnm-pane { padding:28px 40px 36px; border-top:1px solid rgba(255,255,255,.14); transition:opacity .3s ease, transform .4s cubic-bezier(.22,1,.36,1); }\
 .wnm.mobile .wnm-pane { padding:20px 20px 28px; }\
@@ -35,7 +34,7 @@ html[data-m-navfull='on'].wnm-open .mnav { border-radius:0 !important; }\
 .wnm-top i, .wnm-land i, .wnm-backbtn i { flex:none; display:block; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; }\
 .wnm-top i { width:18px; height:18px; color:#C68EFD; transition:transform .3s cubic-bezier(.22,1,.36,1); }\
 .wnm-top:hover, .wnm-top:focus-visible { color:#C68EFD; } .wnm-top:hover i { transform:translateX(6px); }\
-.wnm-quick { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:26px; }\
+.wnm-quick { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:40px; }\
 .wnm-quick a { color:#DBBAFF; text-decoration:none; font-weight:600; font-size:16px; transition:color .2s ease; }\
 .wnm-quick a:hover { color:#FFFFFF; }\
 .wnm-head { display:flex; flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.16); }\
@@ -90,7 +89,7 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
     box.style.left = g.left + 'px'; box.style.top = g.top + 'px'; box.style.width = g.width + 'px';
     root.querySelector('.wnm-back').style.top = g.top + 'px';
     box.classList.toggle('full', g.full);
-    var maxH = g.devH - g.top - (mobile ? 12 : 24), h = Math.min(pane.scrollHeight, maxH);
+    var maxH = g.devH - g.top - (mobile ? 0 : 24), h = Math.min(pane.scrollHeight, maxH);
     if (mobile) h = maxH; // on mobile the box fills the rest of the screen
     if (!animate) box.style.transition = 'none';
     box.style.height = h + 'px';
@@ -126,6 +125,7 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
     box.style.height = '0px';
     current = -1;
     requestAnimationFrame(function () { root.classList.add('show'); show(-1, 0); });
+    setTimeout(function () { if (root.classList.contains('open')) fit(true); }, 350);
     setTimeout(function () { root.classList.add('show'); }, 30);
   }
   function close() {
