@@ -351,12 +351,13 @@
     place();
     lastFocus = document.activeElement;
     render(); root.classList.add('open');
+    document.dispatchEvent(new CustomEvent('wch:overlay'));
     requestAnimationFrame(function () { root.classList.add('show'); });
     setTimeout(function () { root.classList.add('show'); try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); } }, 30);
   }
   function close() {
     root.classList.remove('show'); token++;
-    setTimeout(function () { root.classList.remove('open'); }, 320);
+    setTimeout(function () { root.classList.remove('open'); document.dispatchEvent(new CustomEvent('wch:overlay')); }, 320);
     if (lastFocus && lastFocus.focus) try { lastFocus.focus({ preventScroll: true }); } catch (e) {}
   }
 

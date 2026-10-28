@@ -132,6 +132,7 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
   function open(nav, btn) {
     navEl = nav; btnEl = btn; lastFocus = document.activeElement; navTop = nav.getBoundingClientRect().top;
     document.documentElement.classList.add('wnm-open');
+    document.dispatchEvent(new CustomEvent('wch:overlay'));
     btnEl.setAttribute('aria-expanded', 'true'); btnEl.setAttribute('aria-label', 'Close menu');
     scroller.innerHTML = '';
     root.classList.add('open');
@@ -146,7 +147,7 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
     root.classList.remove('show');
     box.style.height = '0px';
     if (btnEl) { btnEl.setAttribute('aria-expanded', 'false'); btnEl.setAttribute('aria-label', 'Menu'); }
-    setTimeout(function () { root.classList.remove('open'); document.documentElement.classList.remove('wnm-open'); scroller.innerHTML = ''; }, 400);
+    setTimeout(function () { root.classList.remove('open'); document.documentElement.classList.remove('wnm-open'); scroller.innerHTML = ''; document.dispatchEvent(new CustomEvent('wch:overlay')); }, 400);
     if (lastFocus && lastFocus.focus) try { lastFocus.focus({ preventScroll: true }); } catch (e) {}
   }
 
