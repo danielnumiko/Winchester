@@ -15,12 +15,14 @@
 
   var CSS = "\
 html.wnm-open [data-name='Nav bar'], html.wnm-open [data-name='Story nav bar'] { border-radius:5px 5px 0 0 !important; }\
-html.wnm-open .mnav { left:0 !important; right:0 !important; border-radius:0 !important; transition:top .35s cubic-bezier(.22,1,.36,1), left .3s ease, right .3s ease, border-radius .3s ease; }\
 .wnm-host { position:fixed; left:0; top:0; width:1280px; height:832px; transform-origin:0 0; z-index:8999; pointer-events:none; border-radius:15px; overflow:hidden; }\
 .wnm { position:absolute; inset:0; z-index:250; pointer-events:none; font-family:Figtree, sans-serif; }\
 .wnm.open .wnm-back, .wnm.open .wnm-box { pointer-events:auto; }\
 .wnm-back { position:absolute; left:0; right:0; bottom:0; top:0; background:rgba(20,10,36,.55); opacity:0; transition:opacity .35s ease; }\
 .wnm.show .wnm-back { opacity:1; }\
+.wnm.mobile { z-index:19; }\
+.wnm.mobile .wnm-back { background:#291647; }\
+.wnm.mobile .wnm-box { box-shadow:none; }\
 .wnm-box { position:absolute; overflow:hidden; background:#291647; color:#FFFFFF; border-radius:0 0 5px 5px; height:0; transition:height .45s cubic-bezier(.22,1,.36,1); box-shadow:0 24px 48px rgba(20,10,36,.35); }\
 .wnm-box.full, .wnm.mobile .wnm-box { border-radius:0; }\
 .wnm-scroll { position:absolute; inset:0; overflow-y:auto; scrollbar-width:thin; }\
@@ -88,12 +90,13 @@ html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; positio
     deviceEl = dev;
     var d = dev.getBoundingClientRect(), k = d.width / (mobile ? 390 : 1280), n = navEl.getBoundingClientRect();
     if (host) { host.style.left = d.left + 'px'; host.style.top = d.top + 'px'; host.style.transform = 'scale(' + k + ')'; }
-    return { left: (n.left - d.left) / k, top: (n.bottom - d.top) / k, width: n.width / k, devH: d.height / k, full: (n.left - d.left) / k < 1 };
+    return { left: (n.left - d.left) / k, top: (n.bottom - d.top) / k, navTop: (n.top - d.top) / k, width: n.width / k, devH: d.height / k, full: (n.left - d.left) / k < 1 };
   }
   function fit(animate) {
     var g = geometry(), pane = scroller.querySelector('.wnm-pane:last-child');
     box.style.left = g.left + 'px'; box.style.top = g.top + 'px'; box.style.width = g.width + 'px';
-    root.querySelector('.wnm-back').style.top = g.top + 'px';
+    // on mobile the solid fill sits behind the header too, from just under the Open Day bar
+    root.querySelector('.wnm-back').style.top = (mobile ? Math.max(0, g.navTop - 12) : g.top) + 'px';
     box.classList.toggle('full', g.full);
     var maxH = g.devH - g.top - (mobile ? 0 : 24), h = Math.min(pane.scrollHeight, maxH);
     if (mobile) h = maxH; // on mobile the box fills the rest of the screen
