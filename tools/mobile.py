@@ -579,7 +579,7 @@ def page(v, switcher, name_first=False):
   </section>
 
   <section id="intro" data-screen-label="Intro">
-    <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p>{btn("What do you want to study?")}</div>
+    <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p>{btn("What do you want to study?").replace('fig-icon-arrow-dark.svg" alt="" class="ico"', 'fig-icon-search.svg" alt="" class="ico" style="width:16px; height:16px"') if name_first else btn("What do you want to study?")}</div>
     <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p>{btn("Tell us about yourself")}</div>
   </section>
 
