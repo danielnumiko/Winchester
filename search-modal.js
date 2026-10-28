@@ -282,7 +282,8 @@
 .wsm-srcs { display:flex; flex-wrap:wrap; gap:8px; }\
 .wsm-src { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:5px; background:#F5F5F5; color:#291647; text-decoration:none; font-weight:600; font-size:14px; line-height:1.2; transition:background-color .2s ease; }\
 .wsm-src img { width:11px; height:11px; }\
-.wsm-src:hover { background:#C68EFD; }\
+.wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
+.wsm a:hover { color:#291647; }\
 .wsm-dots { display:flex; gap:6px; padding-top:8px; }\
 .wsm-dots span { width:8px; height:8px; border-radius:50%; background:#C68EFD; animation:wsm-dot 1s infinite ease-in-out; }\
 .wsm-dots span:nth-child(2) { animation-delay:.15s; } .wsm-dots span:nth-child(3) { animation-delay:.3s; }\
@@ -312,14 +313,83 @@
 ";
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+  // Extra everyday wording for each knowledge entry, by the entry's position (1 to 17)
+  var EXTRA = {
+    1: ['offer', 'grade', 'qualification', 'a level', 'btec', 'tariff', 'get in', 'need to get', 'entry'],
+    2: ['deadline', 'project', 'portfolio', 'how am i marked', 'how am i assessed'],
+    3: ['lecture', 'small class', 'class', 'tutor', 'contact time', 'days a week', 'how much teaching', 'workshop'],
+    4: ['work placement', 'industry', 'employer', 'experience', 'year out', 'real world', 'placement year'],
+    5: ['housing', 'house', 'flat', 'dorm', 'catered', 'self catered', 'en suite', 'ensuite', 'where to live', 'where will i live', 'residence', 'stay'],
+    6: ['price', 'pay', 'paying', 'expensive', 'cheap', 'tuition fee', 'student finance', 'grant', 'cost of living', 'how much is it', 'how much does it cost', 'finance'],
+    7: ['job', 'earn', 'earning', 'working', 'work while', 'part time work'],
+    8: ['commuter', 'travel', 'transport', 'parking', 'car', 'from home', 'stay at home', 'live at home'],
+    9: ['mature student', 'too old', 'adult', 'returning', 'change career', 'later in life', 'no qualification', 'still go to uni', 'still go to university', 'my age', 'age limit', 'older student', 'went back to study'],
+    10: ['open evening', 'see the campus', 'come and see', 'visit day', 'campus visit', 'tours', 'open day date', 'when can i visit'],
+    11: ['moving', 'move in', 'induction', 'first week', 'nervous', 'lonely', 'starting'],
+    12: ['club', 'sport', 'activities', 'student union', 'union', 'hobby', 'make friends', 'nightlife', 'fun'],
+    13: ['town', 'location', 'area', 'safe', 'safety', 'safest', 'near', 'nearby', 'what is winchester like'],
+    14: ['didnt get', 'did not get', 'results', 'late application', 'no place', 'missed'],
+    15: ['applying', 'how do i apply', 'when to apply', 'statement', 'reference', 'how to apply'],
+    16: ['abroad', 'foreign', 'overseas student', 'english test', 'toefl', 'eu student', 'non uk'],
+    17: ['counselling', 'anxiety', 'learning difference', 'dyspraxia', 'accessibility', 'wellness', 'stress', 'additional needs']
+  };
+  // Subject words that should bring up a subject overview
+  var SUBJECT_WORDS = {
+    'Psychology': ['psychology', 'psych', 'counselling psychology'],
+    'Teaching': ['teaching', 'teacher', 'teach', 'education', 'primary', 'pgce', 'qts'],
+    'Nursing': ['nursing', 'nurse', 'midwife', 'midwifery', 'health', 'social work', 'social care', 'care'],
+    'Film and media': ['film', 'media', 'game', 'games', 'animation', 'digital', 'television', 'tv', 'photography', 'journalism']
+  };
+  var STOP = ['what','when','where','which','does','have','with','your','you','the','and','for','are','can','any','there','about','how','much','many','they','this','that','from','into','get','do','is','a','an','to','of','in','i','my','me','it','be','on','at','or','if','will','would','should','could','we','us','our','here','there','there'];
+  function stem(w) {
+    if (w.length > 5 && /ies$/.test(w)) return w.slice(0, -3) + 'y';
+    if (w.length > 5 && /ing$/.test(w)) return w.slice(0, -3);
+    if (w.length > 4 && /ed$/.test(w)) return w.slice(0, -2);
+    if (w.length > 4 && /es$/.test(w) && !/ses$/.test(w)) return w.slice(0, -2);
+    if (w.length > 3 && /s$/.test(w) && !/ss$/.test(w)) return w.slice(0, -1);
+    return w;
+  }
+  function toks(t) { return String(t || '').toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9: ]/g, ' ').split(/\s+/).filter(Boolean).map(stem); }
+  function near(a, b) {
+    // one typo allowed on longer words
+    if (a === b) return true;
+    if (a.length < 5 || b.length < 5 || Math.abs(a.length - b.length) > 1) return false;
+    var i = 0, j = 0, edits = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) { i++; j++; continue; }
+      if (++edits > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+    }
+    return edits + (a.length - i) + (b.length - j) <= 1;
+  }
+  function hasPhrase(qt, phrase) {
+    var pt = toks(phrase);
+    if (!pt.length) return false;
+    for (var i = 0; i + pt.length <= qt.length; i++) {
+      var ok = true;
+      for (var j = 0; j < pt.length; j++) if (!near(qt[i + j], pt[j])) { ok = false; break; }
+      if (ok) return true;
+    }
+    return false;
+  }
+  function score(qt, entry, idx) {
+    var sc = 0;
+    entry.keys.concat(EXTRA[idx + 1] || []).forEach(function (k) { if (hasPhrase(qt, k)) sc += 2 * toks(k).length; });
+    // weaker signal: query words that appear in the answer or its sources
+    var hay = toks(entry.lead + ' ' + entry.body + ' ' + entry.sources.map(function (s) { return s.title; }).join(' '));
+    var content = qt.filter(function (w) { return STOP.indexOf(w) < 0 && w.length > 2; });
+    var seen = {};
+    content.forEach(function (w) { if (!seen[w] && hay.indexOf(w) > -1) { seen[w] = 1; sc += 0.5; } });
+    return sc;
+  }
   function match(query) {
-    var q = ' ' + (query || '').toLowerCase().replace(/[^a-z0-9: ]/g, ' ') + ' ', best = null, bestScore = 0;
-    KNOWLEDGE.forEach(function (entry) {
-      var score = 0;
-      entry.keys.forEach(function (k) { if (q.indexOf(' ' + k) > -1 || q.indexOf(k + ' ') > -1) score += k.split(' ').length; });
-      if (score > bestScore) { bestScore = score; best = entry; }
-    });
-    return bestScore > 0 ? best : null;
+    var qt = toks(query), best = null, bestScore = 0;
+    KNOWLEDGE.forEach(function (entry, i) { var sc = score(qt, entry, i); if (sc > bestScore) { bestScore = sc; best = entry; } });
+    return bestScore >= 2 ? best : null;
+  }
+  function matchSubject(query) {
+    var qt = toks(query);
+    return Object.keys(SUBJECT_WORDS).find(function (s) { return SUBJECT_WORDS[s].some(function (w) { return hasPhrase(qt, w); }); }) || null;
   }
   function allSources() { var seen = {}; KNOWLEDGE.forEach(function (k) { k.sources.forEach(function (s) { seen[s.title] = s; }); }); return seen; }
   function nearestSources(q) {
@@ -336,7 +406,10 @@
     return { sources: [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }], drawn: false };
   }
   function fallback(q) {
-    var hit = match(q);
+    var hit = match(q), subj = matchSubject(q), qt = toks(q);
+    // a subject question gets the subject overview, unless it's about something specific (fees, entry requirements...)
+    var specific = hit ? score(qt, hit, KNOWLEDGE.indexOf(hit)) : 0;
+    if (subj && specific < 4) { var a = SUBJECTS[subj]; return { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; }
     return hit ? { role: 'bot', lead: hit.lead, body: hit.body, body2: hit.body2, sources: hit.sources }
       : { role: 'bot', kind: 'clarify', lead: 'I want to get this right rather than guess.', body: 'I can half-answer that from a couple of different pages, and they would send you to different places. Which of these is closest?', body2: '' };
   }
