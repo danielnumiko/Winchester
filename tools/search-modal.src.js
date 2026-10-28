@@ -14,6 +14,8 @@
     study: { label: 'Ask us anything', heading: 'What do you want to <em>study</em>?', sub: 'Name it if you know it, or start somewhere near.',
       chips: [['Psychology', null], ['Teaching', null], ['Nursing', null], ['Film and media', null]] }
   };
+  // intro cards: desktop (inside the Intro section's grid) and mobile (.icard); the search card is the first
+  var CARD = '[data-screen-label="Intro"] > div > div, #intro .icard';
   var CLARIFY = [['Entry requirements', 'What are the entry requirements?'], ['What it costs', 'What does it cost, and what funding is there?'], ['Where I would live', 'Where would I live in first year?'], ['Visiting the campus', 'When are the next open days?']];
 
   var CSS = "\
@@ -83,6 +85,7 @@
 .wsm-result { width:100%; max-width:660px; margin:0 auto; }\
 .wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
+[data-screen-label=\"Intro\"] > div > div:first-child, #intro .icard:first-child { cursor:pointer; }\
 @media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
 
@@ -311,6 +314,9 @@
     build(container, mobile);
     document.addEventListener('click', function (e) {
       if (root.contains(e.target)) return;
+      // the whole "Search for a course" card opens the search, not just its button
+      var card = e.target.closest && e.target.closest(CARD);
+      if (card && /What do you want to study\?/.test(card.textContent)) { e.preventDefault(); e.stopPropagation(); open('study'); return; }
       var t = e.target.closest && e.target.closest('[data-nav-ask], button[aria-label="Ask us anything"], a, button');
       if (!t) return;
       var text = (t.textContent || '').trim();
