@@ -75,12 +75,12 @@
 .wsm-p { margin:0; font-weight:500; font-size:16px; line-height:1.6; color:#3D2566; }\
 .wsm-from { margin-top:6px; display:flex; flex-direction:column; gap:10px; }\
 .wsm-from > span { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
-.wsm-srcs { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }\
-.wsm.mobile .wsm-srcs { grid-template-columns:1fr; }\
-.wsm-src { display:flex; flex-direction:column; gap:5px; padding:15px; border-radius:5px; background:#F5F5F5; color:#291647; text-decoration:none; transition:background-color .2s ease; }\
+.wsm-srcs { display:flex; flex-direction:column; gap:10px; }\
+.wsm-src { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:15px 20px; border-radius:5px; background:#F5F5F5; color:#291647; text-decoration:none; transition:background-color .2s ease; }\
+.wsm-src span { display:flex; flex-direction:column; gap:5px; min-width:0; }\
 .wsm-src small { font-weight:500; font-size:14px; line-height:1.3; color:#5C358E; }\
-.wsm-src strong { margin-top:auto; display:flex; align-items:flex-end; justify-content:space-between; gap:10px; font-weight:600; font-size:16px; line-height:1.3; }\
-.wsm-src img { flex:none; width:11px; height:11px; margin-bottom:5px; }\
+.wsm-src strong { font-weight:600; font-size:16px; line-height:1.3; }\
+.wsm-src img { flex:none; width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
 .wsm a:hover { color:#291647; }\
 .wsm-more { margin-top:20px; }\
@@ -315,7 +315,7 @@
       (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
     if ((m.sources || []).length) {
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
-        m.sources.slice(0, 3).map(function (s) { return '<a href="#" class="wsm-src"><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></strong></a>'; }).join('') + '</div></div>';
+        m.sources.slice(0, 3).map(function (s) { return '<a href="#" class="wsm-src"><span><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
     h += moreHtml(q);
     result.innerHTML = h + '</div></div>';
