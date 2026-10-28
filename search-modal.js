@@ -234,11 +234,31 @@
       ]
     }
   };
+  [['Business', 'Business and Management'], ['Law', 'Law'], ['Criminology', 'Criminology'], ['Sport', 'Sport and Exercise'],
+   ['Computing', 'Computing and Digital Technologies'], ['English and creative writing', 'English and Creative Writing'], ['History', 'History'], ['Health and social care', 'Health and Social Care']]
+    .forEach(function (x) {
+      var label = x[0], area = x[1];
+      if (SUBJECTS[label]) return;
+      SUBJECTS[label] = {
+        lead: 'Here is where to start with ' + area + ' at Winchester.',
+        body: 'We offer [COURSES: ' + area + ' courses at undergraduate and postgraduate level]. Every course page sets out what you study year by year, how you are assessed and the entry requirements.',
+        body2: 'If you are deciding between two courses, the module lists are the quickest way to see the difference.',
+        sources: [
+          { title: area + ' courses', path: 'Study / Courses / ' + area },
+          { title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate' },
+          { title: 'Browse Postgraduate Degrees', path: 'Study / Postgraduate' }
+        ]
+      };
+    });
   var TOPICS = {
     ask: { label: 'Ask us anything', heading: 'What do you want to <em>know</em>?', sub: 'Ask in your own words, or start somewhere.',
-      chips: [['Courses', 'What courses have a placement year?'], ['Fees', 'What does it actually cost, all in?'], ['Accommodation', 'Where would I live in first year?'], ['Clearing', 'How does Clearing work here?']] },
+      chips: [['Courses', 'What courses have a placement year?'], ['Fees', 'What does it actually cost, all in?'], ['Accommodation', 'Where would I live in first year?'], ['Clearing', 'How does Clearing work here?'],
+        ['Open days', 'When are the next open days?'], ['Entry requirements', 'What are the entry requirements?'], ['Class sizes', 'How big are the classes?'], ['Assessment', 'How will I be assessed?'],
+        ['Part-time work', 'Can I work part-time while I study?'], ['Clubs and societies', 'What clubs and societies are there?'], ['Support', 'What support is there if I need it?'], ['International students', 'I am applying from abroad. What do I need to know?']] },
     study: { label: 'Ask us anything', heading: 'What do you want to <em>study</em>?', sub: 'Name it if you know it, or start somewhere near.',
-      chips: [['Psychology', null], ['Teaching', null], ['Nursing', null], ['Film and media', null]] }
+      chips: [['Psychology', null], ['Teaching', null], ['Nursing', null], ['Film and media', null],
+        ['Business', null], ['Law', null], ['Criminology', null], ['Sport', null],
+        ['Computing', null], ['English and creative writing', null], ['History', null], ['Health and social care', null]] }
   };
   // intro cards: desktop (inside the Intro section's grid) and mobile (.icard); the search card is the first
   var CARD = '[data-screen-label="Intro"] > div > div, #intro .icard';
@@ -324,7 +344,7 @@
     4: ['work placement', 'industry', 'employer', 'experience', 'year out', 'real world', 'placement year'],
     5: ['housing', 'house', 'flat', 'dorm', 'catered', 'self catered', 'en suite', 'ensuite', 'where to live', 'where will i live', 'residence', 'stay'],
     6: ['price', 'pay', 'paying', 'expensive', 'cheap', 'tuition fee', 'student finance', 'grant', 'cost of living', 'how much is it', 'how much does it cost', 'finance'],
-    7: ['job', 'earn', 'earning', 'working', 'work while', 'part time work'],
+    7: ['job', 'earn', 'earning', 'working while', 'work while', 'part time work', 'work part time'],
     8: ['commuter', 'travel', 'transport', 'parking', 'car', 'from home', 'stay at home', 'live at home'],
     9: ['mature student', 'too old', 'adult', 'returning', 'change career', 'later in life', 'no qualification', 'still go to uni', 'still go to university', 'my age', 'age limit', 'older student', 'went back to study'],
     10: ['open evening', 'see the campus', 'come and see', 'visit day', 'campus visit', 'tours', 'open day date', 'when can i visit'],
@@ -340,8 +360,16 @@
   var SUBJECT_WORDS = {
     'Psychology': ['psychology', 'psych', 'counselling psychology'],
     'Teaching': ['teaching', 'teacher', 'teach', 'education', 'primary', 'pgce', 'qts'],
-    'Nursing': ['nursing', 'nurse', 'midwife', 'midwifery', 'health', 'social work', 'social care', 'care'],
-    'Film and media': ['film', 'media', 'game', 'games', 'animation', 'digital', 'television', 'tv', 'photography', 'journalism']
+    'Nursing': ['nursing', 'nurse', 'midwife', 'midwifery', 'social work'],
+    'Film and media': ['film', 'media', 'game', 'games', 'animation', 'television', 'tv', 'photography', 'journalism'],
+    'Business': ['business', 'management', 'marketing', 'accounting', 'finance degree', 'mba'],
+    'Law': ['law', 'llb', 'legal', 'solicitor', 'barrister'],
+    'Criminology': ['criminology', 'crime', 'policing', 'forensic'],
+    'Sport': ['sport', 'sports', 'exercise', 'coaching', 'physical education'],
+    'Computing': ['computing', 'computer science', 'computer', 'software', 'programming', 'cyber', 'digital technolog'],
+    'English and creative writing': ['english', 'creative writing', 'writing', 'literature'],
+    'History': ['history', 'archaeology', 'heritage'],
+    'Health and social care': ['health and social care', 'social care']
   };
   var STOP = ['what','when','where','which','does','have','with','your','you','the','and','for','are','can','any','there','about','how','much','many','they','this','that','from','into','get','do','is','a','an','to','of','in','i','my','me','it','be','on','at','or','if','will','would','should','could','we','us','our','here','there','there'];
   function stem(w) {
