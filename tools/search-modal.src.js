@@ -227,8 +227,6 @@
     var found = termSources(q);
     return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START, drawn: false };
   }
-  // stand-in for the search index's total, steady for the same query
-  function resultCount(q) { var h = 0; String(q).toLowerCase().split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) | 0; }); return 18 + Math.abs(h) % 70; }
   function fallback(q) {
     var hit = match(q), subj = matchSubject(q), qt = toks(q);
     // a subject question gets the subject overview, unless it's about something specific (fees, entry requirements...)
@@ -302,7 +300,7 @@
     if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
       h = '<div class="wsm-a"><div><p class="wsm-lead">We couldn’t find one clear answer to that.</p>' +
-        '<p class="wsm-p">See everything we found for your search, or tell us a bit more about what you’re after.</p>' +
+        '<p class="wsm-p">See more results for your search, or tell us a bit more about what you’re after.</p>' +
         moreHtml(q) +
         '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
         opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
@@ -323,7 +321,7 @@
   // The full results page is where the list lives; the modal just links to it
   function moreHtml(q) {
     var label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
-    return '<div class="wsm-more"><a href="#" class="wsm-all">See all ' + resultCount(q) + ' results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
+    return '<div class="wsm-more"><a href="#" class="wsm-all">See more results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
