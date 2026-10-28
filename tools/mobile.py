@@ -227,6 +227,11 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .ev.ev3 { gap:12px; }
 .ev.ev3 .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:28px; line-height:1.15; margin-top:0; }
 .ev.ev3 .m { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding-top:14px; }
+.ev.ev-all { background:var(--lp); justify-content:space-between; }
+.ev.ev-all .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:34px; line-height:1.1; margin-top:8px; }
+.ev.ev-all .go { width:56px; height:56px; border-radius:5px; background:var(--dp); display:flex; align-items:center; justify-content:center; transition:background-color .2s ease; }
+.ev.ev-all .go img { width:16px; height:16px; filter:brightness(0) invert(1); }
+.ev.ev-all:hover { background:var(--lp); } .ev.ev-all:hover .go { background:#FFFFFF; } .ev.ev-all:hover .go img { filter:none; }
 .ev.ev3 .chip { font-weight:600; font-size:14px; line-height:1; padding:7px 10px; border-radius:5px; background:var(--lime); color:var(--dp); }
 
 /* International banner */
@@ -550,6 +555,7 @@ def page(v, switcher, name_first=False):
     tiles = "".join(f'<span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat; mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat"></i></span>' for t in TILES * 3)
     news = "".join(f'<a href="#" class="ncard {"lead" if i == 0 else "small"}"><span class="img" style="background-image:url({img})"></span><span class="tx"><span class="t">{t}</span><span class="d">{d}</span></span></a>' for i, (img, t, d) in enumerate(NEWS))
     events_r3 = "".join(f'<a href="#" class="ev ev3"><span class="k">{k}</span><span class="t serif">{t}</span><span class="m"><span class="chip">{wd} {d} {m}</span><span>{w.split(", ", 1)[1]}<br>{loc}</span></span></a>' for (d, m, k, t, w, loc), wd in zip(EVENTS, ["Sat", "Wed", "Thu", "Sat"]))
+    events_r3 += '<a href="#" class="ev ev-all"><span class="k">What’s on</span><span class="t serif">See all events</span><span class="go" aria-hidden="true"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></span></a>'
     events = events_r3 if name_first else "".join(f'<a href="#" class="ev"><span class="date"><b>{d}</b><small>{m}</small></span><span><span class="k">{k}</span><span class="t">{t}</span></span><span class="m">{w}<br>{loc}</span></a>' for d, m, k, t, w, loc in EVENTS)
     cols = "".join(f'<div class="col"><h4>{h}</h4>' + "".join(f'<a href="#">{l}</a>' for l in ls) + '</div>' for h, ls in FOOT)
     legal = "".join(f'<a href="#">{l}</a>' for l in LEGAL)
@@ -604,9 +610,9 @@ def page(v, switcher, name_first=False):
   <section id="news" data-screen-label="News"><h2 class="sec serif">The latest from Winchester</h2><div class="stack">{news}</div><div>{btn("All news")}</div></section>
 
   <section id="events" data-screen-label="Events">
-    <div class="head">{eyebrow("What’s on")}<h2 class="sec serif">Open days and <em>events</em></h2><div>{btn("All events")}</div></div>
+    <div class="head">{eyebrow("What’s on")}<h2 class="sec serif">Open days and <em>events</em></h2>{'' if name_first else '<div>' + btn("All events") + '</div>'}</div>
     <div class="car">{events}</div>
-    <div class="car-ctrl"><span class="count">01 / 0{len(EVENTS)}</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
+    <div class="car-ctrl"><span class="count">01 / 0{len(EVENTS) + (1 if name_first else 0)}</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
   </section>
 
   <section id="intl" class="on-lp" data-screen-label="International">

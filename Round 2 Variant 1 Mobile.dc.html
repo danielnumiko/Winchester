@@ -171,6 +171,11 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .ev.ev3 { gap:12px; }
 .ev.ev3 .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:28px; line-height:1.15; margin-top:0; }
 .ev.ev3 .m { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding-top:14px; }
+.ev.ev-all { background:var(--lp); justify-content:space-between; }
+.ev.ev-all .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:34px; line-height:1.1; margin-top:8px; }
+.ev.ev-all .go { width:56px; height:56px; border-radius:5px; background:var(--dp); display:flex; align-items:center; justify-content:center; transition:background-color .2s ease; }
+.ev.ev-all .go img { width:16px; height:16px; filter:brightness(0) invert(1); }
+.ev.ev-all:hover { background:var(--lp); } .ev.ev-all:hover .go { background:#FFFFFF; } .ev.ev-all:hover .go img { filter:none; }
 .ev.ev3 .chip { font-weight:600; font-size:14px; line-height:1; padding:7px 10px; border-radius:5px; background:var(--lime); color:var(--dp); }
 
 /* International banner */
