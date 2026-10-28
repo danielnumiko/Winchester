@@ -32,6 +32,8 @@ section, footer { position:relative; }
 .on-dark .btn:hover, .on-dark .btn:active, .on-lp .btn:hover, .on-lp .btn:active { background:#FFFFFF; color:var(--dp); }
 .on-dark .btn:hover .ico, .on-dark .btn:active .ico, .on-lp .btn:hover .ico, .on-lp .btn:active .ico { filter:none; }
 .btn.dark { background:var(--dp); color:#FFFFFF; }
+.btn .star { width:15px; height:15px; background:var(--dp); -webkit-mask:url(motifs/star-solid.svg) center / contain no-repeat; mask:url(motifs/star-solid.svg) center / contain no-repeat; transition:background-color .2s ease; }
+.btn:hover .star, .btn:active .star { background:#FFFFFF; }
 .btn.dark .ico { filter:brightness(0) invert(1); }
 
 /* Hero */
@@ -250,7 +252,7 @@ footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
 
   <section id="intro" data-screen-label="Intro">
     <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p><a href="#" class="btn"><span>What do you want to study?</span><img src="motifs/fig-icon-search.svg" alt="" class="ico" style="width:16px; height:16px"></a></div>
-    <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p><a href="#" class="btn"><span>Tell us about yourself</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div>
+    <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p><a href="#" class="btn"><span>Tell us about yourself</span><i class="ico star" aria-hidden="true"></i></a></div>
   </section>
 
   <section id="stories" data-screen-label="Made here">

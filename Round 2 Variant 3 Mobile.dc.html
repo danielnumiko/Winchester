@@ -32,6 +32,8 @@ section, footer { position:relative; }
 .on-dark .btn:hover, .on-dark .btn:active, .on-lp .btn:hover, .on-lp .btn:active { background:#FFFFFF; color:var(--dp); }
 .on-dark .btn:hover .ico, .on-dark .btn:active .ico, .on-lp .btn:hover .ico, .on-lp .btn:active .ico { filter:none; }
 .btn.dark { background:var(--dp); color:#FFFFFF; }
+.btn .star { width:15px; height:15px; background:var(--dp); -webkit-mask:url(motifs/star-solid.svg) center / contain no-repeat; mask:url(motifs/star-solid.svg) center / contain no-repeat; transition:background-color .2s ease; }
+.btn:hover .star, .btn:active .star { background:#FFFFFF; }
 .btn.dark .ico { filter:brightness(0) invert(1); }
 
 /* Hero */

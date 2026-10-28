@@ -88,6 +88,8 @@ section, footer { position:relative; }
 .on-dark .btn:hover, .on-dark .btn:active, .on-lp .btn:hover, .on-lp .btn:active { background:#FFFFFF; color:var(--dp); }
 .on-dark .btn:hover .ico, .on-dark .btn:active .ico, .on-lp .btn:hover .ico, .on-lp .btn:active .ico { filter:none; }
 .btn.dark { background:var(--dp); color:#FFFFFF; }
+.btn .star { width:15px; height:15px; background:var(--dp); -webkit-mask:url(motifs/star-solid.svg) center / contain no-repeat; mask:url(motifs/star-solid.svg) center / contain no-repeat; transition:background-color .2s ease; }
+.btn:hover .star, .btn:active .star { background:#FFFFFF; }
 .btn.dark .ico { filter:brightness(0) invert(1); }
 
 /* Hero */
@@ -580,7 +582,7 @@ def page(v, switcher, name_first=False):
 
   <section id="intro" data-screen-label="Intro">
     <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p>{btn("What do you want to study?").replace('fig-icon-arrow-dark.svg" alt="" class="ico"', 'fig-icon-search.svg" alt="" class="ico" style="width:16px; height:16px"') if name_first else btn("What do you want to study?")}</div>
-    <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p>{btn("Tell us about yourself")}</div>
+    <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p>{btn("Tell us about yourself").replace(ARROW, '<i class="ico star" aria-hidden="true"></i>') if name_first else btn("Tell us about yourself")}</div>
   </section>
 
   <section id="stories" data-screen-label="Made here">
