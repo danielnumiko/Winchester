@@ -57,17 +57,17 @@
 .wsm-src { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:5px; background:#F5F5F5; color:#291647; text-decoration:none; font-weight:600; font-size:14px; line-height:1.2; transition:background-color .2s ease; }\
 .wsm-src img { width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; }\
-.wsm-dots { display:flex; gap:6px; padding-top:16px; }\
+.wsm-dots { display:flex; gap:6px; padding-top:8px; }\
 .wsm-dots span { width:8px; height:8px; border-radius:50%; background:#C68EFD; animation:wsm-dot 1s infinite ease-in-out; }\
 .wsm-dots span:nth-child(2) { animation-delay:.15s; } .wsm-dots span:nth-child(3) { animation-delay:.3s; }\
 @keyframes wsm-dot { 0%, 80%, 100% { opacity:.3; transform:translateY(0); } 40% { opacity:1; transform:translateY(-4px); } }\
-.wsm-field { align-self:stretch; height:68px; border-radius:5px; box-shadow:inset 0 0 0 2px #291647; display:flex; align-items:center; gap:12px; padding:0 8px 0 18px; }\
+.wsm-field { align-self:stretch; height:68px; border-radius:5px; box-shadow:inset 0 0 0 2px #291647; display:flex; align-items:center; gap:12px; padding:0 8px 0 22px; }\
 .wsm-field:focus-within { box-shadow:inset 0 0 0 2px #291647, 0 0 0 3px #C68EFD; }\
 .wsm-field > i { flex:none; width:18px; height:18px; background:#291647; -webkit-mask:url(motifs/fig-icon-search.svg) center / contain no-repeat; mask:url(motifs/fig-icon-search.svg) center / contain no-repeat; }\
 .wsm-field input { flex:1; min-width:0; border:0; outline:0; background:transparent; font:500 19px Figtree, sans-serif; color:#291647; }\
 .wsm-field input::placeholder { color:#5C358E; opacity:1; }\
 .wsm-send { flex:none; width:44px; height:44px; border:0; border-radius:5px; background:#C68EFD; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }\
-.wsm-send img { width:14px; height:14px; transition:filter .2s ease; }\
+.wsm-send img { width:20px; height:20px; transition:filter .2s ease; }\
 .wsm-send:hover { background:#291647; } .wsm-send:hover img { filter:brightness(0) invert(1); }\
 .wsm-hint { margin:-4px 0 0; font-weight:500; font-size:12px; color:#5C358E; }\
 .wsm-search { width:100%; max-width:660px; margin:auto; display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; padding:12px 0; }\
@@ -147,7 +147,7 @@
     root.innerHTML = '<div class="wsm-back" data-wsm-close></div><div class="wsm-panel">' +
       '<div class="wsm-head"><span class="wsm-label"><i aria-hidden="true"></i>Ask us anything</span><button class="wsm-x" data-wsm-close aria-label="Close search"><i aria-hidden="true"></i></button></div>' +
       '<div class="wsm-body"><div class="wsm-search"><div class="wsm-intro"><h2></h2><p></p></div>' +
-      '<div class="wsm-field"><i aria-hidden="true"></i><input type="search" placeholder="' + (mobile ? 'Ask us anything' : 'Ask us anything about studying here') + '" aria-label="Ask us anything"><button class="wsm-send" aria-label="Search"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></div>' +
+      '<div class="wsm-field"><input type="search" placeholder="' + (mobile ? 'Ask us anything' : 'Ask us anything about studying here') + '" aria-label="Ask us anything"><button class="wsm-send" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></div>' +
       '<p class="wsm-hint">Press Enter to search · Esc to close · answers are drawn from pages on this site</p>' +
       '<div class="wsm-chips"></div></div><div class="wsm-result" aria-live="polite"></div></div></div>';
     container.appendChild(root);
@@ -172,9 +172,9 @@
   }
   function render() {
     root.classList.toggle('has-result', thinking || !!answer);
-    if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-av" aria-hidden="true"><i></i></span><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
+    if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
     if (!answer) { result.innerHTML = ''; return; }
-    var m = answer, h = '<div class="wsm-a"><span class="wsm-av" aria-hidden="true"><i></i></span><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
+    var m = answer, h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
       (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
     if (m.kind === 'clarify') {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
