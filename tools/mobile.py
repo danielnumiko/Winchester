@@ -660,7 +660,7 @@ def page(v, switcher, name_first=False):
 </div></div>
 <script>window.STORIES = {json.dumps([dict(img=i, quote=q, name=n) for i, q, n in STORIES], ensure_ascii=False)}; window.STORY_DETAIL = {json.dumps(story_detail(), ensure_ascii=False)};</script>
 <script>{JS}</script>
-{'<script src="search-modal.js"></script>' if name_first else ''}
+{'<script src="search-modal.js"></script><script src="menu.js"></script>' if name_first else ''}
 </body>
 </html>
 '''
