@@ -116,7 +116,7 @@
     2: ['deadline', 'project', 'portfolio', 'how am i marked', 'how am i assessed'],
     3: ['lecture', 'small class', 'class', 'tutor', 'contact time', 'days a week', 'how much teaching', 'workshop'],
     4: ['work placement', 'industry', 'employer', 'experience', 'year out', 'real world', 'placement year'],
-    5: ['housing', 'house', 'flat', 'dorm', 'catered', 'self catered', 'en suite', 'ensuite', 'where to live', 'where will i live', 'residence', 'stay'],
+    5: ['housing', 'house', 'flat', 'dorm', 'catered hall', 'catered accommodation', 'self catered', 'en suite', 'ensuite', 'where to live', 'where will i live', 'residence', 'stay'],
     6: ['price', 'pay', 'paying', 'expensive', 'cheap', 'tuition fee', 'student finance', 'grant', 'cost of living', 'how much is it', 'how much does it cost', 'finance'],
     7: ['job', 'earn', 'earning', 'working while', 'work while', 'part time work', 'work part time'],
     8: ['commuter', 'travel', 'transport', 'parking', 'car', 'from home', 'stay at home', 'live at home'],
@@ -128,7 +128,7 @@
     14: ['didnt get', 'did not get', 'results', 'late application', 'no place', 'missed'],
     15: ['applying', 'how do i apply', 'when to apply', 'statement', 'reference', 'how to apply'],
     16: ['abroad', 'foreign', 'overseas student', 'english test', 'toefl', 'eu student', 'non uk'],
-    17: ['counselling', 'anxiety', 'learning difference', 'dyspraxia', 'accessibility', 'wellness', 'stress', 'additional needs']
+    17: ['counselling', 'anxiety', 'learning difference', 'dyspraxia', 'accessibility', 'wellness', 'stress', 'additional needs', 'neurodiverse', 'neurodiversity', 'neurodivergence', 'autistic', 'dyslexic', 'disabled', 'reasonable adjustment', 'cater for', 'accommodate my', 'accommodate people', 'accommodate students', 'extra support', 'additional support', 'learning support', 'special needs', 'access needs']
   };
   // Subject words that should bring up a subject overview
   var SUBJECT_WORDS = {
@@ -158,6 +158,10 @@
   function near(a, b) {
     // one typo allowed on longer words
     if (a === b) return true;
+    // long words sharing all but their last couple of letters (neurodivergence / neurodivergent)
+    var n = Math.min(a.length, b.length), p = 0;
+    while (p < n && a[p] === b[p]) p++;
+    if (n >= 8 && p >= n - 2) return true;
     if (a.length < 5 || b.length < 5 || Math.abs(a.length - b.length) > 1) return false;
     var i = 0, j = 0, edits = 0;
     while (i < a.length && j < b.length) {
