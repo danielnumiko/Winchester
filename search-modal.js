@@ -9,7 +9,7 @@
       body: "If your degree is not in psychology, look at the conversion route instead: same department, one extra year, no assumed knowledge. For undergraduate courses typical offers sit in a range rather than at a single number, and we look at the whole application, not one grade.",
       body2: "Applications for September 2027 open in October. There is no interview for the taught MSc.",
       sources: [
-        { title: "MSc Psychology — entry requirements", path: "Study / Postgraduate / Browse Postgraduate Degrees" },
+        { title: "MSc Psychology: entry requirements", path: "Study / Postgraduate / Browse Postgraduate Degrees" },
         { title: "Conversion Courses", path: "Study / Postgraduate / Conversion Courses" },
         { title: "Entry requirements explained", path: "Study / How to apply" },
         { title: "How to apply", path: "Study / How to apply" }
@@ -41,7 +41,7 @@
       keys: ['placement','sandwich','work experience','internship','year in industry','practical','hands on'],
       lead: "Most subjects here offer a placement, and on some courses it is built into the degree rather than bolted on.",
       body: "Business, computing and digital courses run an optional paid placement year between years two and three. Health, education and social work courses carry placement hours in every year, arranged by the university rather than by you. Studio and lab subjects give you kit and space from first term instead of making you wait.",
-      body2: "If doing the thing matters more to you than reading about it, filter by study mode — the placement option is marked on each course page.",
+      body2: "If doing the thing matters more to you than reading about it, filter by study mode: the placement option is marked on each course page.",
       sources: [
         { title: "Browse Undergraduate Degrees", path: "Study / Undergraduate / Courses" },
         { title: "Your employability toolkit", path: "Student Life / Careers Support and Advice" },
@@ -62,8 +62,8 @@
     {
       keys: ['cost','costs','fee','fees','total','afford','budget','money','funding','bursary','scholarship','loan','tuition','how much'],
       lead: "Here is the whole number, not just the tuition fee.",
-      body: "Tuition is [STAT: annual undergraduate tuition fee], covered by a student loan for most UK applicants. Accommodation is [STAT: rent range per week by village] over a [STAT: contract length in weeks] contract. Living costs — food, travel, phone, going out — come to roughly [STAT: estimated weekly living costs]. Course extras like kit, materials, trips or a DBS check add [STAT: typical course extras by subject], and every course page lists its own.",
-      body2: "Against that, scholarships and bursaries are separate from the loan and some are automatic once you meet the criteria. Check the awards list before you apply — a few close early.",
+      body: "Tuition is [STAT: annual undergraduate tuition fee], covered by a student loan for most UK applicants. Accommodation is [STAT: rent range per week by village] over a [STAT: contract length in weeks] contract. Living costs (food, travel, phone, going out) come to roughly [STAT: estimated weekly living costs]. Course extras like kit, materials, trips or a DBS check add [STAT: typical course extras by subject], and every course page lists its own.",
+      body2: "Against that, scholarships and bursaries are separate from the loan and some are automatic once you meet the criteria. Check the awards list before you apply: a few close early.",
       sources: [
         { title: "Tuition fees and funding", path: "Study / Fees and funding" },
         { title: "Scholarships, Bursaries and Awards", path: "Student Life / Scholarships, bursaries and awards" },
@@ -75,7 +75,7 @@
       keys: ['work part time','part time job','job alongside','work alongside','can i work','hours'],
       lead: "Most students here work part-time, and the timetable is built to make that possible.",
       body: "Teaching is concentrated into set days, so you can hold shifts around it once you know your timetable. The guidance is [STAT: recommended maximum weekly paid hours alongside full-time study], and the jobs service advertises campus and city work that already knows you are studying.",
-      body2: "Placement-heavy courses — nursing, teaching, social work — are harder to work around, because the placement blocks are fixed. Worth knowing before you choose.",
+      body2: "Placement-heavy courses (nursing, teaching, social work) are harder to work around, because the placement blocks are fixed. Worth knowing before you choose.",
       sources: [
         { title: "Student jobs", path: "Student Life / Careers Support and Advice" },
         { title: "Students and money", path: "Student Life / Students and money" },
@@ -85,7 +85,7 @@
     {
       keys: ['commute','commuting','living at home','travel in','bus','train','drive','local'],
       lead: "Living at home works here, and a good number of students do it.",
-      body: "Teaching is concentrated into set days rather than scattered across five, so you are not travelling in for a single hour. Winchester station is a walk from the King Alfred campus, buses run to both sites, and parking is limited enough that most commuters use one or the other. Check the teaching days for your course before you decide — they vary.",
+      body: "Teaching is concentrated into set days rather than scattered across five, so you are not travelling in for a single hour. Winchester station is a walk from the King Alfred campus, buses run to both sites, and parking is limited enough that most commuters use one or the other. Check the teaching days for your course before you decide: they vary.",
       body2: "There is a room on campus for commuters to work between classes. You do not have to sit in a corridor.",
       sources: [
         { title: "Commuting students", path: "Student Life / Commuting students" },
@@ -96,7 +96,7 @@
     {
       keys: ['mature','older','career change','coming back','return to study','access course','second degree'],
       lead: "You do not need the usual qualifications. Experience counts, and there is a separate route for people returning to study.",
-      body: "Mature applicants are considered on the whole application — work history, an Access course, or a strong personal statement can stand in for A levels. There is an evening event each November specifically for people applying later, and the Academic Pathways Programme runs extra teaching before you start if you want it.",
+      body: "Mature applicants are considered on the whole application: work history, an Access course, or a strong personal statement can stand in for A levels. There is an evening event each November specifically for people applying later, and the Academic Pathways Programme runs extra teaching before you start if you want it.",
       body2: "If you are unsure whether your background is enough, ask rather than assume. Most people who ask turn out to be eligible.",
       sources: [
         { title: "Information for mature learners", path: "Study / Mature Students" },
@@ -129,7 +129,7 @@
     {
       keys: ['society','societies','clubs','community','friends','social','lgbt','faith','sport club','meet people'],
       lead: "There is a group for most things, and if there is not, six people and a form is all it takes to start one.",
-      body: "The students' union runs societies across sport, faith, culture, gaming, performance, politics and course subjects — [STAT: number of active student societies]. There are LGBTQ+, international, mature student and commuter groups, a chaplaincy that serves several faiths and none, and volunteering projects across the city.",
+      body: "The students' union runs societies across sport, faith, culture, gaming, performance, politics and course subjects: [STAT: number of active student societies]. There are LGBTQ+, international, mature student and commuter groups, a chaplaincy that serves several faiths and none, and volunteering projects across the city.",
       body2: "Most people find their group in the first month. Some take a year. Both are normal.",
       sources: [
         { title: "Student societies", path: "Student Life / Students' Union" },
@@ -174,7 +174,7 @@
       keys: ['international','visa','overseas','ielts','english language','from abroad','agent'],
       lead: "One thing to know up front: international applications are handled by our partner rather than by Winchester directly.",
       body: "You apply through their site, and they handle your offer, your CAS and your visa paperwork. It is a different journey from the UK one, so if you have been sent between the two, that is why. Entry requirements are listed by country so your own qualifications are compared directly, and most courses need IELTS 6.5 with nothing below 6.0.",
-      body2: "International scholarships and accommodation discounts exist and are separate from the UK awards — check them before you accept, not after. Apply earlier than you think you need to: the visa takes longer than the offer.",
+      body2: "International scholarships and accommodation discounts exist and are separate from the UK awards: check them before you accept, not after. Apply earlier than you think you need to: the visa takes longer than the offer.",
       sources: [
         { title: "International entry requirements", path: "International / International entry requirements" },
         { title: "Applying as an international student", path: "International / How to apply" },
@@ -185,7 +185,7 @@
     {
       keys: ['support','wellbeing','mental health','disability','help','struggling','dyslexia','adjustments','neurodivergent','adhd','autism'],
       lead: "Support here is a service you book, not a favour you ask for.",
-      body: "Student wellbeing runs drop-ins and booked appointments. Academic skills support is free for all three years. Study adjustments — extra time, recordings, alternative assessment formats, assistive software — are arranged through the student centre and can be in place before you arrive rather than after you struggle.",
+      body: "Student wellbeing runs drop-ins and booked appointments. Academic skills support is free for all three years. Study adjustments (extra time, recordings, alternative assessment formats, assistive software) are arranged through the student centre and can be in place before you arrive rather than after you struggle.",
       body2: "Telling us early changes what we can put in place. It does not affect your offer.",
       sources: [
         { title: "Student wellbeing", path: "Student Life / Student Support / Wellbeing" },
@@ -306,6 +306,22 @@
 .wsm-src img { width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
 .wsm a:hover { color:#291647; }\
+.wsm-more { margin-top:30px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }\
+.wsm-kick { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
+.wsm-list { list-style:none; margin:0; padding:0; align-self:stretch; }\
+.wsm-res { position:relative; display:flex; flex-direction:column; gap:4px; padding:15px 0; border-bottom:1px solid #E7E1EF; color:#291647; text-decoration:none; }\
+.wsm-res small { font-weight:500; font-size:14px; line-height:1.3; color:#5C358E; }\
+.wsm-res strong { font-weight:600; font-size:18px; line-height:1.3; transition:color .2s ease; }\
+.wsm-res:hover strong { color:#5C358E; }\
+.wsm-res::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#C68EFD; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wsm-res:hover::after, .wsm-res:focus-visible::after { transform:scaleX(1); }\
+.wsm-all { margin-top:20px; min-height:60px; box-sizing:border-box; padding:15px 20px; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:500; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
+.wsm-all:hover { background:#291647; color:#FFFFFF !important; }\
+.wsm-all i { position:relative; flex:none; width:12px; height:12px; overflow:hidden; }\
+.wsm-all b { position:absolute; inset:0; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wsm-all b + b { transform:translateX(-100%); }\
+.wsm-all:hover b { transform:translateX(100%); } .wsm-all:hover b + b { transform:translateX(0); }\
+.wsm-narrow { margin-top:30px; display:flex; flex-direction:column; gap:10px; }\
 .wsm-dots { display:flex; gap:6px; padding-top:8px; }\
 .wsm-dots span { width:8px; height:8px; border-radius:50%; background:#C68EFD; animation:wsm-dot 1s infinite ease-in-out; }\
 .wsm-dots span:nth-child(2) { animation-delay:.15s; } .wsm-dots span:nth-child(3) { animation-delay:.3s; }\
@@ -332,7 +348,7 @@
 .wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
 [data-screen-label=\"Intro\"] > div > div:first-child, #intro .icard:first-child { cursor:pointer; }\
-@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
+@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-res::after, .wsm-all b { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -427,9 +443,7 @@
     return Object.keys(SUBJECT_WORDS).find(function (s) { return SUBJECT_WORDS[s].some(function (w) { return hasPhrase(qt, w); }); }) || null;
   }
   function allSources() { var seen = {}; KNOWLEDGE.forEach(function (k) { k.sources.forEach(function (s) { seen[s.title] = s; }); }); return seen; }
-  function nearestSources(q) {
-    var hit = match(q);
-    if (hit) return { sources: hit.sources.slice(0, 3), drawn: true };
+  function termSources(q) {
     var stop = ['what','when','where','which','does','have','with','your','you','the','and','for','are','can','any','there','about','how','much','many','they','this','that','from','into','get'];
     var terms = (String(q || '').toLowerCase().match(/[a-z]{3,}/g) || []).filter(function (w) { return stop.indexOf(w) < 0; });
     var scored = Object.keys(allSources()).map(function (t) {
@@ -437,9 +451,50 @@
       terms.forEach(function (w) { if (hay.indexOf(w) > -1) score += 2; else if (w.length > 4 && hay.indexOf(w.slice(0, Math.max(4, w.length - 2))) > -1) score += 1; });
       return { src: src, score: score };
     }).filter(function (x) { return x.score > 0; }).sort(function (a, b) { return b.score - a.score; });
-    if (scored.length) return { sources: scored.slice(0, 2).map(function (x) { return x.src; }), drawn: false };
-    return { sources: [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }], drawn: false };
+    return scored.map(function (x) { return x.src; });
   }
+  var START = [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }, { title: 'Undergraduate Open Days', path: 'Visit us / On Campus Events / Open Days' }];
+  function nearestSources(q) {
+    var hit = match(q);
+    if (hit) return { sources: hit.sources.slice(0, 3), drawn: true };
+    var found = termSources(q);
+    return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START.slice(0, 2), drawn: false };
+  }
+  // Pages grouped by topic, so "More pages about this" stays on the subject of the answer
+  var TOPIC_PAGES = [
+    ['Tuition fees and funding', 'Scholarships, Bursaries and Awards', 'Students and money', 'Accommodation costs', 'International scholarships', 'Student jobs', 'Information for parents and supporters'],
+    ['Our Accommodation Guarantee', 'How to apply for accommodation', 'Accommodation costs', 'Guaranteed accommodation in Clearing', 'Commuting students', 'Life in Winchester'],
+    ['Study adjustments and disability support', 'Student wellbeing', 'Health and wellbeing', 'Academic skills', 'Faith and chaplaincy', 'Your first weeks', 'Information for parents and supporters'],
+    ['How to apply', 'Entry requirements explained', 'Apply after the UCAS deadline', 'Clearing', 'Academic Pathways Programme', 'Information for mature learners', 'Applying as an international student'],
+    ['Applying as an international student', 'International entry requirements', 'International scholarships', 'Visa Information'],
+    ['Teaching and assessment', 'How you will be assessed', 'Academic skills', 'Degree Apprenticeships'],
+    ['Browse Undergraduate Degrees', 'Browse Postgraduate Degrees', 'Psychology courses', 'Nursing, health and social care courses', 'Teaching and education courses', 'Film, media and digital arts courses', 'Conversion Courses', 'Degree Apprenticeships'],
+    ['Undergraduate Open Days', 'Campus Tours', 'Virtual Tour', 'Getting here', 'Life in Winchester'],
+    ['Student societies', 'Sport and fitness', 'Life in Winchester', 'Your first weeks', 'Commuting students', 'Student jobs'],
+    ['Your employability toolkit', 'Student jobs', 'Degree Apprenticeships']
+  ];
+  // Page results for the search: pages on the same topics as the answer's sources, nudged by the words searched
+  function pageResults(q, shown, n) {
+    var lib = allSources(), qt = toks(q).filter(function (w) { return STOP.indexOf(w) < 0 && w.length > 2; });
+    var seeds = (shown || []).map(function (s) { return s.title; }), seen = {}, out = [];
+    seeds.forEach(function (t) { seen[t] = 1; });
+    if (!seeds.length) seeds = termSources(q).slice(0, 2).map(function (s) { return s.title; });
+    var score = {};
+    seeds.forEach(function (t, i) {
+      TOPIC_PAGES.forEach(function (group) {
+        if (group.indexOf(t) < 0) return;
+        group.forEach(function (g, j) { if (g !== t) score[g] = (score[g] || 0) + (seeds.length - i) * 2 + (group.length - j) * 0.1; });
+      });
+    });
+    Object.keys(score).forEach(function (t) { var hay = toks(t + ' ' + ((lib[t] || {}).path || '')); qt.forEach(function (w) { if (hay.indexOf(w) > -1) score[t] += 3; }); });
+    function add(s) { if (s && !seen[s.title] && out.length < n) { seen[s.title] = 1; out.push(s); } }
+    Object.keys(score).sort(function (a, b) { return score[b] - score[a]; }).forEach(function (t) { add(lib[t]); });
+    termSources(q).forEach(add);
+    if (out.length < 3) START.forEach(add);
+    return out;
+  }
+  // stand-in for the search index's total, steady for the same query
+  function resultCount(q) { var h = 0; String(q).toLowerCase().split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) | 0; }); return 18 + Math.abs(h) % 70; }
   function fallback(q) {
     var hit = match(q), subj = matchSubject(q), qt = toks(q);
     // a subject question gets the subject overview, unless it's about something specific (fees, entry requirements...)
@@ -456,7 +511,7 @@
     if (!(window.claude && window.claude.complete)) return new Promise(function (r) { setTimeout(function () { r(fallback(q)); }, 900); });
     var system = ['You answer questions for prospective students on the University of Winchester website.',
       'Answer ONLY from the page content below. Never invent facts, figures, dates or course names.',
-      'Voice: warm, direct, human. Short confident sentences. British English. No bullet points, no headings, no markdown.', '',
+      'Voice: warm, direct, human. Short confident sentences. British English. No bullet points, no headings, no markdown, no em dashes.', '',
       'Reply with JSON only, no code fence:',
       '{"lead": "one short sentence answering the question directly",', ' "body": "two or three sentences of detail",', ' "body2": "one closing sentence, or empty string",', ' "sources": ["exact source titles used"],', ' "clarify": false,', ' "options": []}', '',
       'If the question is too vague to answer well, or the content would send them to different places depending on what they meant, instead reply with clarify true, lead as a short line saying you want to get it right, body as the clarifying question, sources as an empty array, and options as two to four short answer choices (four words maximum each).',
@@ -491,7 +546,7 @@
       var c = e.target.closest('[data-wsm-ask]'); if (c) { ask(c.getAttribute('data-wsm-ask')); return; }
       var s = e.target.closest('[data-wsm-subject]'); if (s) { askSubject(s.getAttribute('data-wsm-subject')); return; }
       if (e.target.closest('.wsm-send')) ask(input.value);
-      if (e.target.closest('.wsm-src')) e.preventDefault();
+      if (e.target.closest('.wsm-src, .wsm-res, .wsm-all')) e.preventDefault(); // pages aren't in the prototype
     });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
@@ -508,17 +563,34 @@
     root.classList.toggle('has-result', thinking || !!answer);
     if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
     if (!answer) { result.innerHTML = ''; return; }
-    var m = answer, h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
-      (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
-    if (m.kind === 'clarify') {
+    var m = answer, q = input.value, h;
+    // No confident answer: lead with the pages that best match, rather than a thin answer
+    if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
-      h += '<div class="wsm-chips" style="justify-content:flex-start">' + opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>';
-    } else if ((m.sources || []).length) {
+      h = '<div class="wsm-a"><div><p class="wsm-lead">We couldn’t find one clear answer to that.</p>' +
+        '<p class="wsm-p">These pages are the closest match to what you searched. See everything we found, or tell us a bit more.</p>' +
+        moreHtml(q, [], 'Best matches') +
+        '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
+        opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
+      result.innerHTML = h + '</div></div>';
+      body.scrollTop = 0;
+      return;
+    }
+    h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
+      (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
+    if ((m.sources || []).length) {
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
         m.sources.map(function (s) { return '<a href="#" class="wsm-src" title="' + esc(s.path) + '">' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
+    h += moreHtml(q, m.sources, 'More pages about this');
     result.innerHTML = h + '</div></div>';
     body.scrollTop = 0;
+  }
+  function moreHtml(q, shown, kicker) {
+    var list = pageResults(q, shown, 4), label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
+    return '<div class="wsm-more">' + (list.length ? '<span class="wsm-kick">' + kicker + '</span><ul class="wsm-list">' +
+      list.map(function (s) { return '<li><a href="#" class="wsm-res"><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></a></li>'; }).join('') + '</ul>' : '') +
+      '<a href="#" class="wsm-all">See all ' + resultCount(q) + ' results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {

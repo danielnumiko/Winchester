@@ -11,5 +11,10 @@ def block(opener, closer):
 
 src = open("tools/search-modal.src.js", encoding="utf-8").read()
 out = src.replace("/*KNOWLEDGE*/", block("  knowledge = [", "  ];")).replace("/*SUBJECTS*/", block("  subjectAnswers = {", "  };"))
+# house style: no em dashes in the answers (paired asides become brackets, single ones colons)
+import re
+out = re.sub(r" — ([^—.]+?) — ", r" (\1) ", out)
+out = out.replace(" — ", ": ")
+assert "—" not in out
 open("search-modal.js", "w", encoding="utf-8").write(out)
 print("wrote search-modal.js")

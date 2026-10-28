@@ -80,6 +80,22 @@
 .wsm-src img { width:11px; height:11px; }\
 .wsm-src:hover { background:#C68EFD; color:#291647 !important; }\
 .wsm a:hover { color:#291647; }\
+.wsm-more { margin-top:30px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }\
+.wsm-kick { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
+.wsm-list { list-style:none; margin:0; padding:0; align-self:stretch; }\
+.wsm-res { position:relative; display:flex; flex-direction:column; gap:4px; padding:15px 0; border-bottom:1px solid #E7E1EF; color:#291647; text-decoration:none; }\
+.wsm-res small { font-weight:500; font-size:14px; line-height:1.3; color:#5C358E; }\
+.wsm-res strong { font-weight:600; font-size:18px; line-height:1.3; transition:color .2s ease; }\
+.wsm-res:hover strong { color:#5C358E; }\
+.wsm-res::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#C68EFD; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wsm-res:hover::after, .wsm-res:focus-visible::after { transform:scaleX(1); }\
+.wsm-all { margin-top:20px; min-height:60px; box-sizing:border-box; padding:15px 20px; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:500; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
+.wsm-all:hover { background:#291647; color:#FFFFFF !important; }\
+.wsm-all i { position:relative; flex:none; width:12px; height:12px; overflow:hidden; }\
+.wsm-all b { position:absolute; inset:0; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wsm-all b + b { transform:translateX(-100%); }\
+.wsm-all:hover b { transform:translateX(100%); } .wsm-all:hover b + b { transform:translateX(0); }\
+.wsm-narrow { margin-top:30px; display:flex; flex-direction:column; gap:10px; }\
 .wsm-dots { display:flex; gap:6px; padding-top:8px; }\
 .wsm-dots span { width:8px; height:8px; border-radius:50%; background:#C68EFD; animation:wsm-dot 1s infinite ease-in-out; }\
 .wsm-dots span:nth-child(2) { animation-delay:.15s; } .wsm-dots span:nth-child(3) { animation-delay:.3s; }\
@@ -106,7 +122,7 @@
 .wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
 [data-screen-label=\"Intro\"] > div > div:first-child, #intro .icard:first-child { cursor:pointer; }\
-@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
+@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-res::after, .wsm-all b { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -201,9 +217,7 @@
     return Object.keys(SUBJECT_WORDS).find(function (s) { return SUBJECT_WORDS[s].some(function (w) { return hasPhrase(qt, w); }); }) || null;
   }
   function allSources() { var seen = {}; KNOWLEDGE.forEach(function (k) { k.sources.forEach(function (s) { seen[s.title] = s; }); }); return seen; }
-  function nearestSources(q) {
-    var hit = match(q);
-    if (hit) return { sources: hit.sources.slice(0, 3), drawn: true };
+  function termSources(q) {
     var stop = ['what','when','where','which','does','have','with','your','you','the','and','for','are','can','any','there','about','how','much','many','they','this','that','from','into','get'];
     var terms = (String(q || '').toLowerCase().match(/[a-z]{3,}/g) || []).filter(function (w) { return stop.indexOf(w) < 0; });
     var scored = Object.keys(allSources()).map(function (t) {
@@ -211,9 +225,50 @@
       terms.forEach(function (w) { if (hay.indexOf(w) > -1) score += 2; else if (w.length > 4 && hay.indexOf(w.slice(0, Math.max(4, w.length - 2))) > -1) score += 1; });
       return { src: src, score: score };
     }).filter(function (x) { return x.score > 0; }).sort(function (a, b) { return b.score - a.score; });
-    if (scored.length) return { sources: scored.slice(0, 2).map(function (x) { return x.src; }), drawn: false };
-    return { sources: [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }], drawn: false };
+    return scored.map(function (x) { return x.src; });
   }
+  var START = [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate / Courses' }, { title: 'Ask a question', path: 'Study / Ask a question' }, { title: 'Undergraduate Open Days', path: 'Visit us / On Campus Events / Open Days' }];
+  function nearestSources(q) {
+    var hit = match(q);
+    if (hit) return { sources: hit.sources.slice(0, 3), drawn: true };
+    var found = termSources(q);
+    return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START.slice(0, 2), drawn: false };
+  }
+  // Pages grouped by topic, so "More pages about this" stays on the subject of the answer
+  var TOPIC_PAGES = [
+    ['Tuition fees and funding', 'Scholarships, Bursaries and Awards', 'Students and money', 'Accommodation costs', 'International scholarships', 'Student jobs', 'Information for parents and supporters'],
+    ['Our Accommodation Guarantee', 'How to apply for accommodation', 'Accommodation costs', 'Guaranteed accommodation in Clearing', 'Commuting students', 'Life in Winchester'],
+    ['Study adjustments and disability support', 'Student wellbeing', 'Health and wellbeing', 'Academic skills', 'Faith and chaplaincy', 'Your first weeks', 'Information for parents and supporters'],
+    ['How to apply', 'Entry requirements explained', 'Apply after the UCAS deadline', 'Clearing', 'Academic Pathways Programme', 'Information for mature learners', 'Applying as an international student'],
+    ['Applying as an international student', 'International entry requirements', 'International scholarships', 'Visa Information'],
+    ['Teaching and assessment', 'How you will be assessed', 'Academic skills', 'Degree Apprenticeships'],
+    ['Browse Undergraduate Degrees', 'Browse Postgraduate Degrees', 'Psychology courses', 'Nursing, health and social care courses', 'Teaching and education courses', 'Film, media and digital arts courses', 'Conversion Courses', 'Degree Apprenticeships'],
+    ['Undergraduate Open Days', 'Campus Tours', 'Virtual Tour', 'Getting here', 'Life in Winchester'],
+    ['Student societies', 'Sport and fitness', 'Life in Winchester', 'Your first weeks', 'Commuting students', 'Student jobs'],
+    ['Your employability toolkit', 'Student jobs', 'Degree Apprenticeships']
+  ];
+  // Page results for the search: pages on the same topics as the answer's sources, nudged by the words searched
+  function pageResults(q, shown, n) {
+    var lib = allSources(), qt = toks(q).filter(function (w) { return STOP.indexOf(w) < 0 && w.length > 2; });
+    var seeds = (shown || []).map(function (s) { return s.title; }), seen = {}, out = [];
+    seeds.forEach(function (t) { seen[t] = 1; });
+    if (!seeds.length) seeds = termSources(q).slice(0, 2).map(function (s) { return s.title; });
+    var score = {};
+    seeds.forEach(function (t, i) {
+      TOPIC_PAGES.forEach(function (group) {
+        if (group.indexOf(t) < 0) return;
+        group.forEach(function (g, j) { if (g !== t) score[g] = (score[g] || 0) + (seeds.length - i) * 2 + (group.length - j) * 0.1; });
+      });
+    });
+    Object.keys(score).forEach(function (t) { var hay = toks(t + ' ' + ((lib[t] || {}).path || '')); qt.forEach(function (w) { if (hay.indexOf(w) > -1) score[t] += 3; }); });
+    function add(s) { if (s && !seen[s.title] && out.length < n) { seen[s.title] = 1; out.push(s); } }
+    Object.keys(score).sort(function (a, b) { return score[b] - score[a]; }).forEach(function (t) { add(lib[t]); });
+    termSources(q).forEach(add);
+    if (out.length < 3) START.forEach(add);
+    return out;
+  }
+  // stand-in for the search index's total, steady for the same query
+  function resultCount(q) { var h = 0; String(q).toLowerCase().split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) | 0; }); return 18 + Math.abs(h) % 70; }
   function fallback(q) {
     var hit = match(q), subj = matchSubject(q), qt = toks(q);
     // a subject question gets the subject overview, unless it's about something specific (fees, entry requirements...)
@@ -230,7 +285,7 @@
     if (!(window.claude && window.claude.complete)) return new Promise(function (r) { setTimeout(function () { r(fallback(q)); }, 900); });
     var system = ['You answer questions for prospective students on the University of Winchester website.',
       'Answer ONLY from the page content below. Never invent facts, figures, dates or course names.',
-      'Voice: warm, direct, human. Short confident sentences. British English. No bullet points, no headings, no markdown.', '',
+      'Voice: warm, direct, human. Short confident sentences. British English. No bullet points, no headings, no markdown, no em dashes.', '',
       'Reply with JSON only, no code fence:',
       '{"lead": "one short sentence answering the question directly",', ' "body": "two or three sentences of detail",', ' "body2": "one closing sentence, or empty string",', ' "sources": ["exact source titles used"],', ' "clarify": false,', ' "options": []}', '',
       'If the question is too vague to answer well, or the content would send them to different places depending on what they meant, instead reply with clarify true, lead as a short line saying you want to get it right, body as the clarifying question, sources as an empty array, and options as two to four short answer choices (four words maximum each).',
@@ -265,7 +320,7 @@
       var c = e.target.closest('[data-wsm-ask]'); if (c) { ask(c.getAttribute('data-wsm-ask')); return; }
       var s = e.target.closest('[data-wsm-subject]'); if (s) { askSubject(s.getAttribute('data-wsm-subject')); return; }
       if (e.target.closest('.wsm-send')) ask(input.value);
-      if (e.target.closest('.wsm-src')) e.preventDefault();
+      if (e.target.closest('.wsm-src, .wsm-res, .wsm-all')) e.preventDefault(); // pages aren't in the prototype
     });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
@@ -282,17 +337,34 @@
     root.classList.toggle('has-result', thinking || !!answer);
     if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
     if (!answer) { result.innerHTML = ''; return; }
-    var m = answer, h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
-      (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
-    if (m.kind === 'clarify') {
+    var m = answer, q = input.value, h;
+    // No confident answer: lead with the pages that best match, rather than a thin answer
+    if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
-      h += '<div class="wsm-chips" style="justify-content:flex-start">' + opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div>';
-    } else if ((m.sources || []).length) {
+      h = '<div class="wsm-a"><div><p class="wsm-lead">We couldn’t find one clear answer to that.</p>' +
+        '<p class="wsm-p">These pages are the closest match to what you searched. See everything we found, or tell us a bit more.</p>' +
+        moreHtml(q, [], 'Best matches') +
+        '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
+        opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
+      result.innerHTML = h + '</div></div>';
+      body.scrollTop = 0;
+      return;
+    }
+    h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
+      (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
+    if ((m.sources || []).length) {
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
         m.sources.map(function (s) { return '<a href="#" class="wsm-src" title="' + esc(s.path) + '">' + esc(s.title) + '<img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
+    h += moreHtml(q, m.sources, 'More pages about this');
     result.innerHTML = h + '</div></div>';
     body.scrollTop = 0;
+  }
+  function moreHtml(q, shown, kicker) {
+    var list = pageResults(q, shown, 4), label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
+    return '<div class="wsm-more">' + (list.length ? '<span class="wsm-kick">' + kicker + '</span><ul class="wsm-list">' +
+      list.map(function (s) { return '<li><a href="#" class="wsm-res"><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></a></li>'; }).join('') + '</ul>' : '') +
+      '<a href="#" class="wsm-all">See all ' + resultCount(q) + ' results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
