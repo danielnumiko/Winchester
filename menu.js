@@ -41,8 +41,12 @@ html.wnm-open [data-name='Nav bar'], html.wnm-open [data-name='Story nav bar'] {
 .wnm-top i { width:18px; height:18px; color:#C68EFD; }\
 .wnm-top:hover, .wnm-top:focus-visible { color:#C68EFD; }\
 .wnm-quick { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:40px; }\
-.wnm-quick a { color:#DBBAFF; text-decoration:underline; text-decoration-color:transparent; text-underline-offset:4px; text-decoration-thickness:1px; font-weight:600; font-size:16px; transition:color .2s ease, text-decoration-color .2s ease; }\
-.wnm-quick a:hover { color:#C68EFD; text-decoration-color:currentColor; }\
+.wnm-quick a { position:relative; color:#DBBAFF; text-decoration:none; font-weight:600; font-size:16px; transition:color .2s ease; }\
+.wnm-quick a:hover { color:#C68EFD; }\
+.wnm-top, .wnm-link { position:relative; }\
+.wnm-top::after, .wnm-link::after, .wnm-quick a::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px; background:#C68EFD; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
+.wnm-quick a::after { bottom:-4px; }\
+.wnm-top:hover::after, .wnm-top:focus-visible::after, .wnm-link:hover::after, .wnm-link:focus-visible::after, .wnm-quick a:hover::after, .wnm-quick a:focus-visible::after { transform:scaleX(1); }\
 .wnm-head { display:flex; flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.16); }\
 .wnm-backbtn { display:inline-flex; align-items:center; gap:10px; height:36px; padding:0 14px; border:0; border-radius:5px; background:rgba(255,255,255,.1); color:#FFFFFF; font:600 14px Figtree, sans-serif; cursor:pointer; transition:background-color .2s ease; }\
 .wnm-backbtn i { width:12px; height:12px; transform:rotate(180deg); }\
@@ -62,7 +66,7 @@ html.wnm-open .mnav button[aria-label='Close menu'] img { opacity:0; }\
 html.wnm-open .mnav button[aria-label='Close menu']::after { content:''; position:absolute; left:50%; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px; background:#291647; -webkit-mask:url(motifs/i-cross.svg) center / contain no-repeat; mask:url(motifs/i-cross.svg) center / contain no-repeat; }\
 .wnm button:focus, .wnm a:focus { outline:none; }\
 .wnm button:focus-visible, .wnm a:focus-visible { outline:2px solid #C68EFD; outline-offset:4px; border-radius:3px; }\
-@media (prefers-reduced-motion: reduce) { .wnm-box, .wnm-pane, .wnm-back, .wnm i b { transition:none; } }\
+@media (prefers-reduced-motion: reduce) { .wnm-box, .wnm-pane, .wnm-back, .wnm i b, .wnm-top::after, .wnm-link::after, .wnm-quick a::after { transition:none; } }\
 ";
 
   var navTop = 0, mobile = false, host = null, deviceEl = null, root, box, scroller, navEl = null, btnEl = null, lastFocus = null, current = -1;
