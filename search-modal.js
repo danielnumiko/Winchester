@@ -296,8 +296,8 @@
 .wsm-av { flex:none; width:40px; height:40px; border-radius:50%; background:#291647; display:flex; align-items:center; justify-content:center; }\
 .wsm-av i { width:18px; height:18px; background:#D4EF70; -webkit-mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; mask:url(motifs/fig-star8-white.svg) center / contain no-repeat; }\
 .wsm-a > div { flex:1; min-width:0; display:flex; flex-direction:column; gap:12px; }\
-.wsm-lead { margin:0; font-family:'IvyPresto Display', serif; font-size:28px; line-height:1.2; }\
-.wsm.mobile .wsm-lead { font-size:24px; }\
+.wsm-lead { margin:0; font-weight:600; font-size:24px; line-height:1.3; }\
+.wsm.mobile .wsm-lead { font-size:20px; }\
 .wsm-p { margin:0; font-weight:500; font-size:16px; line-height:1.6; color:#3D2566; }\
 .wsm-from { margin-top:6px; display:flex; flex-direction:column; gap:10px; }\
 .wsm-from > span { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
@@ -311,7 +311,7 @@
 .wsm a:hover { color:#291647; }\
 .wsm-more { margin-top:20px; }\
 .wsm-kick { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
-.wsm-all { padding:10px 14px; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:600; font-size:14px; line-height:1.2; transition:background-color .2s ease, color .2s ease; }\
+.wsm-all { box-sizing:border-box; width:100%; min-height:74px; padding:15px 20px; justify-content:space-between; text-align:left; border-radius:5px; background:#C68EFD; color:#291647 !important; display:flex; align-items:center; gap:20px; text-decoration:none; font-weight:600; font-size:16px; line-height:1.3; transition:background-color .2s ease, color .2s ease; }\
 .wsm-all:hover { background:#291647; color:#FFFFFF !important; }\
 .wsm-all i { position:relative; flex:none; width:11px; height:11px; overflow:hidden; }\
 .wsm-all b { position:absolute; inset:0; background:currentColor; -webkit-mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; mask:url(motifs/fig-icon-arrow-dark.svg) center / contain no-repeat; transition:transform .45s cubic-bezier(.65,0,.35,1); }\
@@ -529,7 +529,7 @@
     if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
       h = '<div class="wsm-a"><div><p class="wsm-lead">We couldn’t find one clear answer to that.</p>' +
-        '<p class="wsm-p">See more results for your search, or tell us a bit more about what you’re after.</p>' +
+        '<p class="wsm-p">See all results for your search, or tell us a bit more about what you’re after.</p>' +
         moreHtml(q) +
         '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
         opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
@@ -550,7 +550,7 @@
   // The full results page is where the list lives; the modal just links to it
   function moreHtml(q) {
     var label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
-    return '<div class="wsm-more"><a href="#" class="wsm-all">See more results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
+    return '<div class="wsm-more"><a href="#" class="wsm-all">See all results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
