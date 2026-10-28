@@ -160,6 +160,13 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .story .img { height:280px; border-radius:15px; background-size:cover; background-position:center; }
 .story .q { padding:20px 20px 12px; font-weight:600; font-size:19px; line-height:1.3; }
 .story .n { padding:0 20px 22px; margin-top:auto; font-weight:500; font-size:13px; line-height:1.4; color:var(--mp); }
+/* Round 3: the last card links to all stories, as in the events carousel */
+.story.story-all { background:var(--lp); justify-content:space-between; padding:24px 20px; box-sizing:border-box; }
+.story.story-all .k { font-weight:600; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--mp); }
+.story.story-all .t { display:block; font-family:'IvyPresto Display', serif; font-weight:400; font-size:34px; line-height:1.1; margin-top:8px; }
+.story.story-all .go { width:56px; height:56px; border-radius:5px; background:var(--dp); display:flex; align-items:center; justify-content:center; transition:background-color .2s ease; }
+.story.story-all .go img { width:16px; height:16px; filter:brightness(0) invert(1); }
+.story.story-all:hover .go { background:#FFFFFF; } .story.story-all:hover .go img { filter:none; }
 
 /* Life banner */
 #life { background:var(--lp); color:var(--dp); padding-bottom:40px; }
@@ -552,6 +559,8 @@ def page(v, switcher, name_first=False):
     # three copies so the slider can loop; the middle copy is the real one
     promos = "".join(promos.replace('class="promo"', f'class="promo" data-copy="{c}"' + ('' if c == 1 else ' aria-hidden="true" tabindex="-1"')) for c in range(3))
     stories = "".join(f'<a href="#" class="story" data-story="{i}"><span class="img" style="background-image:url({img})"></span><span class="q">{q}</span><span class="n">{n}</span></a>' for i, (img, q, n) in enumerate(STORIES))
+    if name_first:
+        stories += '<a href="#" class="story story-all"><span><span class="k">Made here</span><span class="t serif">See all stories</span></span><span class="go" aria-hidden="true"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></span></a>'
     life = "".join(f'<li><a href="#"><span>{t}</span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a></li>' for t in LIFE)
     rimgs = "".join(f'<div style="background-image:url({img})"></div>' for img, *_ in REASONS)
     rtexts = "".join(f'<div class="rt">{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>' for _, k, h, p in REASONS)
@@ -598,7 +607,7 @@ def page(v, switcher, name_first=False):
   </section>
 
   <section id="stories" data-screen-label="Made here">
-    <div class="head"><h2 class="sec serif">Where stories are made</h2>{btn("All stories")}</div>
+    <div class="head"><h2 class="sec serif">Where stories are made</h2>{'' if name_first else btn("All stories")}</div>
     <div class="car">{stories}</div>
     <div class="car-ctrl"><span class="count">01 / 05</span><span class="arrows"><button class="prev" aria-label="Previous story"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next story"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
   </section>
