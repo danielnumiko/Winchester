@@ -165,6 +165,11 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .ev .t { font-weight:600; font-size:20px; line-height:1.25; margin-top:8px; display:block; }
 .ev .m { margin-top:auto; font-weight:500; font-size:14px; line-height:1.45; color:var(--mp); }
 #events .after { padding:24px 16px 0; }
+/* Round 3: the event name leads; the date is a small lime label */
+.ev.ev3 { gap:12px; }
+.ev.ev3 .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:28px; line-height:1.15; margin-top:0; }
+.ev.ev3 .m { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding-top:14px; }
+.ev.ev3 .chip { font-weight:600; font-size:14px; line-height:1; padding:7px 10px; border-radius:5px; background:var(--lime); color:var(--dp); }
 
 /* International banner */
 #intl { background:var(--lp); color:var(--dp); padding-bottom:48px; }
@@ -268,7 +273,7 @@ footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
 
   <section id="events" data-screen-label="Events">
     <div class="head"><div class="eyebrow"><img src="motifs/fig-star8-purple.svg" alt=""><span>What’s on</span></div><h2 class="sec serif">Open days and <em>events</em></h2><div><a href="#" class="btn"><span>All events</span><img src="motifs/fig-icon-arrow-dark.svg" alt="" class="ico"></a></div></div>
-    <div class="car"><a href="#" class="ev"><span class="date"><b>10</b><small>Oct</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a><a href="#" class="ev"><span class="date"><b>4</b><small>Nov</small></span><span><span class="k">Open evening</span><span class="t">Postgraduate open evening</span></span><span class="m">Wednesday, 5pm to 7pm<br>Online</span></a><a href="#" class="ev"><span class="date"><b>12</b><small>Nov</small></span><span><span class="k">Public lecture</span><span class="t">Making history: the story of Winchester</span></span><span class="m">Thursday, 6.30pm<br>West Downs Centre</span></a><a href="#" class="ev"><span class="date"><b>21</b><small>Nov</small></span><span><span class="k">Open day</span><span class="t">Undergraduate Open Day</span></span><span class="m">Saturday, 9.30am to 3pm<br>King Alfred Campus</span></a></div>
+    <div class="car"><a href="#" class="ev ev3"><span class="k">Open day</span><span class="t serif">Undergraduate Open Day</span><span class="m"><span class="chip">Sat 10 Oct</span><span>9.30am to 3pm<br>King Alfred Campus</span></span></a><a href="#" class="ev ev3"><span class="k">Open evening</span><span class="t serif">Postgraduate open evening</span><span class="m"><span class="chip">Wed 4 Nov</span><span>5pm to 7pm<br>Online</span></span></a><a href="#" class="ev ev3"><span class="k">Public lecture</span><span class="t serif">Making history: the story of Winchester</span><span class="m"><span class="chip">Thu 12 Nov</span><span>6.30pm<br>West Downs Centre</span></span></a><a href="#" class="ev ev3"><span class="k">Open day</span><span class="t serif">Undergraduate Open Day</span><span class="m"><span class="chip">Sat 21 Nov</span><span>9.30am to 3pm<br>King Alfred Campus</span></span></a></div>
     <div class="car-ctrl"><span class="count">01 / 04</span><span class="arrows"><button class="prev" aria-label="Previous event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button><button class="next" aria-label="Next event"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></span></div>
   </section>
 

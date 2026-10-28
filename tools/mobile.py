@@ -221,6 +221,11 @@ h2.sec { margin:0; font-size:40px; line-height:1.15; color:var(--dp); }
 .ev .t { font-weight:600; font-size:20px; line-height:1.25; margin-top:8px; display:block; }
 .ev .m { margin-top:auto; font-weight:500; font-size:14px; line-height:1.45; color:var(--mp); }
 #events .after { padding:24px 16px 0; }
+/* Round 3: the event name leads; the date is a small lime label */
+.ev.ev3 { gap:12px; }
+.ev.ev3 .t { font-family:'IvyPresto Display', serif; font-weight:400; font-size:28px; line-height:1.15; margin-top:0; }
+.ev.ev3 .m { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding-top:14px; }
+.ev.ev3 .chip { font-weight:600; font-size:14px; line-height:1; padding:7px 10px; border-radius:5px; background:var(--lime); color:var(--dp); }
 
 /* International banner */
 #intl { background:var(--lp); color:var(--dp); padding-bottom:48px; }
@@ -525,7 +530,7 @@ JS = r"""
 """
 
 
-def page(v, switcher):
+def page(v, switcher, name_first=False):
     import json
     o = VARIANTS[v]
     promos = "".join(
@@ -542,7 +547,8 @@ def page(v, switcher):
     rtexts = "".join(f'<div class="rt">{eyebrow(k)}<h3 class="serif">{h}</h3><p>{p}</p>{btn("Discover more")}</div>' for _, k, h, p in REASONS)
     tiles = "".join(f'<span class="tile"><i style="-webkit-mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat; mask:url(motifs/fig-tile-{t}.svg) center / contain no-repeat"></i></span>' for t in TILES * 3)
     news = "".join(f'<a href="#" class="ncard {"lead" if i == 0 else "small"}"><span class="img" style="background-image:url({img})"></span><span class="tx"><span class="t">{t}</span><span class="d">{d}</span></span></a>' for i, (img, t, d) in enumerate(NEWS))
-    events = "".join(f'<a href="#" class="ev"><span class="date"><b>{d}</b><small>{m}</small></span><span><span class="k">{k}</span><span class="t">{t}</span></span><span class="m">{w}<br>{loc}</span></a>' for d, m, k, t, w, loc in EVENTS)
+    events_r3 = "".join(f'<a href="#" class="ev ev3"><span class="k">{k}</span><span class="t serif">{t}</span><span class="m"><span class="chip">{wd} {d} {m}</span><span>{w.split(", ", 1)[1]}<br>{loc}</span></span></a>' for (d, m, k, t, w, loc), wd in zip(EVENTS, ["Sat", "Wed", "Thu", "Sat"]))
+    events = events_r3 if name_first else "".join(f'<a href="#" class="ev"><span class="date"><b>{d}</b><small>{m}</small></span><span><span class="k">{k}</span><span class="t">{t}</span></span><span class="m">{w}<br>{loc}</span></a>' for d, m, k, t, w, loc in EVENTS)
     cols = "".join(f'<div class="col"><h4>{h}</h4>' + "".join(f'<a href="#">{l}</a>' for l in ls) + '</div>' for h, ls in FOOT)
     legal = "".join(f'<a href="#">{l}</a>' for l in LEGAL)
     soc = "".join(f'<a href="#">{l}</a>' for l in SOCIAL)
@@ -653,5 +659,5 @@ if __name__ == "__main__":
         open(f"Round 2 Variant {v} Mobile.dc.html", "w", encoding="utf-8").write(page(v, placeholder))
         print("wrote", v)
     # Round 3 is Round 2's Variant 2 (mobile already uses the menu button, so the header is unchanged)
-    open("Round 3 Mobile.dc.html", "w", encoding="utf-8").write(page(2, placeholder).replace("Round 2, Variant 2 (mobile)", "Round 3 (mobile)"))
+    open("Round 3 Mobile.dc.html", "w", encoding="utf-8").write(page(2, placeholder, name_first=True).replace("Round 2, Variant 2 (mobile)", "Round 3 (mobile)"))
     print("wrote round 3")
