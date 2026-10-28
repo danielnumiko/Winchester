@@ -299,7 +299,7 @@
 .wsm-lead { margin:0; font-weight:600; font-size:24px; line-height:1.3; }\
 .wsm.mobile .wsm-lead { font-size:20px; }\
 .wsm-p { margin:0; font-weight:500; font-size:16px; line-height:1.6; color:#3D2566; }\
-.wsm-from { margin-top:6px; display:flex; flex-direction:column; gap:10px; }\
+.wsm-from { margin-top:18px; display:flex; flex-direction:column; gap:10px; }\
 .wsm-from > span { font-weight:600; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
 .wsm-srcs { display:flex; flex-direction:column; gap:10px; }\
 .wsm-src { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:15px 20px; border-radius:5px; background:#F5F5F5; color:#291647; text-decoration:none; transition:background-color .2s ease; }\
