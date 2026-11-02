@@ -24,6 +24,31 @@
         ]
       };
     });
+  // study levels, as in the Study section of the site
+  SUBJECTS['Undergraduate'] = {
+    lead: 'Here is where to start with undergraduate study at Winchester.',
+    body: 'We offer [COURSES: number of undergraduate degrees] degrees, most of them three years full-time, and many with the option of a foundation year or a placement year. Every course page sets out what you study year by year, how you are assessed and the entry requirements.',
+    body2: 'If you know your subject, start there. If not, browsing by subject area is the quickest way to see what fits.',
+    sources: [{ title: 'Browse Undergraduate Degrees', path: 'Study / Undergraduate' }, { title: 'Entry requirements explained', path: 'Study / How to apply' }, { title: 'How to apply', path: 'Study / How to apply' }]
+  };
+  SUBJECTS['Postgraduate'] = {
+    lead: 'Here is where to start with postgraduate study at Winchester.',
+    body: 'We offer [COURSES: number of postgraduate courses] taught master\'s degrees, research degrees and professional qualifications, full-time or part-time. Conversion courses let you move into a new subject, such as psychology, without a first degree in it.',
+    body2: 'Funding works differently from undergraduate study, so check the loans and discounts available before you apply.',
+    sources: [{ title: 'Browse Postgraduate Degrees', path: 'Study / Postgraduate' }, { title: 'Conversion Courses', path: 'Study / Postgraduate / Conversion Courses' }, { title: 'Tuition fees and funding', path: 'Study / Fees and funding' }]
+  };
+  SUBJECTS['Apprenticeships'] = {
+    lead: 'Degree apprenticeships let you earn a full degree while you work.',
+    body: 'You are employed throughout, your tuition fees are covered by your employer and the government, and you study alongside your job. We offer [COURSES: degree apprenticeship programmes] in areas such as [STAT: apprenticeship subject areas].',
+    body2: 'You apply for the job with an employer first, so the apprenticeship pages explain how to find a role or approach your current employer.',
+    sources: [{ title: 'Degree Apprenticeships', path: 'Study / Apprenticeships' }, { title: 'How to apply', path: 'Study / How to apply' }]
+  };
+  SUBJECTS['Short courses'] = {
+    lead: 'Short courses let you try a subject or build a skill without committing to a full degree.',
+    body: 'We run [COURSES: short courses and online learning], from single modules to professional development, many of them online or part-time so they fit around work.',
+    body2: 'Some short courses count towards a later qualification, so check each course page.',
+    sources: [{ title: 'Short courses and online learning', path: 'Study / Short courses and online learning' }, { title: 'Information for mature learners', path: 'Study / Mature Students' }]
+  };
   var TOPICS = {
     ask: { label: 'Ask us anything', heading: 'What do you want to <em>know</em>?', sub: 'Ask in your own words, or start somewhere.',
       chips: [['Courses', 'What courses have a placement year?'], ['Fees', 'What does it actually cost, all in?'], ['Accommodation', 'Where would I live in first year?'], ['Clearing', 'How does Clearing work here?'],
@@ -32,7 +57,8 @@
     study: { label: 'Ask us anything', heading: 'What do you want to <em>study</em>?', sub: 'Name it if you know it, or start somewhere near.',
       chips: [['Psychology', null], ['Teaching', null], ['Nursing', null], ['Film and media', null],
         ['Business', null], ['Law', null], ['Criminology', null], ['Sport', null],
-        ['Computing', null], ['English and creative writing', null], ['History', null], ['Health and social care', null]] }
+        ['Computing', null], ['English and creative writing', null], ['History', null], ['Health and social care', null]],
+      levels: ['Undergraduate', 'Postgraduate', 'Apprenticeships', 'Short courses'] }
   };
   // intro cards: desktop (inside the Intro section's grid) and mobile (.icard); the search card is the first
   var CARD = '[data-screen-label="Intro"] > div > div, #intro .icard';
@@ -110,6 +136,8 @@
 .wsm.has-result .wsm-body { justify-content:flex-start; }\
 .wsm.has-result .wsm-search { margin:0 auto; padding:0; gap:10px; }\
 .wsm.has-result .wsm-intro, .wsm.has-result .wsm-search .wsm-chips { display:none; }\
+.wsm-levels:empty { display:none; }\
+.wsm-levels + .wsm-chips { margin-top:-10px; }\
 .wsm-intro { display:flex; flex-direction:column; align-items:center; gap:14px; margin-bottom:10px; }\
 .wsm-intro h2 { margin:0; font-family:'IvyPresto Display', serif; font-weight:400; font-size:52px; line-height:1.1; }\
 .wsm.mobile .wsm-intro h2 { font-size:38px; }\
@@ -155,7 +183,11 @@
     'Computing': ['computing', 'computer science', 'computer', 'software', 'programming', 'cyber', 'digital technolog'],
     'English and creative writing': ['english', 'creative writing', 'writing', 'literature'],
     'History': ['history', 'archaeology', 'heritage'],
-    'Health and social care': ['health and social care', 'social care']
+    'Health and social care': ['health and social care', 'social care'],
+    'Undergraduate': ['undergraduate', 'undergrad', 'bachelors', 'first degree'],
+    'Postgraduate': ['postgraduate', 'postgrad', 'masters', 'msc', 'research degree'],
+    'Apprenticeships': ['apprenticeship', 'degree apprenticeship'],
+    'Short courses': ['short course', 'online learning', 'online course', 'cpd']
   };
   var STOP = ['what','when','where','which','does','have','with','your','you','the','and','for','are','can','any','there','about','how','much','many','they','this','that','from','into','get','do','is','a','an','to','of','in','i','my','me','it','be','on','at','or','if','will','would','should','could','we','us','our','here','there','there'];
   function stem(w) {
@@ -183,12 +215,12 @@
     }
     return edits + (a.length - i) + (b.length - j) <= 1;
   }
-  function hasPhrase(qt, phrase) {
+  function hasPhrase(qt, phrase, exact) {
     var pt = toks(phrase);
     if (!pt.length) return false;
     for (var i = 0; i + pt.length <= qt.length; i++) {
       var ok = true;
-      for (var j = 0; j < pt.length; j++) if (!near(qt[i + j], pt[j])) { ok = false; break; }
+      for (var j = 0; j < pt.length; j++) if (exact ? qt[i + j] !== pt[j] : !near(qt[i + j], pt[j])) { ok = false; break; }
       if (ok) return true;
     }
     return false;
@@ -210,7 +242,9 @@
   }
   function matchSubject(query) {
     var qt = toks(query);
-    return Object.keys(SUBJECT_WORDS).find(function (s) { return SUBJECT_WORDS[s].some(function (w) { return hasPhrase(qt, w); }); }) || null;
+    // exact words first, so 'short courses' isn't read as a typo for 'sport'
+    function find(exact) { return Object.keys(SUBJECT_WORDS).find(function (s) { return SUBJECT_WORDS[s].some(function (w) { return hasPhrase(qt, w, exact); }); }); }
+    return find(true) || find(false) || null;
   }
   function allSources() { var seen = {}; KNOWLEDGE.forEach(function (k) { k.sources.forEach(function (s) { seen[s.title] = s; }); }); return seen; }
   function termSources(q) {
@@ -273,6 +307,7 @@
       '<div class="wsm-body"><div class="wsm-search"><div class="wsm-intro"><h2></h2><p></p></div>' +
       '<div class="wsm-field"><input type="search" placeholder="' + (mobile ? 'Ask us anything' : 'Ask us anything about studying here') + '" aria-label="Ask us anything"><button class="wsm-send" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></div>' +
       '<p class="wsm-hint">Press Enter to search · Esc to close · answers are drawn from pages on this site</p>' +
+      '<div class="wsm-chips wsm-levels" aria-label="Study levels"></div>' +
       '<div class="wsm-chips"></div></div><div class="wsm-result" aria-live="polite"></div></div></div>';
     container.appendChild(root);
     body = root.querySelector('.wsm-body'); input = root.querySelector('input'); result = root.querySelector('.wsm-result');
@@ -290,7 +325,8 @@
     var t = TOPICS[mode];
     root.querySelector('.wsm-intro h2').innerHTML = t.heading;
     root.querySelector('.wsm-intro p').textContent = t.sub;
-    root.querySelector('.wsm-search .wsm-chips').innerHTML = t.chips.map(function (c) {
+    root.querySelector('.wsm-levels').innerHTML = (t.levels || []).map(function (l) { return '<button class="wsm-chip" data-wsm-subject="' + esc(l) + '">' + esc(l) + '</button>'; }).join('');
+    root.querySelector('.wsm-search .wsm-chips:not(.wsm-levels)').innerHTML = t.chips.map(function (c) {
       return c[1] ? '<button class="wsm-chip" data-wsm-ask="' + esc(c[1]) + '">' + esc(c[0]) + '</button>' : '<button class="wsm-chip" data-wsm-subject="' + esc(c[0]) + '">' + esc(c[0]) + '</button>';
     }).join('');
   }
@@ -335,7 +371,7 @@
   }
   function askSubject(label) {
     var a = SUBJECTS[label]; if (!a) return ask(label);
-    input.value = label + ' courses'; answer = null; thinking = true; render();
+    input.value = label === 'Apprenticeships' ? 'Degree apprenticeships' : /courses$/.test(label) ? label : label + ' courses'; answer = null; thinking = true; render();
     var my = ++token;
     setTimeout(function () { if (my !== token) return; thinking = false; answer = { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; render(); }, 900);
   }
