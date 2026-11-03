@@ -683,7 +683,7 @@ def page(v, switcher, name_first=False, search_hero=False):
 
 PROMO_JS = "  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); clearTimeout(settle); settle = setTimeout(recentre, 140); }, { passive: true });\n  dots.forEach(function (d, j) { d.addEventListener('click', function () { var i = nearest(), base = i - (i % N); pt.scrollTo({ left: centreOf(base + j), behavior: 'smooth' }); }); });\n  pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });\n  paintDots();"
 HERO_SEARCH = ('<form class="hsearch" data-wsm-hero="1" role="search" aria-label="Search for a course">'
-    '<input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything">'
+    '<input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything"><span class="caret" aria-hidden="true"></span>'
     '<button type="submit" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></form>')
 CSS_V2 = """
 /* Round 3 Variant 2: course search in the hero */
@@ -692,6 +692,10 @@ CSS_V2 = """
 .hsearch input { flex:1; min-width:0; height:100%; border:0; outline:0; padding:0; background:transparent; font:500 16px Figtree, sans-serif; color:var(--dp); }
 .hsearch input::placeholder { color:var(--mp); opacity:1; }
 .hsearch input::-webkit-search-cancel-button { display:none; }
+.hsearch .caret { position:absolute; left:18px; top:50%; width:2px; height:20px; margin-top:-10px; background:var(--dp); animation:hcaret 1.06s steps(1) infinite; pointer-events:none; }
+.hsearch:focus-within .caret, .hsearch input:not(:placeholder-shown) ~ .caret { display:none; }
+@keyframes hcaret { 0% { opacity:1; } 50% { opacity:0; } }
+@media (prefers-reduced-motion: reduce) { .hsearch .caret { animation:none; } }
 .hsearch button { flex:none; width:60px; height:60px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
 .hsearch button img { width:20px; height:20px; display:block; transition:filter .2s ease; }
 .hsearch button:hover { background:var(--dp); }
