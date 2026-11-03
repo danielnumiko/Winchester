@@ -547,9 +547,15 @@ JS = r"""
 """
 
 
-def page(v, switcher, name_first=False):
+def page(v, switcher, name_first=False, search_hero=False):
     import json
     o = VARIANTS[v]
+    # Round 3 Variant 2: course search in the hero, the promos below it as news-style teasers, no Study Builder
+    teasers = "".join(
+        f'<a href="#" class="ncard small"><span class="img" style="background-image:url({img}); background-position:{pos}">'
+        + ('<span class="play" aria-hidden="true"><svg viewBox="0 0 10 12" width="10" height="12"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span>' if play else "")
+        + f'</span><span class="tx"><span class="t">{t}</span><span class="d">{k}</span></span></a>'
+        for img, pos, k, t, play in PROMOS)
     promos = "".join(
         f'<a href="#" class="promo"><span class="thumb" style="background-image:url({img}); background-position:{pos}">'
         + ('<span class="play"><svg viewBox="0 0 10 12" width="8" height="10"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span>' if play else "")
@@ -584,7 +590,7 @@ def page(v, switcher, name_first=False):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<style>{CSS}</style>
+<style>{CSS}{CSS_V2 if search_hero else ''}</style>
 </head>
 <body>
 {switcher}
@@ -598,9 +604,9 @@ def page(v, switcher, name_first=False):
       <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div>
     </nav>
     <div class="hero-copy"><span class="arch" aria-hidden="true"></span><h1 class="serif">The best version of you isn’t found, <em>it’s made.</em></h1></div>
-    <div class="promos"><div class="promo-track">{promos}</div><div class="dots">{dots}</div></div>
+    {HERO_SEARCH if search_hero else '<div class="promos"><div class="promo-track">' + promos + '</div><div class="dots">' + dots + '</div></div>'}
   </section>
-
+{'<section id="promos" data-screen-label="Promos">' + teasers + '</section>' if search_hero else ''}
   <section id="intro" data-screen-label="Intro">
     <div class="icard"><h3 class="serif"><em>Search</em> for a course</h3><p>Already know roughly what you’re after? Start here and ask it however you like, in your own words.</p>{btn("What do you want to study?").replace('fig-icon-arrow-dark.svg" alt="" class="ico"', 'fig-icon-search.svg" alt="" class="ico" style="width:16px; height:16px"') if name_first else btn("What do you want to study?")}</div>
     <div class="icard"><h3 class="serif">Study <em>Builder</em></h3><p>Not sure yet? Tell us what you enjoy and what you’re good at, and we’ll map out your journey.</p>{btn("Tell us about yourself").replace(ARROW, '<i class="ico star" aria-hidden="true"></i>') if name_first else btn("Tell us about yourself")}</div>
@@ -668,12 +674,32 @@ def page(v, switcher, name_first=False):
 <div id="wipe" aria-hidden="true"></div>
 </div></div>
 <script>window.STORIES = {json.dumps([dict(img=i, quote=q, name=n) for i, q, n in STORIES], ensure_ascii=False)}; window.STORY_DETAIL = {json.dumps(story_detail(), ensure_ascii=False)};</script>
-<script>{JS}</script>
+<script>{JS.replace(PROMO_JS, 'if (pt) {' + PROMO_JS + '}') if search_hero else JS}</script>
 {'<script src="search-modal.js"></script><script src="menu.js"></script><script src="hero-pause.js"></script>' if name_first else ''}
 </body>
 </html>
 '''
 
+
+PROMO_JS = "  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); clearTimeout(settle); settle = setTimeout(recentre, 140); }, { passive: true });\n  dots.forEach(function (d, j) { d.addEventListener('click', function () { var i = nearest(), base = i - (i % N); pt.scrollTo({ left: centreOf(base + j), behavior: 'smooth' }); }); });\n  pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });\n  paintDots();"
+HERO_SEARCH = ('<form class="hsearch" data-wsm-hero="1" role="search" aria-label="Search for a course">'
+    '<input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything">'
+    '<button type="submit" aria-label="Search"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></form>')
+CSS_V2 = """
+/* Round 3 Variant 2: course search in the hero */
+.hsearch { position:absolute; z-index:3; left:16px; right:16px; bottom:40px; height:70px; box-sizing:border-box; margin:0; display:flex; align-items:center; gap:10px; padding:5px 5px 5px 20px; border-radius:5px; background:#FFFFFF; box-shadow:0 20px 60px rgba(20,10,40,.25); }
+.hsearch:focus-within { outline:3px solid var(--lp); outline-offset:3px; }
+.hsearch input { flex:1; min-width:0; height:100%; border:0; outline:0; padding:0; background:transparent; font:500 16px Figtree, sans-serif; color:var(--dp); }
+.hsearch input::placeholder { color:var(--mp); opacity:1; }
+.hsearch input::-webkit-search-cancel-button { display:none; }
+.hsearch button { flex:none; width:60px; height:60px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
+.hsearch button img { width:14px; height:14px; display:block; transition:filter .2s ease; }
+.hsearch button:hover { background:var(--dp); }
+.hsearch button:hover img { filter:brightness(0) invert(1); }
+#promos { padding:48px 16px; display:flex; flex-direction:column; gap:12px; }
+#promos .img { position:relative; }
+#promos .play { position:absolute; left:10px; bottom:10px; width:36px; height:36px; border-radius:5px; background:var(--dp); display:flex; align-items:center; justify-content:center; }
+"""
 
 if __name__ == "__main__":
     import sys
@@ -685,3 +711,8 @@ if __name__ == "__main__":
     # Round 3 is Round 2's Variant 2 (mobile already uses the menu button, so the header is unchanged)
     open("Round 3 Mobile.dc.html", "w", encoding="utf-8").write(page(2, placeholder, name_first=True).replace("Round 2, Variant 2 (mobile)", "Round 3 (mobile)"))
     print("wrote round 3")
+    import re
+    v2 = page(2, placeholder, name_first=True, search_hero=True).replace("Round 2, Variant 2 (mobile)", "Round 3, Variant 2 (mobile)")
+    v2 = re.sub(r'\n  <section id="intro".*?</section>\n', "\n", v2, count=1, flags=re.S)
+    open("Round 3 Variant 2 Mobile.dc.html", "w", encoding="utf-8").write(v2)
+    print("wrote round 3 variant 2")

@@ -145,8 +145,28 @@
 .wsm-result { width:100%; max-width:660px; margin:0 auto; }\
 .wsm-result:empty { display:none; }\
 .wsm.mobile .wsm-hint { display:none; }\
+.wsm-dock { flex:none; display:none; padding:20px 48px 30px; border-top:1px solid #EDE0FF; }\
+.wsm.mobile .wsm-dock { padding:12px 16px 16px; }\
+.wsm-dock .wsm-field { max-width:660px; margin:0 auto; }\
+.wsm.thread.has-result .wsm-dock { display:block; }\
+.wsm.thread.has-result .wsm-search { display:none; }\
+.wsm.thread .wsm-body { scroll-behavior:smooth; }\
+.wsm-turn { display:flex; flex-direction:column; gap:20px; box-sizing:border-box; }\
+.wsm-turn + .wsm-turn { margin-top:60px; }\
+.wsm-cite { margin-top:18px; }\
+.wsm-cite-tog { display:inline-flex; align-items:center; gap:10px; padding:0; border:0; background:none; cursor:pointer; font:600 11px/1.3 Figtree, sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
+.wsm-cite-tog svg { display:block; transition:transform .25s ease; }\
+.wsm-cite-tog[aria-expanded=\"true\"] svg { transform:rotate(180deg); }\
+.wsm-cite-tog:hover { color:#291647; }\
+.wsm-cite-list { list-style:none; margin:15px 0 0; padding:0 0 0 15px; border-left:2px solid #EDE0FF; display:flex; flex-direction:column; gap:15px; }\
+.wsm-cite-list[hidden] { display:none; }\
+.wsm-cite-list a { display:flex; flex-direction:column; gap:5px; color:#291647; text-decoration:none; }\
+.wsm-cite-list span { font-weight:600; font-size:14px; line-height:1.3; }\
+.wsm-cite-list small { font-weight:500; font-size:14px; line-height:1.3; color:#5C358E; }\
+.wsm-cite-list a:hover span { text-decoration:underline; text-underline-offset:3px; }\
+.wsm-q { align-self:flex-end; max-width:80%; margin:0; padding:15px 20px; border-radius:5px; background:#291647; color:#FFFFFF; font-weight:500; font-size:16px; line-height:1.4; }\
 [data-screen-label=\"Intro\"] > div > div:first-child, #intro .icard:first-child { cursor:pointer; }\
-@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-all b { transition:none; } .wsm-dots span { animation:none; opacity:.7; } }\
+@media (prefers-reduced-motion: reduce) { .wsm-back, .wsm-panel, .wsm-all b { transition:none; } .wsm.thread .wsm-body { scroll-behavior:auto; } .wsm-dots span { animation:none; opacity:.7; } }\
 ";
 
   function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
@@ -296,7 +316,9 @@
     }).catch(function () { return fallback(q); });
   }
 
-  var root, body, input, result, mode = 'ask', answer = null, thinking = false, token = 0, lastFocus = null;
+  var root, body, input, field, hint, result, mode = 'ask', answer = null, thinking = false, token = 0, lastFocus = null;
+  // Conversation mode (pages with a search field in the hero): each question stacks under the last
+  var thread = false, turns = [];
   function build(container, mobile) {
     if (!document.getElementById('wsm-css')) { var st = document.createElement('style'); st.id = 'wsm-css'; st.textContent = CSS; document.head.appendChild(st); }
     root = document.createElement('div');
@@ -308,15 +330,18 @@
       '<div class="wsm-field"><input type="search" placeholder="' + (mobile ? 'Ask us anything' : 'Ask us anything about studying here') + '" aria-label="Ask us anything"><button class="wsm-send" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></div>' +
       '<p class="wsm-hint">Press Enter to search · Esc to close · answers are drawn from pages on this site</p>' +
       '<div class="wsm-chips wsm-levels" aria-label="Study levels"></div>' +
-      '<div class="wsm-chips"></div></div><div class="wsm-result" aria-live="polite"></div></div></div>';
+      '<div class="wsm-chips"></div></div><div class="wsm-result" aria-live="polite"></div></div><div class="wsm-dock"></div></div>';
     container.appendChild(root);
     body = root.querySelector('.wsm-body'); input = root.querySelector('input'); result = root.querySelector('.wsm-result');
+    field = root.querySelector('.wsm-field'); hint = root.querySelector('.wsm-hint');
     root.addEventListener('click', function (e) {
       if (e.target.closest('[data-wsm-close]')) { close(); return; }
       var c = e.target.closest('[data-wsm-ask]'); if (c) { ask(c.getAttribute('data-wsm-ask')); return; }
       var s = e.target.closest('[data-wsm-subject]'); if (s) { askSubject(s.getAttribute('data-wsm-subject')); return; }
       if (e.target.closest('.wsm-send')) ask(input.value);
-      if (e.target.closest('.wsm-src, .wsm-all')) e.preventDefault(); // pages aren't in the prototype
+      var tog = e.target.closest('.wsm-cite-tog');
+      if (tog) { var on = tog.getAttribute('aria-expanded') !== 'true'; tog.setAttribute('aria-expanded', on); tog.nextElementSibling.hidden = !on; return; }
+      if (e.target.closest('.wsm-src, .wsm-all, .wsm-cite a')) e.preventDefault(); // pages aren't in the prototype
     });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
@@ -330,11 +355,18 @@
       return c[1] ? '<button class="wsm-chip" data-wsm-ask="' + esc(c[1]) + '">' + esc(c[0]) + '</button>' : '<button class="wsm-chip" data-wsm-subject="' + esc(c[0]) + '">' + esc(c[0]) + '</button>';
     }).join('');
   }
+  var CHEV = '<svg aria-hidden="true" viewBox="0 0 10 6" width="10" height="6"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg>';
+  var DOTS = '<div class="wsm-a" aria-label="Searching"><span class="wsm-dots"><span></span><span></span><span></span></span></div>';
   function render() {
+    if (thread) { root.classList.toggle('has-result', turns.length > 0); return; }
     root.classList.toggle('has-result', thinking || !!answer);
-    if (thinking) { result.innerHTML = '<div class="wsm-a" aria-label="Searching"><span class="wsm-dots"><span></span><span></span><span></span></span></div>'; return; }
+    if (thinking) { result.innerHTML = DOTS; return; }
     if (!answer) { result.innerHTML = ''; return; }
-    var m = answer, q = input.value, h;
+    result.innerHTML = answerHtml(answer, input.value);
+    body.scrollTop = 0;
+  }
+  function answerHtml(m, q) {
+    var h, cite = '';
     // No confident answer: lead with the pages that best match, rather than a thin answer
     if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
@@ -343,35 +375,79 @@
         moreHtml(q) +
         '<div class="wsm-narrow"><span class="wsm-kick">Or narrow it down</span><div class="wsm-chips" style="justify-content:flex-start">' +
         opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
-      result.innerHTML = h + '</div></div>';
-      body.scrollTop = 0;
-      return;
+      return h + '</div></div>';
     }
-    h = '<div class="wsm-a"><div><p class="wsm-lead">' + esc(m.lead) + '</p>' +
+    h = '<div class="wsm-a"><div>' + (thread ? '<span class="wsm-kick">AI overview</span>' : '') + '<p class="wsm-lead">' + esc(m.lead) + '</p>' +
       (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
-    if ((m.sources || []).length) {
+    if (thread && (m.sources || []).length) {
+      // Variant 2: the pages to go to next, then (below the results button) the pages the answer drew on, collapsed
+      var src = m.sources.slice(0, 3);
+      if (m.drawnFrom !== false) cite = '<div class="wsm-cite"><button class="wsm-cite-tog" aria-expanded="false">Taken from ' + src.length + (src.length === 1 ? ' page' : ' pages') + CHEV + '</button>' +
+        '<ul class="wsm-cite-list" hidden>' + src.map(function (s) { return '<li><a href="#"><span>' + esc(s.title) + '</span><small>' + esc(s.path) + '</small></a></li>'; }).join('') + '</ul></div>';
+      h += '<div class="wsm-from"><span>Next steps</span><div class="wsm-srcs">' +
+        src.map(function (s) { return '<a href="#" class="wsm-src"><span><strong>' + esc(moreAbout(s.title)) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
+    } else if ((m.sources || []).length) {
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
         m.sources.slice(0, 3).map(function (s) { return '<a href="#" class="wsm-src"><span><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
-    h += moreHtml(q);
-    result.innerHTML = h + '</div></div>';
-    body.scrollTop = 0;
+    h += moreHtml(q) + cite;
+    return h + '</div></div>';
+  }
+  // Conversation mode (Variant 2) shows each source as 'More about ...' rather than its page path and title
+  var MORE = {
+    'Ask a question': 'More about getting in touch', 'Browse Undergraduate Degrees': 'More about undergraduate degrees',
+    'Browse Postgraduate Degrees': 'More about postgraduate degrees', 'Apply after the UCAS deadline': 'More about applying after the UCAS deadline',
+    'Virtual Tour': 'More about the virtual tour', 'Visa Information': 'More about visas',
+    'Information for mature learners': 'More for mature learners', 'Information for parents and supporters': 'More for parents and supporters',
+    'MSc Psychology: entry requirements': 'More about MSc Psychology entry requirements',
+    'Entry requirements explained': 'More about entry requirements', 'Academic Pathways Programme': 'More about the Academic Pathways Programme'
+  };
+  var KEEP = ['Winchester', 'UCAS', 'UK', 'MSc', 'BSc', 'BA', 'MA', 'PGCE', 'Clearing', 'English'];
+  function moreAbout(t) {
+    if (MORE[t]) return MORE[t];
+    return 'More about ' + t.split(' ').map(function (w) { return KEEP.indexOf(w.replace(/[^A-Za-z]/g, '')) > -1 ? w : w.toLowerCase(); }).join(' ');
   }
   // The full results page is where the list lives; the modal just links to it
   function moreHtml(q) {
     var label = q.length > 42 ? q.slice(0, 40).replace(/\s+\S*$/, '') + '…' : q;
     return '<div class="wsm-more"><a href="#" class="wsm-all">See all results for ‘' + esc(label) + '’<i aria-hidden="true"><b></b><b></b></i></a></div>';
   }
+  // Conversation mode: add the question under the last one and scroll it to the top, knocking earlier answers up
+  function addTurn(q, reply) {
+    if (!turns.length) { root.querySelector('.wsm-dock').appendChild(field); input.placeholder = 'Ask a follow-up question'; }
+    var history = [];
+    turns.forEach(function (t) { history.push({ role: 'user', text: t.q }); if (t.answer) history.push(t.answer); });
+    history.push({ role: 'user', text: q });
+    var el = document.createElement('div'); el.className = 'wsm-turn';
+    el.innerHTML = '<p class="wsm-q">' + esc(q) + '</p>' + DOTS;
+    var t = { q: q, answer: null, el: el };
+    turns.forEach(function (o) { o.el.style.minHeight = ''; });
+    turns.push(t); result.appendChild(el); input.value = ''; render();
+    var cs = getComputedStyle(body), pt = parseFloat(cs.paddingTop) || 0;
+    el.style.minHeight = (body.clientHeight - pt - (parseFloat(cs.paddingBottom) || 0)) + 'px';
+    var k = body.getBoundingClientRect().height / body.offsetHeight || 1;
+    body.scrollTop = body.scrollTop + (el.getBoundingClientRect().top - body.getBoundingClientRect().top) / k - pt;
+    try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
+    var my = token;
+    (reply || generate(q, history)).then(function (a) {
+      if (my !== token) return;
+      t.answer = a; el.innerHTML = '<p class="wsm-q">' + esc(q) + '</p>' + answerHtml(a, q);
+    });
+  }
+  function later(a) { return new Promise(function (r) { setTimeout(function () { r(a); }, 900); }); }
   // One query, one generated answer: a new search replaces the previous one
   function ask(q) {
     q = String(q || '').trim(); if (!q) return;
+    if (thread) return addTurn(q);
     input.value = q; answer = null; thinking = true; render();
     var my = ++token;
     generate(q, [{ role: 'user', text: q }]).then(function (reply) { if (my !== token) return; thinking = false; answer = reply; render(); });
   }
   function askSubject(label) {
     var a = SUBJECTS[label]; if (!a) return ask(label);
-    input.value = label === 'Apprenticeships' ? 'Degree apprenticeships' : /courses$/.test(label) ? label : label + ' courses'; answer = null; thinking = true; render();
+    var q = label === 'Apprenticeships' ? 'Degree apprenticeships' : /courses$/.test(label) ? label : label + ' courses';
+    if (thread) return addTurn(q, later({ role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }));
+    input.value = q; answer = null; thinking = true; render();
     var my = ++token;
     setTimeout(function () { if (my !== token) return; thinking = false; answer = { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; render(); }, 900);
   }
@@ -385,14 +461,18 @@
     if (!k) return;
     host.style.left = r.left + 'px'; host.style.top = r.top + 'px'; host.style.transform = 'scale(' + k + ')';
   }
-  function open(m) {
+  function open(m, q) {
     mode = m === 'study' ? 'study' : 'ask'; answer = null; thinking = false; token++; input.value = ''; renderIntro();
+    thread = !!document.querySelector('[data-wsm-hero]'); root.classList.toggle('thread', thread);
+    turns = []; result.innerHTML = ''; hint.parentNode.insertBefore(field, hint);
+    input.placeholder = root.classList.contains('mobile') ? 'Ask us anything' : 'Ask us anything about studying here';
     place();
     lastFocus = document.activeElement;
     render(); root.classList.add('open');
     document.dispatchEvent(new CustomEvent('wch:overlay'));
     requestAnimationFrame(function () { root.classList.add('show'); });
     setTimeout(function () { root.classList.add('show'); try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); } }, 30);
+    if (q && String(q).trim()) ask(q);
   }
   function close() {
     root.classList.remove('show'); token++;
@@ -426,6 +506,16 @@
       if (!isAsk && !isStudy) return;
       e.preventDefault(); e.stopPropagation();
       open(isStudy ? 'study' : 'ask');
+    }, true);
+    // The search field in the hero (Variant 2): submitting it opens the modal with the answer being written
+    document.addEventListener('submit', function (e) {
+      var f = e.target.closest && e.target.closest('[data-wsm-hero]'); if (!f) return;
+      e.preventDefault();
+      var hi = f.querySelector('input');
+      // nothing typed: search the example in the placeholder (Try ‘When is the next Open Day?’)
+      var ex = hi && /‘(.+)’/.exec(hi.placeholder || '');
+      open('study', hi && hi.value.trim() ? hi.value : ex ? ex[1] : '');
+      if (hi) hi.value = '';
     }, true);
     window.WncSearch = { open: open, close: close };
   }
