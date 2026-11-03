@@ -254,6 +254,10 @@ footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
 .hsearch input { flex:1; min-width:0; height:100%; border:0; outline:0; padding:0; background:transparent; font:500 16px Figtree, sans-serif; color:var(--dp); }
 .hsearch input::placeholder { color:var(--mp); opacity:1; }
 .hsearch input::-webkit-search-cancel-button { display:none; }
+.hsearch .caret { position:absolute; left:18px; top:50%; width:2px; height:20px; margin-top:-10px; background:var(--dp); animation:hcaret 1.06s steps(1) infinite; pointer-events:none; }
+.hsearch:focus-within .caret, .hsearch input:not(:placeholder-shown) ~ .caret { display:none; }
+@keyframes hcaret { 0% { opacity:1; } 50% { opacity:0; } }
+@media (prefers-reduced-motion: reduce) { .hsearch .caret { animation:none; } }
 .hsearch button { flex:none; width:60px; height:60px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
 .hsearch button img { width:20px; height:20px; display:block; transition:filter .2s ease; }
 .hsearch button:hover { background:var(--dp); }
@@ -276,7 +280,7 @@ footer .copy { font-weight:500; font-size:14px; color:var(--pale); }
       <div class="acts"><button aria-label="Ask us anything"><img src="motifs/fig-icon-search.svg" alt=""></button><button aria-label="Menu"><img src="motifs/fig-icon-menu.svg" alt=""></button></div>
     </nav>
     <div class="hero-copy"><span class="arch" aria-hidden="true"></span><h1 class="serif">The best version of you isn’t found, <em>it’s made.</em></h1></div>
-    <form class="hsearch" data-wsm-hero="1" role="search" aria-label="Search for a course"><input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything"><button type="submit" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></form>
+    <form class="hsearch" data-wsm-hero="1" role="search" aria-label="Search for a course"><input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything"><span class="caret" aria-hidden="true"></span><button type="submit" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></form>
   </section>
 <section id="promos" data-screen-label="Promos"><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/hero.jpg); background-position:center 30%"><span class="play" aria-hidden="true"><svg viewBox="0 0 10 12" width="10" height="12"><path d="M0 0L10 6L0 12Z" fill="#C68EFD"></path></svg></span></span><span class="tx"><span class="t">Why study at Winchester</span><span class="d">Film</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/teaching.jpg); background-position:62% 20%"></span><span class="tx"><span class="t">Train to teach</span><span class="d">Teacher training</span></span></a><a href="#" class="ncard small"><span class="img" style="background-image:url(assets/fig/264755df75fdb788.png); background-position:center"></span><span class="tx"><span class="t">Come and see us</span><span class="d">Open day: Saturday 10 October</span></span></a></section>
 
