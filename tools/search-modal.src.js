@@ -54,7 +54,15 @@
     'Psychology': ['BSc (Hons) Psychology', 'BSc (Hons) Psychology with Counselling', 'MSc Applied Psychology'],
     'Teaching': ['BA (Hons) Primary Education with QTS', 'BA (Hons) Education Studies', 'PGCE Primary and Secondary'],
     'Nursing': ['BSc (Hons) Adult Nursing', 'BA (Hons) Social Work', 'BSc (Hons) Health and Wellbeing'],
-    'Film and media': ['BA (Hons) Film Production', 'BA (Hons) Game Design', 'BA (Hons) Sound and Music Production']
+    'Film and media': ['BA (Hons) Film Production', 'BA (Hons) Game Design', 'BA (Hons) Sound and Music Production'],
+    'Business': ['BA (Hons) Business Management', 'BA (Hons) Marketing', 'MBA Master of Business Administration'],
+    'Law': ['LLB (Hons) Law', 'LLB (Hons) Law with Criminology', 'LLM Law'],
+    'Criminology': ['BSc (Hons) Criminology', 'BSc (Hons) Criminology and Psychology', 'MA Criminology'],
+    'Sport': ['BSc (Hons) Sport and Exercise Science', 'BA (Hons) Sports Coaching', 'MSc Applied Sport Science'],
+    'Computing': ['BSc (Hons) Computer Science', 'BSc (Hons) Cyber Security', 'MSc Data Science'],
+    'English and creative writing': ['BA (Hons) English Literature', 'BA (Hons) Creative Writing', 'MA Creative Writing'],
+    'History': ['BA (Hons) History', 'BA (Hons) Archaeology', 'MA History'],
+    'Health and social care': ['BSc (Hons) Health and Social Care', 'BA (Hons) Social Work', 'MSc Public Health']
   };
   var TOPICS = {
     ask: { label: 'Ask us anything', heading: 'What do you want to <em>know</em>?', sub: 'Ask in your own words, or start somewhere.',
@@ -432,7 +440,7 @@
       var src = ranked.slice(0, 3), cq = courseQuery(q), named = cq && COURSES[cq];
       var row = function (label, kick) { return '<a href="#" class="wsm-src"><span>' + (kick ? '<small>' + kick + '</small>' : '') + '<strong>' + esc(label) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; };
       // a subject search lists its courses, then the full subject listing
-      var rows = named ? named.map(function (c) { return row(c, /^(BA|BSc)/.test(c) ? 'Undergraduate course' : 'Postgraduate course'); }).join('') + row(moreAbout(SUBJECTS[cq].sources[0].title))
+      var rows = named ? named.map(function (c) { return row(c, /^(BA|BSc|LLB)/.test(c) ? 'Undergraduate course' : 'Postgraduate course'); }).join('') + row(moreAbout(SUBJECTS[cq].sources[0].title))
         : src.map(function (s) { return row(moreAbout(s.title)); }).join('');
       h += '<div class="wsm-from"><span>Next steps</span><div class="wsm-srcs">' + rows + '</div></div>';
     } else if (ranked.length) {
