@@ -684,7 +684,7 @@ def page(v, switcher, name_first=False, search_hero=False):
 PROMO_JS = "  pt.addEventListener('scroll', function () { requestAnimationFrame(paintDots); clearTimeout(settle); settle = setTimeout(recentre, 140); }, { passive: true });\n  dots.forEach(function (d, j) { d.addEventListener('click', function () { var i = nearest(), base = i - (i % N); pt.scrollTo({ left: centreOf(base + j), behavior: 'smooth' }); }); });\n  pt.style.scrollSnapType = 'none'; pt.scrollLeft = centreOf(N); requestAnimationFrame(function () { pt.style.scrollSnapType = ''; });\n  paintDots();"
 HERO_SEARCH = ('<form class="hsearch" data-wsm-hero="1" role="search" aria-label="Search for a course">'
     '<input type="search" name="q" autocomplete="off" placeholder="Try ‘When is the next Open Day?’" aria-label="Ask us anything">'
-    '<button type="submit" aria-label="Search"><img src="motifs/fig-icon-arrow-dark.svg" alt=""></button></form>')
+    '<button type="submit" aria-label="Search"><img src="motifs/fig-icon-search.svg" alt=""></button></form>')
 CSS_V2 = """
 /* Round 3 Variant 2: course search in the hero */
 .hsearch { position:absolute; z-index:3; left:16px; right:16px; bottom:40px; height:70px; box-sizing:border-box; margin:0; display:flex; align-items:center; gap:10px; padding:5px 5px 5px 20px; border-radius:5px; background:#FFFFFF; box-shadow:0 20px 60px rgba(20,10,40,.25); }
@@ -693,7 +693,7 @@ CSS_V2 = """
 .hsearch input::placeholder { color:var(--mp); opacity:1; }
 .hsearch input::-webkit-search-cancel-button { display:none; }
 .hsearch button { flex:none; width:60px; height:60px; border:0; border-radius:5px; background:var(--lp); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease; }
-.hsearch button img { width:14px; height:14px; display:block; transition:filter .2s ease; }
+.hsearch button img { width:20px; height:20px; display:block; transition:filter .2s ease; }
 .hsearch button:hover { background:var(--dp); }
 .hsearch button:hover img { filter:brightness(0) invert(1); }
 #promos { padding:48px 16px; display:flex; flex-direction:column; gap:12px; }
