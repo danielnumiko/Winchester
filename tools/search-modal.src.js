@@ -49,6 +49,13 @@
     body2: 'Some short courses count towards a later qualification, so check each course page.',
     sources: [{ title: 'Short courses and online learning', path: 'Study / Short courses and online learning' }, { title: 'Information for mature learners', path: 'Study / Mature Students' }]
   };
+  // The courses each subject overview names, listed as results for a subject search (Variant 2)
+  var COURSES = {
+    'Psychology': ['BSc (Hons) Psychology', 'BSc (Hons) Psychology with Counselling', 'MSc Applied Psychology'],
+    'Teaching': ['BA (Hons) Primary Education with QTS', 'BA (Hons) Education Studies', 'PGCE Primary and Secondary'],
+    'Nursing': ['BSc (Hons) Adult Nursing', 'BA (Hons) Social Work', 'BSc (Hons) Health and Wellbeing'],
+    'Film and media': ['BA (Hons) Film Production', 'BA (Hons) Game Design', 'BA (Hons) Sound and Music Production']
+  };
   var TOPICS = {
     ask: { label: 'Ask us anything', heading: 'What do you want to <em>know</em>?', sub: 'Ask in your own words, or start somewhere.',
       chips: [['Courses', 'What courses have a placement year?'], ['Fees', 'What does it actually cost, all in?'], ['Accommodation', 'Where would I live in first year?'], ['Clearing', 'How does Clearing work here?'],
@@ -153,12 +160,12 @@
 .wsm.thread .wsm-body { scroll-behavior:smooth; }\
 .wsm-turn { display:flex; flex-direction:column; gap:20px; box-sizing:border-box; }\
 .wsm-turn + .wsm-turn { margin-top:60px; }\
-.wsm-cite { margin-top:18px; }\
+.wsm-eyebrow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }\
 .wsm-cite-tog { display:inline-flex; align-items:center; gap:10px; padding:0; border:0; background:none; cursor:pointer; font:600 11px/1.3 Figtree, sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#5C358E; }\
 .wsm-cite-tog svg { display:block; transition:transform .25s ease; }\
 .wsm-cite-tog[aria-expanded=\"true\"] svg { transform:rotate(180deg); }\
-.wsm-cite-tog:hover { color:#291647; }\
-.wsm-cite-list { list-style:none; margin:15px 0 0; padding:0 0 0 15px; border-left:2px solid #EDE0FF; display:flex; flex-direction:column; gap:15px; }\
+.wsm-cite-tog:hover { color:#291647; text-decoration:underline; text-underline-offset:3px; }\
+.wsm-cite-list { list-style:none; margin:3px 0 8px; padding:0 0 0 15px; border-left:2px solid #EDE0FF; display:flex; flex-direction:column; gap:15px; }\
 .wsm-cite-list[hidden] { display:none; }\
 .wsm-cite-list a { display:flex; flex-direction:column; gap:5px; color:#291647; text-decoration:none; }\
 .wsm-cite-list span { font-weight:600; font-size:14px; line-height:1.3; }\
@@ -284,13 +291,49 @@
     var found = termSources(q);
     return found.length ? { sources: found.slice(0, 2), drawn: false } : { sources: START, drawn: false };
   }
+  // How strongly a question is about a topic (fees, accommodation, open days) beyond the subject it names:
+  // exact keyword matches only, ignoring keywords that are just the subject itself ('sport', 'teaching')
+  function topicScore(q, hit, subj) {
+    if (!hit) return 0;
+    var qt = toks(q), own = toks((SUBJECT_WORDS[subj] || []).join(' ') + ' ' + (subj || '')), sc = 0;
+    hit.keys.concat(EXTRA[KNOWLEDGE.indexOf(hit) + 1] || []).forEach(function (k) {
+      var kt = toks(k);
+      if (kt.every(function (w) { return own.indexOf(w) > -1; })) return;
+      if (hasPhrase(qt, k, true)) sc += 2 * kt.length;
+    });
+    return sc;
+  }
   function fallback(q) {
-    var hit = match(q), subj = matchSubject(q), qt = toks(q);
-    // a subject question gets the subject overview, unless it's about something specific (fees, entry requirements...)
-    var specific = hit ? score(qt, hit, KNOWLEDGE.indexOf(hit)) : 0;
-    if (subj && specific < 4) { var a = SUBJECTS[subj]; return { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; }
+    var hit = match(q), subj = matchSubject(q);
+    // a subject question gets the subject overview, unless it's also about a topic (fees, accommodation, open days...)
+    // ...or the only answer on that topic is about another subject's course (MSc Psychology entry requirements for a history question)
+    var foreign = subj && hit && hit.sources.some(function (s) { return /^(MSc|BSc|BA|MA) /.test(s.title) && !SUBJECT_WORDS[subj].some(function (w) { return hasPhrase(toks(s.title.replace(/:/g, ' ')), w, true); }); });
+    if (subj && (foreign || topicScore(q, hit, subj) < 2)) { var a = SUBJECTS[subj]; return { role: 'bot', lead: a.lead, body: a.body, body2: a.body2, sources: a.sources }; }
     return hit ? { role: 'bot', lead: hit.lead, body: hit.body, body2: hit.body2, sources: hit.sources }
       : { role: 'bot', kind: 'clarify', lead: 'I want to get this right rather than guess.', body: 'I can half-answer that from a couple of different pages, and they would send you to different places. Which of these is closest?', body2: '' };
+  }
+  // Course pages lead for a subject question; for anything more specific (open days, fees) the topic pages lead
+  // and the subject's course page follows
+  function isCourse(s) { return /courses$|degrees$|apprenticeships$|^(MSc|BSc|BA|MA) [^:]*$/i.test(s.title); }
+  // The subject a question is simply about (not 'psychology open day'), or null
+  function courseQuery(q) { var subj = matchSubject(q); return subj && topicScore(q, match(q), subj) < 2 ? subj : null; }
+  function rankSources(q, sources) {
+    var subj = matchSubject(q), own = subj && SUBJECTS[subj] ? SUBJECTS[subj].sources[0] : null;
+    var courseFirst = !!subj && courseQuery(q) === subj;
+    var list = (sources || []).slice();
+    if (own) {
+      // a named course for another subject doesn't belong (MSc Psychology under a computing question)
+      list = list.filter(function (s) { return !/^(MSc|BSc|BA|MA) /.test(s.title) || SUBJECT_WORDS[subj].some(function (w) { return hasPhrase(toks(s.title.replace(/:/g, ' ')), w, true); }); });
+      if (!list.some(function (s) { return s.title === own.title; })) list.push(own);
+    }
+    list = list.map(function (s, i) { return { s: s, i: i, c: isCourse(s) ? 1 : 0 }; })
+      .sort(function (a, b) { return (courseFirst ? b.c - a.c : a.c - b.c) || a.i - b.i; }).map(function (x) { return x.s; });
+    if (own && !courseFirst) {
+      // keep the subject's course page among the three shown
+      var at = list.indexOf(list.filter(function (s) { return s.title === own.title; })[0]);
+      if (at > 2) { list.splice(at, 1); list.splice(2, 0, own); }
+    }
+    return list;
   }
   function corpus() {
     return KNOWLEDGE.map(function (k, i) { return 'PAGE ' + (i + 1) + '\n' + k.lead + '\n' + k.body + '\n' + k.body2 + '\nSources: ' + k.sources.map(function (s) { return s.title + ' (' + s.path + ')'; }).join(' | '); }).join('\n\n');
@@ -340,8 +383,8 @@
       var s = e.target.closest('[data-wsm-subject]'); if (s) { askSubject(s.getAttribute('data-wsm-subject')); return; }
       if (e.target.closest('.wsm-send')) ask(input.value);
       var tog = e.target.closest('.wsm-cite-tog');
-      if (tog) { var on = tog.getAttribute('aria-expanded') !== 'true'; tog.setAttribute('aria-expanded', on); tog.nextElementSibling.hidden = !on; return; }
-      if (e.target.closest('.wsm-src, .wsm-all, .wsm-cite a')) e.preventDefault(); // pages aren't in the prototype
+      if (tog) { var on = tog.getAttribute('aria-expanded') !== 'true'; tog.setAttribute('aria-expanded', on); tog.closest('.wsm-a').querySelector('.wsm-cite-list').hidden = !on; return; }
+      if (e.target.closest('.wsm-src, .wsm-all, .wsm-cite-list a')) e.preventDefault(); // pages aren't in the prototype
     });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('open')) close(); });
@@ -366,7 +409,7 @@
     body.scrollTop = 0;
   }
   function answerHtml(m, q) {
-    var h, cite = '';
+    var h;
     // No confident answer: lead with the pages that best match, rather than a thin answer
     if (m.kind === 'clarify' || m.drawnFrom === false) {
       var opts = (m.options && m.options.length) ? m.options.map(function (o) { return [o, o]; }) : CLARIFY;
@@ -377,20 +420,26 @@
         opts.map(function (o) { return '<button class="wsm-chip out" data-wsm-ask="' + esc(o[1]) + '">' + esc(o[0]) + '</button>'; }).join('') + '</div></div>';
       return h + '</div></div>';
     }
-    h = '<div class="wsm-a"><div>' + (thread ? '<span class="wsm-kick">AI overview</span>' : '') + '<p class="wsm-lead">' + esc(m.lead) + '</p>' +
+    // Variant 2: 'AI Overview - Taken from our pages', which opens the list of pages the answer drew on
+    var cited = (m.sources || []).slice(0, 3);
+    var eyebrow = !thread ? '' : '<div class="wsm-eyebrow"><span class="wsm-kick">AI Overview</span>' + (cited.length ?
+      '<span class="wsm-kick" aria-hidden="true">-</span><button class="wsm-cite-tog" aria-expanded="false">Taken from our pages' + CHEV + '</button></div>' +
+      '<ul class="wsm-cite-list" hidden>' + cited.map(function (s) { return '<li><a href="#"><span>' + esc(s.title) + '</span><small>' + esc(s.path) + '</small></a></li>'; }).join('') + '</ul>' : '</div>');
+    h = '<div class="wsm-a"><div>' + eyebrow + '<p class="wsm-lead">' + esc(m.lead) + '</p>' +
       (m.body ? '<p class="wsm-p">' + esc(m.body) + '</p>' : '') + (m.body2 ? '<p class="wsm-p">' + esc(m.body2) + '</p>' : '');
-    if (thread && (m.sources || []).length) {
-      // Variant 2: the pages to go to next, then (below the results button) the pages the answer drew on, collapsed
-      var src = m.sources.slice(0, 3);
-      if (m.drawnFrom !== false) cite = '<div class="wsm-cite"><button class="wsm-cite-tog" aria-expanded="false">Taken from ' + src.length + (src.length === 1 ? ' page' : ' pages') + CHEV + '</button>' +
-        '<ul class="wsm-cite-list" hidden>' + src.map(function (s) { return '<li><a href="#"><span>' + esc(s.title) + '</span><small>' + esc(s.path) + '</small></a></li>'; }).join('') + '</ul></div>';
-      h += '<div class="wsm-from"><span>Next steps</span><div class="wsm-srcs">' +
-        src.map(function (s) { return '<a href="#" class="wsm-src"><span><strong>' + esc(moreAbout(s.title)) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
-    } else if ((m.sources || []).length) {
+    var ranked = rankSources(q, m.sources);
+    if (thread && ranked.length) {
+      var src = ranked.slice(0, 3), cq = courseQuery(q), named = cq && COURSES[cq];
+      var row = function (label, kick) { return '<a href="#" class="wsm-src"><span>' + (kick ? '<small>' + kick + '</small>' : '') + '<strong>' + esc(label) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; };
+      // a subject search lists its courses, then the full subject listing
+      var rows = named ? named.map(function (c) { return row(c, /^(BA|BSc)/.test(c) ? 'Undergraduate course' : 'Postgraduate course'); }).join('') + row(moreAbout(SUBJECTS[cq].sources[0].title))
+        : src.map(function (s) { return row(moreAbout(s.title)); }).join('');
+      h += '<div class="wsm-from"><span>Next steps</span><div class="wsm-srcs">' + rows + '</div></div>';
+    } else if (ranked.length) {
       h += '<div class="wsm-from"><span>' + (m.drawnFrom === false ? 'Where to look next' : 'Taken from') + '</span><div class="wsm-srcs">' +
-        m.sources.slice(0, 3).map(function (s) { return '<a href="#" class="wsm-src"><span><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
+        ranked.slice(0, 3).map(function (s) { return '<a href="#" class="wsm-src"><span><small>' + esc(s.path) + '</small><strong>' + esc(s.title) + '</strong></span><img src="motifs/fig-icon-arrow-dark.svg" alt=""></a>'; }).join('') + '</div></div>';
     }
-    h += moreHtml(q) + cite;
+    h += moreHtml(q);
     return h + '</div></div>';
   }
   // Conversation mode (Variant 2) shows each source as 'More about ...' rather than its page path and title
